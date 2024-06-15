@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">FajarRaya</string>
+    <string name="home">Home</string>
+    <string name="orders">Orders</string>
+    <string name="transactions">Transactions</string>
+    <string name="profile">Profile</string>
+    <string name="account_security">Account Security</string>
+    <string name="about_application">About Application</string>
+    <string name="language">Change Language</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="details">Details</string>
+
+    <string name="name">Full Name</string>
+    <string name="email">Email</string>
+    <string name="phone_number">Phone Number</string>
+
+
+    <string name="placeholder_name">Enter your name</string>
+    <string name="placeholder_email">Enter your email</string>
+    <string name="placeholder_phone">Enter your phone number</string>
+
+    <string name="two_step">Two Step Authentication</string>
+    <string name="change_password">Change Password</string>
+    <string name="trusted_devices">Trusted Devices</string>
+
+    <string name="add_product_photo">Add Product Photo</string>
+    <string name="product_name">Product Name</string>
+    <string name="placeholder_product_name">Enter Product Name</string>
+    <string name="product_description">Product Description</string>
+    <string name="placeholder_product_description">Enter Product Description</string>
+    <string name="product_category">Product Category</string>
+    <string name="supplier">Supplier</string>
+    <string name="price">Price</string>
+
+
+    <string name="save">Save</string>
+
+</resources>
