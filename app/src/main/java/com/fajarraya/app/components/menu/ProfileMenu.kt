@@ -12,6 +12,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.stringResource
@@ -37,7 +38,12 @@ fun ProfileMenu(
         .padding(15.dp)
         .clickable(enabled = text != stringResource(id = R.string.dark_mode)) {
             onClick()
-        }, horizontalArrangement = Arrangement.SpaceBetween) {
+        },
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+
         Text(text = text,
             fontSize = WidgetConstants.PRIMARY_FONT_SIZE.sp,
             fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_SEMI)

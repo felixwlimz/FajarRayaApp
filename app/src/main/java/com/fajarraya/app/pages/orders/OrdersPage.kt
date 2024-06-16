@@ -25,14 +25,13 @@ fun OrdersPage(modifier: Modifier = Modifier){
     val orderViewModel = ViewModelProvider(viewModelStoreOwner,factory)[OrderViewModel::class.java]
     val products = orderViewModel.productList.observeAsState()
 
-
         LazyColumn(modifier = modifier
             .fillMaxSize()
             .padding(10.dp), verticalArrangement = Arrangement.spacedBy(20.dp)){
 
             if(products.value != null){
                 items(products.value!!){
-                    OrderCard(text = it.namaBarang)
+                    OrderCard(text = it.namaBarang, onButtonClick = {})
                 }
             }
 

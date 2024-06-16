@@ -1,6 +1,7 @@
 package com.fajarraya.app.utils
 
 import com.fajarraya.app.core.domain.model.Products
+import com.fajarraya.app.core.domain.model.Suppliers
 
 object DummyData {
 
@@ -32,6 +33,29 @@ object DummyData {
             stokKeluar = 0,
             stokAkhir = 60
         )
+    )
 
+    val suppliers = listOf(
+        Suppliers(
+            supplierName = "Arashi",
+            supplierAddress = "Jalan. Asia No 123 Medan",
+            phone = "0851034304435",
+            city = "Medan",
+            province = "North Sumatra"
+        ),
+        Suppliers(
+            supplierName = "Hannochs",
+            supplierAddress = "Jalan. Jendral Sudirman No 123 Medan",
+            phone = "0851034304435",
+            city = "Medan",
+            province = "North Sumatra"
+        ),
+        Suppliers(
+            supplierName = "Arashi",
+            supplierAddress = "Jalan. Asia No 123 Medan",
+            phone = "0851034304435",
+            city = "Medan",
+            province = "North Sumatra"
+        )
     )
 }
