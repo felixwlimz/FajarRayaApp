@@ -4,6 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -15,6 +20,7 @@ import com.fajarraya.app.components.appbar.AppBar
 import com.fajarraya.app.components.bottombar.BottomBar
 import com.fajarraya.app.components.navigation.MainRoute
 import com.fajarraya.app.ui.theme.FajarRayaTheme
+import com.fajarraya.app.ui.theme.PrimaryBlue
 import com.fajarraya.app.utils.MainComponent
 import com.fajarraya.app.utils.MainComponent.showBottomBar
 
@@ -70,6 +76,17 @@ fun MainApp(
                 )
             }
         },
+        floatingActionButton = {
+            if(currentRoute == "Suppliers"){
+                FloatingActionButton(
+                    onClick = { /*TODO*/ },
+                    shape = CircleShape,
+                    containerColor = PrimaryBlue
+                ) {
+                    Icon(Icons.Default.Add, contentDescription = "add-supplier")
+                }
+            }
+        }
 
 
         ) { paddingValues ->
