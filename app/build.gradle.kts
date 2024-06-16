@@ -96,6 +96,10 @@ dependencies {
 
     implementation("androidx.room:room-paging:2.5.2")
 
+    implementation(platform("io.insert-koin:koin-bom:3.5.6"))
+    implementation("io.insert-koin:koin-core")
+    implementation("io.insert-koin:koin-androidx-compose:3.5.6")
+
 
 
 

@@ -8,21 +8,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.fajarraya.app.components.cards.OrderCard
-import com.fajarraya.app.utils.OrderViewModelFactory
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun OrdersPage(modifier: Modifier = Modifier){
+fun OrdersPage(modifier: Modifier = Modifier, orderViewModel: OrderViewModel = koinViewModel()){
 
 
-    val factory = OrderViewModelFactory.getInstance(LocalContext.current)
-    val viewModelStoreOwner = LocalViewModelStoreOwner.current!!
-    val orderViewModel = ViewModelProvider(viewModelStoreOwner,factory)[OrderViewModel::class.java]
     val products = orderViewModel.productList.observeAsState()
 
         LazyColumn(modifier = modifier

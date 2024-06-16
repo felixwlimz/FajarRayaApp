@@ -8,18 +8,8 @@ import io.reactivex.rxjava3.core.Flowable
 
 
 
-class ProductRepository private constructor (private val localDataSource: LocalDataSource) : IProductRepository {
+class ProductRepository (private val localDataSource: LocalDataSource) : IProductRepository {
 
-    companion object{
-        @Volatile
-        private var instance: ProductRepository? = null
-
-        fun getInstance(localDataSource: LocalDataSource) : ProductRepository {
-            return instance ?: synchronized(this){
-                 instance ?: ProductRepository(localDataSource)
-            }.also { instance = it }
-        }
-    }
 
     override fun getAllProducts(): Flowable<List<Products>> {
         return localDataSource.getAllProducts().map {
