@@ -34,7 +34,8 @@ fun SupplierPage(modifier : Modifier = Modifier){
                 placeholder = {
                     Text(text = "Search For Suppliers", fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp)
                 },
-            )        }
+            )
+        }
 
         items(DummyData.suppliers){
             SupplierCard(

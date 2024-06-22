@@ -18,6 +18,7 @@
     <string name="placeholder_name">Enter your name</string>
     <string name="placeholder_email">Enter your email</string>
     <string name="placeholder_phone">Enter your phone number</string>
+    <string name="placeholder_password">Enter your password</string>
 
     <string name="two_step">Two Step Authentication</string>
     <string name="change_password">Change Password</string>
@@ -34,5 +35,9 @@
 
 
     <string name="save">Save</string>
+    <string name="completed">Completed</string>
+    <string name="in_progress">In Progress</string>
 
+    <string name="login">Login</string>
+    <string name="register">Register</string>
 </resources>

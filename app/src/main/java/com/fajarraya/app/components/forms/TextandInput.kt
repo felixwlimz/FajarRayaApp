@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fajarraya.app.constants.WidgetConstants
@@ -20,7 +19,7 @@ fun TextandInput(
     modifier : Modifier = Modifier,
     textInputTitle : String,
     fieldValue : String,
-    onValueChange : (TextFieldValue) -> Unit = {},
+    onValueChange : (String) -> Unit = {},
     placeholderText: String
 ){
 
@@ -34,7 +33,7 @@ fun TextandInput(
         
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
-            value = TextFieldValue(fieldValue),
+            value = fieldValue,
             shape = RoundedCornerShape(20.dp),
             onValueChange = onValueChange,
             placeholder = {

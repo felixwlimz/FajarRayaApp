@@ -26,10 +26,10 @@ fun PrimaryButton(
 
     Button(
         onClick = onClick,
-        shape = RoundedCornerShape(15.dp),
+        shape = RoundedCornerShape(20.dp),
         modifier = modifier
             .fillMaxSize()
-            .padding(8.dp),
+            .padding(5.dp),
         colors = ButtonDefaults.buttonColors(PrimaryBlue)
     ) {
         Text(

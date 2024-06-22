@@ -22,7 +22,7 @@ fun <T> TextandDropdown(
     textInputTitle : String,
     isExpanded : Boolean = false,
     onExpandedChange : (Boolean) -> Unit = {},
-    dropdownContent : ArrayList<T>,
+    dropdownContent : List<T>,
     onClick : () -> Unit = {}
 ){
 
@@ -34,14 +34,21 @@ fun <T> TextandDropdown(
         )
 
         ExposedDropdownMenuBox(expanded = isExpanded, onExpandedChange = onExpandedChange, modifier = Modifier.fillMaxWidth()){
-            dropdownContent.forEach{ item ->
-                DropdownMenuItem(text = {
-                    Text(
-                        text = item as String,
-                        fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_SEMI),
-                        fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp
+
+
+            ExposedDropdownMenu(expanded = isExpanded , onDismissRequest = {   }) {
+                dropdownContent.forEach{ item ->
+                    DropdownMenuItem(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = {
+                            Text(
+                                text = item.toString() ,
+                                fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_SEMI),
+                                fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp
+                            )
+                        }, onClick = onClick
                     )
-                }, onClick = onClick)
+                }
             }
         }
 

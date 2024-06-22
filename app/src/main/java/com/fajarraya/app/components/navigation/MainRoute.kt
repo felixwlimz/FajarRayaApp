@@ -22,7 +22,8 @@ fun MainRoute(modifier: Modifier = Modifier, navController: NavHostController){
     NavHost(
         navController = navController,
         startDestination = Screen.Home.route,
-        modifier = modifier){
+        modifier = modifier
+    ){
 
         composable(Screen.Home.route){
             HomePage()
