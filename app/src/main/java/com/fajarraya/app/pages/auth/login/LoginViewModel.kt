@@ -5,7 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
-class LoginViewModel() : ViewModel() {
+class LoginViewModel : ViewModel() {
 
     private var _username : MutableState<String> = mutableStateOf("")
     val username : State<String> = _username
