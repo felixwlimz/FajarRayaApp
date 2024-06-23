@@ -22,7 +22,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.fajarraya.app.R
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.fajarraya.app.MainActivity
 import com.fajarraya.app.components.buttons.PrimaryButton
@@ -30,12 +29,13 @@ import com.fajarraya.app.components.forms.TextandInput
 import com.fajarraya.app.components.navigation.AuthScreen
 import com.fajarraya.app.constants.WidgetConstants
 import com.fajarraya.app.ui.theme.PrimaryBlue
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun RegisterPage(
     modifier: Modifier = Modifier,
     navHostController: NavHostController,
-    registerViewModel: RegisterViewModel = viewModel()
+    registerViewModel: RegisterViewModel = koinViewModel()
 ){
 
     val context = LocalContext.current
@@ -82,7 +82,7 @@ fun RegisterPage(
         Box(contentAlignment = Alignment.CenterEnd,  modifier = Modifier
             .fillMaxWidth()
             .height(50.dp)){
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(10.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(5.dp)) {
                 Text(text = "Have an account")
                 TextButton(onClick = { navHostController.navigate(AuthScreen.Login.route) }) {
                     Text(text = stringResource(id = R.string.login),  color = PrimaryBlue)

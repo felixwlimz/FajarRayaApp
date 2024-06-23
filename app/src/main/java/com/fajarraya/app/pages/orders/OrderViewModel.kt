@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.toLiveData
 import com.fajarraya.app.core.domain.model.Products
-import com.fajarraya.app.core.domain.usecase.ProductUseCase
+import com.fajarraya.app.core.domain.usecase.products.ProductUseCase
 
 
 

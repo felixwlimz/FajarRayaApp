@@ -20,7 +20,8 @@ fun TextandInput(
     textInputTitle : String,
     fieldValue : String,
     onValueChange : (String) -> Unit = {},
-    placeholderText: String
+    placeholderText: String,
+    isError : Boolean = false
 ){
 
     Column(modifier = modifier.height(80.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -36,6 +37,7 @@ fun TextandInput(
             value = fieldValue,
             shape = RoundedCornerShape(20.dp),
             onValueChange = onValueChange,
+            isError = isError,
             placeholder = {
                 Text(text = placeholderText, fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp)
             },

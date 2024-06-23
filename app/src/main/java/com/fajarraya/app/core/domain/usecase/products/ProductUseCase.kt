@@ -1,11 +1,10 @@
-package com.fajarraya.app.core.repository
+package com.fajarraya.app.core.domain.usecase.products
 
 import com.fajarraya.app.core.domain.model.Products
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
-import kotlinx.coroutines.flow.Flow
 
-interface IProductRepository {
+interface ProductUseCase {
 
     fun getAllProducts() : Flowable<List<Products>>
 
@@ -14,6 +13,7 @@ interface IProductRepository {
     fun insertProduct(products: Products) : Completable
 
     fun deleteProduct(products: Products) : Completable
+
 
 
 }

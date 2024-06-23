@@ -2,6 +2,7 @@ package com.fajarraya.app
 
 import android.app.Application
 import com.fajarraya.app.core.di.databaseModule
+import com.fajarraya.app.core.di.firebaseModule
 import com.fajarraya.app.core.di.repositoryModule
 import com.fajarraya.app.di.useCaseModule
 import com.fajarraya.app.di.viewModelModule
@@ -22,7 +23,8 @@ class FajarRayaApplication : Application() {
                     databaseModule,
                     repositoryModule,
                     useCaseModule,
-                    viewModelModule
+                    viewModelModule,
+                    firebaseModule
                 )
             )
         }

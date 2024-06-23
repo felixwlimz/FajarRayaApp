@@ -1,5 +1,6 @@
 package com.fajarraya.app.pages.auth.login
 
+import android.app.Activity
 import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,7 +22,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.fajarraya.app.R
 import com.fajarraya.app.MainActivity
@@ -30,12 +30,13 @@ import com.fajarraya.app.components.forms.TextandInput
 import com.fajarraya.app.components.navigation.AuthScreen
 import com.fajarraya.app.constants.WidgetConstants
 import com.fajarraya.app.ui.theme.PrimaryBlue
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginPage(
     modifier : Modifier = Modifier,
     navHostController: NavHostController,
-    loginViewModel: LoginViewModel = viewModel()
+    loginViewModel: LoginViewModel = koinViewModel()
 ){
 
     val context = LocalContext.current
@@ -56,10 +57,11 @@ fun LoginPage(
         )
         Spacer(modifier = Modifier.padding(15.dp))
 
-        TextandInput(textInputTitle = stringResource(id = R.string.placeholder_name),
-            fieldValue = loginViewModel.username.value,
-            placeholderText = stringResource(id = R.string.placeholder_name),
-            onValueChange = loginViewModel::setUsername
+        TextandInput(textInputTitle = stringResource(id = R.string.placeholder_email),
+            fieldValue = loginViewModel.email.value,
+            placeholderText = stringResource(id = R.string.placeholder_email),
+            onValueChange = loginViewModel::setEmail,
+            isError = loginViewModel.isError.value
         )
 
         Spacer(modifier = Modifier.padding(15.dp))
@@ -68,7 +70,8 @@ fun LoginPage(
         TextandInput(textInputTitle = stringResource(id = R.string.placeholder_password),
             fieldValue = loginViewModel.password.value,
             placeholderText = stringResource(id = R.string.placeholder_password),
-            onValueChange = loginViewModel::setPassword
+            onValueChange = loginViewModel::setPassword,
+            isError = loginViewModel.isError.value
         )
 
         Spacer(modifier = Modifier.padding(5.dp))
@@ -76,7 +79,7 @@ fun LoginPage(
         Box(contentAlignment = Alignment.CenterEnd, modifier = Modifier
             .fillMaxWidth()
             .height(50.dp)){
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(10.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(5.dp)) {
                 Text(text = "Don't have an account")
                 TextButton(onClick = { navHostController.navigate(AuthScreen.Register.route)},
                  ) {
@@ -94,7 +97,9 @@ fun LoginPage(
                 .fillMaxWidth()
                 .height(50.dp),
             onClick = {
-               context.startActivity(Intent(context, MainActivity::class.java))
+                loginViewModel.handleLogin(loginViewModel.email.value, loginViewModel.password.value)
+                context.startActivity(Intent(context, MainActivity::class.java))
+                (context as Activity).finish()
         }, buttonText =  stringResource(id = R.string.login))
 
     }

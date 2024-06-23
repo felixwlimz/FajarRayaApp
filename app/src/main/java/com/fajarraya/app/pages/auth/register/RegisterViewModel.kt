@@ -4,8 +4,9 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.fajarraya.app.core.domain.usecase.auth.AuthUseCase
 
-class RegisterViewModel : ViewModel() {
+class RegisterViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
 
     private var _username : MutableState<String> = mutableStateOf("")
     val username : State<String> = _username
@@ -15,6 +16,8 @@ class RegisterViewModel : ViewModel() {
 
     private var _password : MutableState<String> = mutableStateOf("")
     val password : State<String> = _password
+
+
 
     fun setUsername(username: String){
         _username.value = username

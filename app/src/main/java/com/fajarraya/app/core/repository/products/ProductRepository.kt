@@ -1,7 +1,8 @@
-package com.fajarraya.app.core.repository
+package com.fajarraya.app.core.repository.products
 
 import com.fajarraya.app.core.data.local.LocalDataSource
 import com.fajarraya.app.core.domain.model.Products
+import com.fajarraya.app.core.repository.products.IProductRepository
 import com.fajarraya.app.utils.DataMapper
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable

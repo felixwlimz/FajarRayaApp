@@ -1,7 +1,9 @@
 package com.fajarraya.app.utils
 
 import com.fajarraya.app.core.data.local.entity.ProductEntity
+import com.fajarraya.app.core.data.remote.UserResponse
 import com.fajarraya.app.core.domain.model.Products
+import com.fajarraya.app.core.domain.model.User
 
 object DataMapper {
 
@@ -56,4 +58,24 @@ object DataMapper {
             stokKeluar = product.stokKeluar
         )
     }
+
+    fun mapUserResponseToDomain(userResponse: UserResponse) : User =
+        User(
+            userId = userResponse.userId,
+            name = userResponse.email,
+            username = userResponse.username,
+            password = userResponse.password,
+            email = userResponse.email,
+            isSuperAdmin = userResponse.isSuperAdmin
+        )
+
+    fun mapUserDomainToResponse(user : User) : UserResponse =
+        UserResponse(
+            userId = user.userId,
+            name = user.email,
+            username = user.username,
+            password = user.password,
+            email = user.email,
+            isSuperAdmin = user.isSuperAdmin
+        )
 }

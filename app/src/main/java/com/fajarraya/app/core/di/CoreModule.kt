@@ -4,8 +4,12 @@ import android.content.Context
 import androidx.room.Room
 import com.fajarraya.app.core.data.local.LocalDataSource
 import com.fajarraya.app.core.data.local.dao.FajarRayaDatabase
-import com.fajarraya.app.core.repository.IProductRepository
-import com.fajarraya.app.core.repository.ProductRepository
+import com.fajarraya.app.core.repository.auth.AuthRepository
+import com.fajarraya.app.core.repository.auth.IAuthRepository
+import com.fajarraya.app.core.repository.products.IProductRepository
+import com.fajarraya.app.core.repository.products.ProductRepository
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -36,5 +40,13 @@ val repositoryModule = module {
     single <IProductRepository>{
         ProductRepository(get())
     }
+    single<IAuthRepository> {
+        AuthRepository(get(), get())
+    }
 
+}
+
+val firebaseModule = module {
+    single { FirebaseAuth.getInstance() }
+    single { FirebaseDatabase.getInstance() }
 }

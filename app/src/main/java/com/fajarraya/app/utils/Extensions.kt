@@ -11,4 +11,8 @@ object Extensions {
         return currency.format(number)
     }
 
+    fun useRegex(pattern : String) : Regex = Regex(pattern)
+
+
+
 }

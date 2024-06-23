@@ -1,7 +1,7 @@
-package com.fajarraya.app.core.domain.usecase
+package com.fajarraya.app.core.domain.usecase.products
 
 import com.fajarraya.app.core.domain.model.Products
-import com.fajarraya.app.core.repository.IProductRepository
+import com.fajarraya.app.core.repository.products.IProductRepository
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 
