@@ -1,5 +1,6 @@
 package com.fajarraya.app.pages.auth.register
 
+import android.app.Activity
 import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,6 +14,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -28,6 +32,7 @@ import com.fajarraya.app.components.buttons.PrimaryButton
 import com.fajarraya.app.components.forms.TextandInput
 import com.fajarraya.app.components.navigation.AuthScreen
 import com.fajarraya.app.constants.WidgetConstants
+import com.fajarraya.app.models.UserType
 import com.fajarraya.app.ui.theme.PrimaryBlue
 import org.koin.androidx.compose.koinViewModel
 
@@ -40,6 +45,26 @@ fun RegisterPage(
 
     val context = LocalContext.current
 
+    val name by remember {
+        derivedStateOf { registerViewModel.nameInput }
+    }
+    val username by remember {
+        derivedStateOf { registerViewModel.usernameInput }
+    }
+    val email by remember {
+        derivedStateOf { registerViewModel.emailInput }
+    }
+    val password by remember {
+        derivedStateOf { registerViewModel.passwordInput }
+    }
+    val isError by remember {
+        derivedStateOf { registerViewModel.isError }
+    }
+    val errorText by remember {
+        derivedStateOf { registerViewModel.errorText }
+    }
+
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -49,7 +74,7 @@ fun RegisterPage(
     ) {
 
         Text(
-            text = "Register",
+            text = stringResource(id = R.string.register),
             textAlign = TextAlign.Center,
             fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_BOLD),
             fontSize = WidgetConstants.XL_FONT_SIZE.sp
@@ -57,24 +82,36 @@ fun RegisterPage(
         Spacer(modifier = Modifier.padding(15.dp))
 
         TextandInput(textInputTitle = stringResource(id = R.string.placeholder_name),
-            fieldValue = registerViewModel.username.value,
+            fieldValue = name,
             placeholderText = stringResource(id = R.string.placeholder_name),
-            onValueChange = registerViewModel::setUsername
+            onValueChange = registerViewModel::setName,
+            errorText = errorText
+        )
+
+        Spacer(modifier = Modifier.padding(15.dp))
+
+        TextandInput(textInputTitle = stringResource(id = R.string.placeholder_name),
+            fieldValue = username,
+            placeholderText = stringResource(id = R.string.placeholder_name),
+            onValueChange = registerViewModel::setUsername,
+            errorText = errorText
         )
 
         Spacer(modifier = Modifier.padding(15.dp))
 
 
         TextandInput(textInputTitle = stringResource(id = R.string.placeholder_email),
-            fieldValue = registerViewModel.email.value,
+            fieldValue = email,
             placeholderText = stringResource(id = R.string.placeholder_email),
-            onValueChange = registerViewModel::setEmail
+            onValueChange = registerViewModel::setEmail,
         )
 
         Spacer(modifier = Modifier.padding(15.dp))
 
+
+
         TextandInput(textInputTitle = stringResource(id = R.string.placeholder_password),
-            fieldValue = registerViewModel.password.value,
+            fieldValue = password,
             placeholderText = stringResource(id = R.string.placeholder_password),
             onValueChange = registerViewModel::setPassword
         )
@@ -98,7 +135,11 @@ fun RegisterPage(
                 .fillMaxWidth()
                 .height(50.dp),
             onClick = {
-                context.startActivity(Intent(context, MainActivity::class.java))
+                registerViewModel.validateRegister(name, username, email, password, UserType.ADMIN)
+                if(!isError){
+                    context.startActivity(Intent(context, MainActivity::class.java))
+                    (context as Activity).finish()
+                }
             }, buttonText = stringResource(id = R.string.register) )
 
     }

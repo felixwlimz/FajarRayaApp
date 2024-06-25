@@ -8,6 +8,7 @@ import com.fajarraya.app.pages.auth.login.LoginViewModel
 import com.fajarraya.app.pages.auth.register.RegisterViewModel
 import com.fajarraya.app.pages.orders.OrderViewModel
 import com.fajarraya.app.pages.orders.addproduct.AddProductViewModel
+import com.fajarraya.app.pages.orders.productlist.ProductListViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -30,6 +31,10 @@ val viewModelModule = module {
 
     viewModel {
         RegisterViewModel(get())
+    }
+
+    viewModel{
+        ProductListViewModel(get())
     }
 
 }

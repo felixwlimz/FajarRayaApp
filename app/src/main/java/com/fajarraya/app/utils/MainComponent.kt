@@ -32,6 +32,9 @@ object MainComponent {
             "Edit Product" -> {
                 !showBottomBar
             }
+            "Products" -> {
+                !showBottomBar
+            }
             else -> {
                 showBottomBar
 

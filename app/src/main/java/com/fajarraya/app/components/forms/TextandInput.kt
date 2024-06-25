@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fajarraya.app.constants.WidgetConstants
@@ -21,10 +22,12 @@ fun TextandInput(
     fieldValue : String,
     onValueChange : (String) -> Unit = {},
     placeholderText: String,
-    isError : Boolean = false
+    isError : Boolean = false,
+    errorText : String = "",
+    visualTransformation : VisualTransformation = VisualTransformation.None
 ){
 
-    Column(modifier = modifier.height(80.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    Column(modifier = modifier.height(120.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
 
         Text(
             text = textInputTitle,
@@ -38,9 +41,15 @@ fun TextandInput(
             shape = RoundedCornerShape(20.dp),
             onValueChange = onValueChange,
             isError = isError,
+            visualTransformation = visualTransformation,
             placeholder = {
                 Text(text = placeholderText, fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp)
             },
+            supportingText = {
+                if(!isError){
+                    Text(text = errorText, fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp)
+                }
+            }
         )
 
     }

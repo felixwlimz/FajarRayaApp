@@ -1,7 +1,12 @@
 package com.fajarraya.app.core.di
 
 import android.content.Context
+
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.rxjava3.RxPreferenceDataStoreBuilder
+import androidx.datastore.rxjava3.RxDataStore
 import androidx.room.Room
+import com.fajarraya.app.core.data.datastore.DarkModePreference
 import com.fajarraya.app.core.data.local.LocalDataSource
 import com.fajarraya.app.core.data.local.dao.FajarRayaDatabase
 import com.fajarraya.app.core.repository.auth.AuthRepository
@@ -21,7 +26,11 @@ private fun provideDatabase(context : Context) : FajarRayaDatabase{
         .build()
 }
 
-
+private fun provideDataStore(context: Context, prefName : String) : RxDataStore<Preferences> {
+    return RxPreferenceDataStoreBuilder(
+        context, prefName
+    ).build()
+}
 
 
 val databaseModule = module {
@@ -49,4 +58,10 @@ val repositoryModule = module {
 val firebaseModule = module {
     single { FirebaseAuth.getInstance() }
     single { FirebaseDatabase.getInstance() }
+}
+
+val dataStoreModule = module {
+    single { provideDataStore(androidContext(), "darkTheme") }
+
+    single { DarkModePreference(get()) }
 }

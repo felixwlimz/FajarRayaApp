@@ -1,5 +1,9 @@
 package com.fajarraya.app.pages.home
 
-class HomeViewModel {
+import androidx.lifecycle.ViewModel
+
+class HomeViewModel : ViewModel(){
+
+
 
 }

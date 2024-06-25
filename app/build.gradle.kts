@@ -110,6 +110,10 @@ dependencies {
 
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 
+    implementation("com.patrykandpatrick.vico:compose:2.0.0-alpha.21")
+
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    implementation("androidx.datastore:datastore-preferences-rxjava3:1.1.1")
 
 
 

@@ -1,53 +1,61 @@
 package com.fajarraya.app.pages.auth.login
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
+
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.fajarraya.app.core.domain.usecase.auth.AuthUseCase
 import com.fajarraya.app.utils.Extensions
 
+
 class LoginViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
 
-    private var _email : MutableState<String> = mutableStateOf("")
-    val email : State<String> = _email
+    var emailInput by mutableStateOf("")
+    private set
 
-    private var _password : MutableState<String> = mutableStateOf("")
-    val password : State<String> = _password
+    var passwordInput by mutableStateOf("")
+    private set
 
-    private var _isError : MutableState<Boolean> = mutableStateOf(false)
-    val isError : State<Boolean> = _isError
+    var isError by mutableStateOf(false)
+        private set
+
+    var errorText by mutableStateOf("")
+    private set
 
     fun setEmail(email: String){
-        _email.value = email
+        emailInput = email
     }
 
     fun setPassword(password : String){
-        _password.value = password
-    }
-
-    fun handleLogin(email: String, password: String){
-        validateLogin(email, password)
-        authUseCase.login(email, password)
+       passwordInput = password
     }
 
 
-    private fun validateLogin(email: String, password: String){
+
+    fun validateLogin(email: String, password: String){
+        val emailRegex = Extensions.useRegex("[a-zA-Z0–9._-]+@[a-z]+\\.+[a-z]+")
+        val passRegex = Extensions.useRegex("^(?=.*[0–9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$")
+
         when{
             email.isEmpty() -> {
-                _isError.value = true
+                isError = true
+                errorText = "Email must not be empty"
             }
             password.isEmpty() -> {
-                _isError.value = true
+                isError = true
+                errorText = "Password must not be empty"
             }
-            email != authUseCase.currentUser?.email!! -> {
-                _isError.value = true
+            !emailRegex.matches(email) -> {
+                isError = true
+                errorText = "Invalid email"
             }
-            password.length < 8 -> {
-                _isError.value = true
+            !passRegex.matches(password) -> {
+                isError = true
+                errorText = "Invalid Password"
             }
-            !Extensions.useRegex("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}").matches(email) -> {
-               _isError.value = true
+            else -> {
+                authUseCase.login(email, password)
             }
 
         }

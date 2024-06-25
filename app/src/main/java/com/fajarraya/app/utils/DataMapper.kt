@@ -66,7 +66,7 @@ object DataMapper {
             username = userResponse.username,
             password = userResponse.password,
             email = userResponse.email,
-            isSuperAdmin = userResponse.isSuperAdmin
+            superAdmin = userResponse.superAdmin
         )
 
     fun mapUserDomainToResponse(user : User) : UserResponse =
@@ -76,6 +76,6 @@ object DataMapper {
             username = user.username,
             password = user.password,
             email = user.email,
-            isSuperAdmin = user.isSuperAdmin
+            superAdmin = user.superAdmin
         )
 }

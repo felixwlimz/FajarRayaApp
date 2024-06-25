@@ -1,6 +1,7 @@
 package com.fajarraya.app
 
 import android.app.Application
+import com.fajarraya.app.core.di.dataStoreModule
 import com.fajarraya.app.core.di.databaseModule
 import com.fajarraya.app.core.di.firebaseModule
 import com.fajarraya.app.core.di.repositoryModule
@@ -24,7 +25,8 @@ class FajarRayaApplication : Application() {
                     repositoryModule,
                     useCaseModule,
                     viewModelModule,
-                    firebaseModule
+                    firebaseModule,
+                    dataStoreModule
                 )
             )
         }

@@ -4,9 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,7 +29,7 @@ fun <T> TextandDropdown(
     onClick : () -> Unit = {}
 ){
 
-    Column(modifier = modifier.height(80.dp), verticalArrangement = Arrangement.spacedBy(8.dp)){
+    Column(modifier = modifier.height(100.dp), verticalArrangement = Arrangement.spacedBy(8.dp)){
         Text(
             text = textInputTitle,
             fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_BOLD),
@@ -35,11 +38,18 @@ fun <T> TextandDropdown(
 
         ExposedDropdownMenuBox(expanded = isExpanded, onExpandedChange = onExpandedChange, modifier = Modifier.fillMaxWidth()){
 
+            OutlinedTextField(
+                value = textInputTitle ,
+                onValueChange = {},
+                shape = RoundedCornerShape(20.dp),
+                readOnly = true,
+                modifier = Modifier.fillMaxWidth().menuAnchor()
+            )
 
             ExposedDropdownMenu(expanded = isExpanded , onDismissRequest = {   }) {
                 dropdownContent.forEach{ item ->
                     DropdownMenuItem(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().padding(5.dp),
                         text = {
                             Text(
                                 text = item.toString() ,
