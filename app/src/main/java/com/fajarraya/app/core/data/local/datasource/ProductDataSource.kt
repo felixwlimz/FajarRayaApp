@@ -1,10 +1,10 @@
-package com.fajarraya.app.core.data.local
+package com.fajarraya.app.core.data.local.datasource
 
-import com.fajarraya.app.core.data.local.dao.FajarRayaDao
+import com.fajarraya.app.core.data.local.dao.ProductDao
 import com.fajarraya.app.core.data.local.entity.ProductEntity
 import io.reactivex.rxjava3.core.Flowable
 
-class LocalDataSource(private val productDao: FajarRayaDao){
+class ProductDataSource(private val productDao: ProductDao){
 
      fun getAllProducts() : Flowable<List<ProductEntity>> = productDao.getAllProducts()
 
@@ -13,6 +13,7 @@ class LocalDataSource(private val productDao: FajarRayaDao){
      fun insertProduct(productEntity: ProductEntity) = productDao.insertProduct(productEntity)
 
      fun deleteProduct(productEntity: ProductEntity) = productDao.deleteProduct(productEntity)
+
 
 
 }

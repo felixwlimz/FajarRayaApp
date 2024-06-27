@@ -10,9 +10,9 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 
 @Dao
-interface FajarRayaDao {
+interface ProductDao {
 
-   @Query("SELECT * FROM fajar_raya")
+   @Query("SELECT * FROM products")
    fun getAllProducts() : Flowable<List<ProductEntity>>
 
    @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -21,7 +21,9 @@ interface FajarRayaDao {
    @Delete
    fun deleteProduct(productEntity: ProductEntity) : Completable
 
-   @Query("SELECT * FROM fajar_raya WHERE kode_barang =:kodeBarang")
+   @Query("SELECT * FROM products WHERE kode_barang =:kodeBarang")
    fun getProduct(kodeBarang : String) : Flowable<ProductEntity>
+
+
 
 }

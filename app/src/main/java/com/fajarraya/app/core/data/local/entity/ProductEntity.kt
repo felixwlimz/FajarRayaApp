@@ -3,31 +3,41 @@ package com.fajarraya.app.core.data.local.entity
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
-@Entity(tableName = "fajar_raya")
+@Entity(tableName = "products", foreignKeys = [
+    ForeignKey(
+        entity = SupplierEntity::class,
+        childColumns = ["supplier_id"],
+        parentColumns = ["kode_barang"]
+    )
+])
 @Parcelize
 data class ProductEntity(
     @PrimaryKey
-    @ColumnInfo(name = "Kode_Barang")
+    @ColumnInfo(name = "kode_barang")
     val kodeBarang : String,
 
-    @ColumnInfo(name = "Nama_Barang")
+    @ColumnInfo(name = "kode_barang")
     val namaBarang : String,
 
-    @ColumnInfo(name = "Harga_Jual")
-    val hargaJual : Int,
+    @ColumnInfo(name = "stok")
+    val stok : Int,
 
-    @ColumnInfo(name = "Stok_Awal")
-    val stokAwal : Int,
+    @ColumnInfo(name = "satuan")
+    val satuan : String,
 
-    @ColumnInfo(name = "Stok_Masuk")
-    val stokMasuk : Int,
+    @ColumnInfo(name = "kategori")
+    val kategoriProduk : String,
 
-    @ColumnInfo(name = "Stok_Keluar")
-    val stokKeluar : Int,
+    @ColumnInfo(name = "gambar_produk")
+    val gambarProduk : ByteArray,
 
-    @ColumnInfo(name = "Stok_Akhir")
-    val stokAkhir : Int,
+    @ColumnInfo(name = "deskripsi_produk")
+    val deskripsiProduk : String,
+
+    @ColumnInfo(name ="supplier_id")
+    val supplierId : String
 ) : Parcelable
