@@ -11,7 +11,7 @@ import kotlinx.parcelize.Parcelize
 data class SupplierEntity(
 
     @PrimaryKey
-    @ColumnInfo("supplier_id")
+    @ColumnInfo("supplier_id", index=true)
     val supplierId : String,
 
     @ColumnInfo("supplier_name")

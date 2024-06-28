@@ -41,7 +41,7 @@ fun SupplierPage(modifier : Modifier = Modifier){
             SupplierCard(
                 supplierName = it.supplierName,
                 supplierAddress = it.supplierAddress,
-                phone = it.phone,
+                phone = it.phoneNumber,
                 city = it.city,
                 province = it.province
             )

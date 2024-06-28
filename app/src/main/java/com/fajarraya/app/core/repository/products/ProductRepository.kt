@@ -45,7 +45,8 @@ class ProductRepository (private val productDataSource: ProductDataSource) : IPr
                 satuan = data.satuan,
                 gambarProduk = data.gambarProduk,
                 supplierId = data.supplierId,
-                kategoriProduk = data.kategoriProduk
+                kategoriProduk = data.kategoriProduk,
+                hargaProduk = data.hargaProduk
             )
         }
 
@@ -59,7 +60,8 @@ class ProductRepository (private val productDataSource: ProductDataSource) : IPr
                     satuan = data.satuan,
                     gambarProduk = data.gambarProduk,
                     supplierId = data.supplierId,
-                    kategoriProduk = data.kategoriProduk
+                    kategoriProduk = data.kategoriProduk,
+                    hargaProduk = data.hargaProduk
                 )
             }
         }
@@ -76,7 +78,8 @@ class ProductRepository (private val productDataSource: ProductDataSource) : IPr
                 satuan = data.satuan,
                 gambarProduk = data.gambarProduk,
                 supplierId = data.supplierId,
-                kategoriProduk = data.kategoriProduk
+                kategoriProduk = data.kategoriProduk,
+                hargaProduk = data.hargaProduk
             )
         }
 
@@ -90,7 +93,8 @@ class ProductRepository (private val productDataSource: ProductDataSource) : IPr
                     satuan = data.satuan,
                     gambarProduk = data.gambarProduk,
                     supplierId = data.supplierId,
-                    kategoriProduk = data.kategoriProduk
+                    kategoriProduk = data.kategoriProduk,
+                    hargaProduk = data.hargaProduk
                 )
             }
         }

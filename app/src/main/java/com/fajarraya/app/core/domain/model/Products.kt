@@ -9,6 +9,7 @@ data class Products(
     val kategoriProduk : String,
     val gambarProduk : ByteArray,
     val deskripsiProduk : String,
-    val supplierId : String
+    val supplierId : String,
+    val hargaProduk : Long,
 )
 

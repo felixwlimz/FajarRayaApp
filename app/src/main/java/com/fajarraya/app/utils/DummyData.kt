@@ -10,29 +10,35 @@ object DummyData {
         Products(
             kodeBarang = "A-100",
             namaBarang = "Arashi Bola Lampu",
-            hargaJual = 100000,
-            stokAwal = 100,
-            stokMasuk = 20,
-            stokKeluar = 0,
-            stokAkhir = 120
+            hargaProduk = 100000,
+            stok = 100,
+            satuan = "Pcs",
+            deskripsiProduk = "",
+            gambarProduk = ByteArray(0),
+            supplierId = "NYR-01",
+            kategoriProduk = "Rice Cooker",
         ),
         Products(
             kodeBarang = "A-101",
             namaBarang = "Kipas Angin Miyako",
-            hargaJual = 500000,
-            stokAwal = 80,
-            stokMasuk = 20,
-            stokKeluar = 0,
-            stokAkhir = 100
+            hargaProduk = 500000,
+            stok = 100,
+            satuan = "Pcs",
+            deskripsiProduk = "",
+            gambarProduk = ByteArray(0),
+            supplierId = "NYR-01",
+            kategoriProduk = "Rice Cooker",
         ),
         Products(
             kodeBarang = "A-102",
             namaBarang = "Blender Electrolux",
-            hargaJual = 2000000,
-            stokAwal = 50,
-            stokMasuk = 10,
-            stokKeluar = 0,
-            stokAkhir = 60
+            hargaProduk = 2000000,
+            stok = 100,
+            satuan = "Pcs",
+            deskripsiProduk = "",
+            gambarProduk = ByteArray(0),
+            supplierId = "NYR-01",
+            kategoriProduk = "Rice Cooker",
         )
     )
 
@@ -40,23 +46,26 @@ object DummyData {
         Suppliers(
             supplierName = "Arashi",
             supplierAddress = "Jalan. Asia No 123 Medan",
-            phone = "0851034304435",
+            phoneNumber = "0851034304435",
             city = "Medan",
-            province = "North Sumatra"
+            province = "North Sumatra",
+            supplierId = "NYR-01"
         ),
         Suppliers(
             supplierName = "Hannochs",
             supplierAddress = "Jalan. Jendral Sudirman No 123 Medan",
-            phone = "0851034304435",
+            phoneNumber = "0851034304435",
             city = "Medan",
-            province = "North Sumatra"
+            province = "North Sumatra",
+            supplierId = "NYR-02"
         ),
         Suppliers(
             supplierName = "Arashi",
             supplierAddress = "Jalan. Asia No 123 Medan",
-            phone = "0851034304435",
+            phoneNumber = "0851034304435",
             city = "Medan",
-            province = "North Sumatra"
+            province = "North Sumatra",
+            supplierId = "NYR-03"
         )
     )
 
