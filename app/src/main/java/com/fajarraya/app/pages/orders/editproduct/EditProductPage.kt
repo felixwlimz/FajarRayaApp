@@ -11,14 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.fajarraya.app.R
 import com.fajarraya.app.components.buttons.PrimaryButton
-import com.fajarraya.app.components.forms.TextandDropdown
-import com.fajarraya.app.components.forms.TextandImageInput
 import com.fajarraya.app.components.forms.TextandInput
 
 @Composable
-fun EditProductPage(modifier : Modifier = Modifier){
+fun EditProductPage(modifier: Modifier = Modifier, navHostController: NavHostController){
 
     Column(modifier = modifier
         .fillMaxSize()

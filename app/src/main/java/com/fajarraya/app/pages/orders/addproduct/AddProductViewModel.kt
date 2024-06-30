@@ -13,20 +13,17 @@ class AddProductViewModel(private val productUseCase: ProductUseCase) : ViewMode
 
 
     fun insertProducts(products: Products, onComplete:()->Unit) {
-        viewModelScope.launch {
-            productUseCase.insertProduct(products)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    {
-                        onComplete()
-                    },
-                    {
-                        it.printStackTrace()
-                    }
-                )
-
-        }
+        productUseCase.insertProduct(products)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    onComplete()
+                },
+                {
+                    it.printStackTrace()
+                }
+            )
     }
 
 

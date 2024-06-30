@@ -49,7 +49,7 @@ class ProductRepository(
     }
 
     override fun getAllProducts(): Flowable<List<Products>> {
-        return Flowable.create({emit->
+        return Flowable.create({ emit ->
 
             firebaseFirestore.collection("products")
                 .get()
@@ -103,8 +103,29 @@ class ProductRepository(
     }
 
     override fun deleteProduct(products: Products): Completable {
-        val productMapper = mapperEntity.mapFrom(products)
-        return productDataSource.deleteProduct(productMapper)
+        return Completable.create { emitter ->
+            firebaseFirestore
+                .collection("products")
+                .whereEqualTo("kodeBarang", products.kodeBarang)
+                .get()
+                .addOnSuccessListener {
+                    if (!it.isEmpty) {
+                        for (document in it.documents) {
+                            firebaseFirestore.collection("products").document(document.id)
+                                .delete()
+                                .addOnFailureListener { e ->
+                                    emitter.onError(Exception("Error Deleting"))
+                                }
+                        }
+                        emitter.onComplete()
+                    } else {
+                        emitter.onError(Exception("Error Querying Document"))
+                    }
+                }
+                .addOnFailureListener {
+                    emitter.onError(Exception(it))
+                }
+        }
     }
 
 

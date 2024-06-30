@@ -15,17 +15,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.fajarraya.app.components.cards.ProductCard
 import com.fajarraya.app.constants.WidgetConstants
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun ProductListPage(modifier : Modifier = Modifier, productListViewModel: ProductListViewModel = koinViewModel()){
+fun ProductListPage(
+    modifier: Modifier = Modifier,
+    productListViewModel: ProductListViewModel = koinViewModel(),
+    navHostController: NavHostController
+) {
     val products = productListViewModel.productList.observeAsState()
 
-    LazyColumn(modifier = modifier
-        .fillMaxSize()
-        .padding(10.dp), verticalArrangement = Arrangement.spacedBy(20.dp)){
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(10.dp), verticalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
         item {
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -33,14 +40,26 @@ fun ProductListPage(modifier : Modifier = Modifier, productListViewModel: Produc
                 shape = RoundedCornerShape(20.dp),
                 onValueChange = {},
                 placeholder = {
-                    Text(text = "Search For Products", fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp)
+                    Text(
+                        text = "Search For Products",
+                        fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp
+                    )
                 },
             )
         }
 
-        if(products.value != null){
-            items(products.value!!){
-                ProductCard(productName = it.namaBarang, imageUrl = it.gambarProduk, onButtonClick = {})
+        if (products.value != null) {
+            items(products.value!!) {
+                ProductCard(
+                    productName = it.namaBarang,
+                    imageUrl = it.gambarProduk,
+                    onDeleteClick = {
+                        productListViewModel.deleteProduct(it){
+                            navHostController.popBackStack()
+                        }
+                    },
+                    onEditClick = {},
+                )
             }
         }
     }

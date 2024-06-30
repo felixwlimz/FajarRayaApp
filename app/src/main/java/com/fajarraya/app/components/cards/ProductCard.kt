@@ -1,7 +1,6 @@
 package com.fajarraya.app.components.cards
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,13 +22,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.fajarraya.app.R
 import com.fajarraya.app.constants.WidgetConstants
 import com.fajarraya.app.ui.theme.PrimaryBlue
 
@@ -37,8 +34,9 @@ import com.fajarraya.app.ui.theme.PrimaryBlue
 fun ProductCard(
     modifier: Modifier = Modifier,
     productName: String,
-    onButtonClick: () -> Unit = {},
-    imageUrl: String
+    imageUrl: String,
+    onDeleteClick: () -> Unit,
+    onEditClick: () -> Unit
 ){
     Card(modifier = modifier
         .fillMaxWidth()
@@ -64,10 +62,10 @@ fun ProductCard(
             )
 
             Row(horizontalArrangement = Arrangement.spacedBy(5.dp), verticalAlignment = Alignment.CenterVertically){
-                IconButton(onClick = onButtonClick) {
+                IconButton(onClick = onEditClick) {
                     Icon(Icons.Default.Edit, contentDescription = "add-button" )
                 }
-                IconButton(onClick = onButtonClick) {
+                IconButton(onClick = onDeleteClick) {
                     Icon(Icons.Default.Delete, contentDescription = "add-button" )
                 }
 
