@@ -12,12 +12,20 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 class AddProductViewModel(private val productUseCase: ProductUseCase) : ViewModel() {
 
 
-    fun insertProducts(products: Products) {
+    fun insertProducts(products: Products, onComplete:()->Unit) {
         viewModelScope.launch {
             productUseCase.insertProduct(products)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
+                .subscribe(
+                    {
+                        onComplete()
+                    },
+                    {
+                        it.printStackTrace()
+                    }
+                )
+
         }
     }
 

@@ -1,21 +1,73 @@
 package com.fajarraya.app.core.repository.products
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import com.fajarraya.app.core.data.local.datasource.ProductDataSource
 import com.fajarraya.app.core.data.local.entity.ProductEntity
 import com.fajarraya.app.core.domain.model.Products
+import com.fajarraya.app.core.domain.model.toFirebaseProduct
 import com.fajarraya.app.core.utils.DataMapper
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
+import java.io.ByteArrayOutputStream
+import java.util.UUID
 
+class ProductRepository(
+    private val productDataSource: ProductDataSource,
+    private val firebaseStorage: FirebaseStorage,
+    private val firebaseFirestore: FirebaseFirestore,
+    private val context: Context,
+) : IProductRepository {
 
+    private fun uploadImage(image: String): Single<String> {
+        return Single.create { emit ->
+            val storageReference = firebaseStorage.reference
+            val fileReference = storageReference.child("products/${UUID.randomUUID()}.jpg")
 
-class ProductRepository (private val productDataSource: ProductDataSource) : IProductRepository {
+            val inputStream = context.contentResolver.openInputStream(Uri.parse(image))
+            val bitmap = BitmapFactory.decodeStream(inputStream)
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
 
+            val uploadTask = fileReference.putBytes(byteArrayOutputStream.toByteArray())
+            uploadTask.addOnSuccessListener {
+                fileReference.downloadUrl.addOnSuccessListener { uri ->
+                    val downloadUrl = uri.toString()
+                    emit.onSuccess(downloadUrl)
+                }
+            }.addOnFailureListener {
+                emit.onError(Exception(it))
+            }
+        }
+    }
 
     override fun getAllProducts(): Flowable<List<Products>> {
-        return productDataSource.getAllProducts().map {
-            mapperDomain.mapLists(it)
-        }
+        return Flowable.create({emit->
+
+            firebaseFirestore.collection("products")
+                .get()
+
+                .addOnSuccessListener {
+                    val documents = it.documents.map { document ->
+                        val firebaseProducts = document.toFirebaseProduct()
+                        firebaseProducts.mapToProduct()
+                    }.toList()
+                    emit.onNext(documents)
+                }
+
+                .addOnFailureListener {
+                    emit.onError(Exception(it))
+                }
+
+
+        }, BackpressureStrategy.LATEST)
     }
 
     override fun getProduct(kodeBarang: String): Flowable<Products> {
@@ -24,17 +76,38 @@ class ProductRepository (private val productDataSource: ProductDataSource) : IPr
         }
     }
 
-    override fun insertProduct(products: Products) : Completable{
-        val productMapper = mapperEntity.mapFrom(products)
-        return productDataSource.insertProduct(productMapper)
+    override fun insertProduct(products: Products): Completable {
+        return Completable.create { emitter ->
+            uploadImage(products.gambarProduk)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(
+                    {
+                        val firebaseProducts = products.mapProductToFirebaseProduct(it).apply {
+                            this.gambarProduk = it
+                        }
+                        firebaseFirestore.collection("products")
+                            .add(firebaseProducts)
+                            .addOnSuccessListener {
+                                emitter.onComplete()
+                            }
+                            .addOnFailureListener {
+                                emitter.onError(Exception(it))
+                            }
+                    },
+                    {
+                        emitter.onError(Exception(it))
+                    }
+                )
+        }
     }
 
-    override fun deleteProduct(products: Products) : Completable {
+    override fun deleteProduct(products: Products): Completable {
         val productMapper = mapperEntity.mapFrom(products)
         return productDataSource.deleteProduct(productMapper)
     }
-    
-    
+
+
     private val mapperDomain = object : DataMapper<ProductEntity, Products> {
         override fun mapFrom(data: ProductEntity): Products {
             return Products(
@@ -43,7 +116,7 @@ class ProductRepository (private val productDataSource: ProductDataSource) : IPr
                 deskripsiProduk = data.deskripsiProduk,
                 stok = data.stok,
                 satuan = data.satuan,
-                gambarProduk = data.gambarProduk,
+                gambarProduk = data.gambarProduk.toString(),
                 supplierId = data.supplierId,
                 kategoriProduk = data.kategoriProduk,
                 hargaProduk = data.hargaProduk
@@ -58,7 +131,7 @@ class ProductRepository (private val productDataSource: ProductDataSource) : IPr
                     deskripsiProduk = data.deskripsiProduk,
                     stok = data.stok,
                     satuan = data.satuan,
-                    gambarProduk = data.gambarProduk,
+                    gambarProduk = data.gambarProduk.toString(),
                     supplierId = data.supplierId,
                     kategoriProduk = data.kategoriProduk,
                     hargaProduk = data.hargaProduk

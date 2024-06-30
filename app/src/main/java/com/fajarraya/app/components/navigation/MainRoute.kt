@@ -39,7 +39,7 @@ fun MainRoute(modifier: Modifier = Modifier, navController: NavHostController){
             }
 
             composable(Screen.Orders.AddProduct.route){
-                AddProductPage()
+                AddProductPage(navHostController = navController)
             }
 
             composable(Screen.Orders.EditProduct.route){

@@ -13,7 +13,8 @@ import io.reactivex.rxjava3.core.Single
 
 
 class AuthRepository(
-    private val firebaseAuth: FirebaseAuth, private val firebaseFirestore: FirebaseFirestore
+    private val firebaseAuth: FirebaseAuth,
+    private val firebaseFirestore: FirebaseFirestore,
 ) : IAuthRepository {
 
     override val currentUser: FirebaseUser?

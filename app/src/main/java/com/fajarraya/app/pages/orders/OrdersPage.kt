@@ -44,7 +44,7 @@ fun OrdersPage(modifier: Modifier = Modifier, orderViewModel: OrderViewModel = k
 
             if(products.value != null){
                 items(products.value!!){
-                    OrderCard(text = it.namaBarang, onButtonClick = {})
+                    OrderCard(text = it.namaBarang, imageUrl=it.gambarProduk, onButtonClick = {})
                 }
             }
 

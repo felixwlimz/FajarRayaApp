@@ -23,13 +23,14 @@ import com.fajarraya.app.constants.WidgetConstants
 fun <T> TextandDropdown(
     modifier : Modifier = Modifier,
     textInputTitle : String,
+    displaySelectedItem : String,
     isExpanded : Boolean = false,
     onExpandedChange : (Boolean) -> Unit = {},
     dropdownContent : List<T>,
-    onClick : () -> Unit = {}
+    onClick : (item:T) -> Unit = {}
 ){
 
-    Column(modifier = modifier.height(100.dp), verticalArrangement = Arrangement.spacedBy(8.dp)){
+    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)){
         Text(
             text = textInputTitle,
             fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_BOLD),
@@ -39,7 +40,7 @@ fun <T> TextandDropdown(
         ExposedDropdownMenuBox(expanded = isExpanded, onExpandedChange = onExpandedChange, modifier = Modifier.fillMaxWidth()){
 
             OutlinedTextField(
-                value = textInputTitle ,
+                value = if(displaySelectedItem.isEmpty()) textInputTitle else displaySelectedItem,
                 onValueChange = {},
                 shape = RoundedCornerShape(20.dp),
                 readOnly = true,
@@ -56,7 +57,7 @@ fun <T> TextandDropdown(
                                 fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_SEMI),
                                 fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp
                             )
-                        }, onClick = onClick
+                        }, onClick = {onClick(item)}
                     )
                 }
             }

@@ -40,7 +40,7 @@ fun ProductListPage(modifier : Modifier = Modifier, productListViewModel: Produc
 
         if(products.value != null){
             items(products.value!!){
-                ProductCard(productName = it.namaBarang, onButtonClick = {})
+                ProductCard(productName = it.namaBarang, imageUrl = it.gambarProduk, onButtonClick = {})
             }
         }
     }

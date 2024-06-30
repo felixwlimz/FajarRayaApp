@@ -28,15 +28,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.fajarraya.app.R
 import com.fajarraya.app.constants.WidgetConstants
 import com.fajarraya.app.ui.theme.PrimaryBlue
 
 @Composable
 fun ProductCard(
-    modifier : Modifier = Modifier,
-    productName : String,
-    onButtonClick : () -> Unit = {}
+    modifier: Modifier = Modifier,
+    productName: String,
+    onButtonClick: () -> Unit = {},
+    imageUrl: String
 ){
     Card(modifier = modifier
         .fillMaxWidth()
@@ -46,10 +48,12 @@ fun ProductCard(
     ){
         Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(10.dp).fillMaxSize()){
 
-            Image(
-                painter = painterResource(id = R.drawable.ic_launcher_background),
-                contentDescription = "product-image",
-                modifier = Modifier.clip(RoundedCornerShape(70.dp)).height(50.dp).width(50.dp),
+            AsyncImage(
+                model = imageUrl, contentDescription = "product-image",
+                modifier = Modifier
+                    .clip(RoundedCornerShape(70.dp))
+                    .height(70.dp)
+                    .width(70.dp),
             )
 
             Text(

@@ -27,30 +27,41 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.fajarraya.app.R
 import com.fajarraya.app.constants.WidgetConstants
 import com.fajarraya.app.ui.theme.PrimaryBlue
 
 @Composable
 fun OrderCard(
-    modifier : Modifier = Modifier,
-    text : String,
-    onButtonClick : () -> Unit
-){
+    modifier: Modifier = Modifier,
+    text: String,
+    imageUrl: String,
+    onButtonClick: () -> Unit
+) {
 
-    Card(modifier = modifier
-        .fillMaxWidth()
-        .height(100.dp),
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(100.dp),
         border = BorderStroke(1.dp, PrimaryBlue),
         colors = CardDefaults.cardColors(contentColor = Color.Black, containerColor = Color.White)
 
-    ){
-        Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(10.dp).fillMaxSize()){
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxSize()
+        ) {
 
-            Image(
-                painter = painterResource(id = R.drawable.ic_launcher_background),
-                contentDescription = "product-image",
-                modifier = Modifier.clip(RoundedCornerShape(70.dp)).height(70.dp).width(70.dp),
+            AsyncImage(
+                model = imageUrl, contentDescription = "product-image",
+                modifier = Modifier
+                    .clip(RoundedCornerShape(70.dp))
+                    .height(70.dp)
+                    .width(70.dp),
             )
 
             Text(
@@ -61,7 +72,7 @@ fun OrderCard(
             )
 
             IconButton(onClick = onButtonClick) {
-                Icon(Icons.Default.Add, contentDescription = "add-button" )
+                Icon(Icons.Default.Add, contentDescription = "add-button")
             }
 
         }

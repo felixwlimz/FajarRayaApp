@@ -6,14 +6,11 @@ import io.reactivex.rxjava3.core.Flowable
 
 class ProductDataSource(private val productDao: ProductDao){
 
-     fun getAllProducts() : Flowable<List<ProductEntity>> = productDao.getAllProducts()
+    fun getAllProducts() : Flowable<List<ProductEntity>> = productDao.getAllProducts()
 
-     fun getProduct(kodeBarang : String) : Flowable<ProductEntity> = productDao.getProduct(kodeBarang)
+    fun getProduct(kodeBarang : String) : Flowable<ProductEntity> = productDao.getProduct(kodeBarang)
 
-     fun insertProduct(productEntity: ProductEntity) = productDao.insertProduct(productEntity)
+    fun insertProduct(productEntity: ProductEntity) = productDao.insertProduct(productEntity)
 
-     fun deleteProduct(productEntity: ProductEntity) = productDao.deleteProduct(productEntity)
-
-
-
+    fun deleteProduct(productEntity: ProductEntity) = productDao.deleteProduct(productEntity)
 }

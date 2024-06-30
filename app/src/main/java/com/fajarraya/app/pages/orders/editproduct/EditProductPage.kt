@@ -28,9 +28,10 @@ fun EditProductPage(modifier : Modifier = Modifier){
     ){
 
 
-        TextandImageInput(
-            textInputTitle = stringResource(id = R.string.add_product_photo)
-        )
+//        TextandImageInput(
+//            textInputTitle = stringResource(id = R.string.add_product_photo),
+//            items =
+//        )
 
         TextandInput(
             textInputTitle = stringResource(id = R.string.product_name) ,
@@ -44,15 +45,15 @@ fun EditProductPage(modifier : Modifier = Modifier){
             placeholderText = stringResource(id = R.string.placeholder_product_description)
         )
 
-        TextandDropdown(
-            textInputTitle = stringResource(id = R.string.product_category),
-            dropdownContent = arrayListOf("Choose Product Category"),
-        )
-
-        TextandDropdown(
-            textInputTitle = stringResource(id = R.string.supplier),
-            dropdownContent = arrayListOf("Choose Supplier"),
-        )
+//        TextandDropdown(
+//            textInputTitle = stringResource(id = R.string.product_category),
+//            dropdownContent = arrayListOf("Choose Product Category"),
+//        )
+//
+//        TextandDropdown(
+//            textInputTitle = stringResource(id = R.string.supplier),
+//            dropdownContent = arrayListOf("Choose Supplier"),
+//        )
 
         TextandInput(
             textInputTitle = stringResource(id = R.string.price),

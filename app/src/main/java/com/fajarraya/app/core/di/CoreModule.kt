@@ -20,6 +20,7 @@ import com.fajarraya.app.core.repository.supplier.SupplierRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import kotlin.math.sin
@@ -58,7 +59,7 @@ val repositoryModule = module {
     single { SupplierDataSource(get())}
 
     single <IProductRepository>{
-        ProductRepository(get())
+        ProductRepository(get(),get(),get(),get())
     }
     single<IAuthRepository> {
         AuthRepository(get(), get())
@@ -78,6 +79,7 @@ val firebaseModule = module {
     single { FirebaseAuth.getInstance() }
     single { FirebaseDatabase.getInstance() }
     single { FirebaseFirestore.getInstance() }
+    single { FirebaseStorage.getInstance() }
 }
 
 val dataStoreModule = module {

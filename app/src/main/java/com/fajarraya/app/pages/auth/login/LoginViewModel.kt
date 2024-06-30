@@ -36,9 +36,6 @@ class LoginViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
 
 
     fun validateLogin(email: String, password: String,onCompleted: () -> Unit){
-//        val emailRegex = Extensions.useRegex("[a-zA-Z0–9._-]+@[a-z]+\\.+[a-z]+")
-//        val passRegex = Extensions.useRegex("^(?=.*[0–9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$")
-
         when{
             email.isEmpty() -> {
                 isError = true
@@ -48,14 +45,6 @@ class LoginViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
                 isError = true
                 errorText = "Password must not be empty"
             }
-//            !emailRegex.matches(email) -> {
-//                isError = true
-//                errorText = "Invalid email"
-//            }
-//            !passRegex.matches(password) -> {
-//                isError = true
-//                errorText = "Invalid Password"
-//            }
             else -> {
                 authUseCase.login(email, password)
                     .subscribeOn(Schedulers.io())

@@ -19,13 +19,11 @@ class ProfileDetailViewModel(private val useCase: AuthUseCase): ViewModel() {
 
 
     fun getDetail(){
-        val data = useCase.userData()
+        useCase.userData()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { result ->
-                    println(userdata)
-                    println(result)
                     userdata = result
                 },
                 { error -> println("Error: ${error.message}") }
