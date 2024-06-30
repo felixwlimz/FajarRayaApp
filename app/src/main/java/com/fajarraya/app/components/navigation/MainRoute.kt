@@ -18,6 +18,7 @@ import com.fajarraya.app.pages.profile.account.AccountPage
 import com.fajarraya.app.pages.profile.detail.ProfileDetailPage
 import com.fajarraya.app.pages.splash.SplashPage
 import com.fajarraya.app.pages.supplier.SupplierPage
+import com.fajarraya.app.pages.supplier.addeditsupplier.AddEditSupplierPage
 import com.fajarraya.app.pages.transactions.TransactionsPage
 
 @Composable
@@ -70,8 +71,16 @@ fun MainRoute(modifier: Modifier = Modifier, navController: NavHostController){
 
         }
 
-        composable(Screen.Supplier.route){
-            SupplierPage()
+        navigation(
+            route = Screen.Supplier.route,
+            startDestination = Screen.Supplier.SupplierList.route
+        ){
+            composable(Screen.Supplier.SupplierList.route){
+                SupplierPage()
+            }
+            composable(Screen.Supplier.AddEdit.route){
+                AddEditSupplierPage()
+            }
         }
 
         composable(Screen.Login.route){

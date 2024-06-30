@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.fajarraya.app.components.appbar.AppBar
 import com.fajarraya.app.components.bottombar.BottomBar
 import com.fajarraya.app.components.navigation.MainRoute
+import com.fajarraya.app.components.navigation.Screen
 import com.fajarraya.app.ui.theme.FajarRayaTheme
 import com.fajarraya.app.ui.theme.PrimaryBlue
 import com.fajarraya.app.utils.MainComponent
@@ -85,7 +86,9 @@ fun MainApp(
         floatingActionButton = {
             if(currentRoute == "Suppliers"){
                 FloatingActionButton(
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                         navController.navigate(Screen.Supplier.AddEdit.route)
+                    },
                     shape = CircleShape,
                     containerColor = PrimaryBlue
                 ) {

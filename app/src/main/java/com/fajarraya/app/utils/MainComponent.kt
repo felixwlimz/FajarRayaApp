@@ -35,6 +35,11 @@ object MainComponent {
             "Products" -> {
                 !showBottomBar
             }
+
+            "Add or Edit Supplier" -> {
+                !showBottomBar
+            }
+
             else -> {
                 showBottomBar
 
@@ -112,6 +117,16 @@ object MainComponent {
                     altType = "arrow-back",
                     onClick = {
                         navController.navigate(Screen.Orders.OrderPage.route)
+                    }
+                )
+            }
+
+            "Add or Edit Supplier" -> {
+                ActionButton(
+                    icon = Icons.Default.ArrowBack,
+                    altType = "arrow-back",
+                    onClick = {
+                        navController.navigate(Screen.Supplier.SupplierList.route)
                     }
                 )
             }
