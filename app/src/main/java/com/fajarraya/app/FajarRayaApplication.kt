@@ -26,7 +26,7 @@ class FajarRayaApplication : Application() {
                     useCaseModule,
                     viewModelModule,
                     firebaseModule,
-                    dataStoreModule
+                    dataStoreModule,
                 )
             )
         }

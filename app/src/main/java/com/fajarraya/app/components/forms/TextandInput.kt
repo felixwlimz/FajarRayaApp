@@ -5,11 +5,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,10 +26,13 @@ fun TextandInput(
     placeholderText: String,
     isError : Boolean = false,
     errorText : String = "",
-    visualTransformation : VisualTransformation = VisualTransformation.None
+    visualTransformation : VisualTransformation = VisualTransformation.None,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(
+        imeAction = ImeAction.Next
+    ),
 ){
 
-    Column(modifier = modifier.height(120.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
 
         Text(
             text = textInputTitle,
@@ -42,6 +47,7 @@ fun TextandInput(
             onValueChange = onValueChange,
             isError = isError,
             visualTransformation = visualTransformation,
+            maxLines = 1,
             placeholder = {
                 Text(text = placeholderText, fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp)
             },
@@ -49,7 +55,9 @@ fun TextandInput(
                 if(!isError){
                     Text(text = errorText, fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp)
                 }
-            }
+            },
+            keyboardOptions = keyboardOptions,
+
         )
 
     }

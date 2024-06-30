@@ -4,12 +4,14 @@ package com.fajarraya.app.pages.auth.register
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.text.trimmedLength
 import androidx.lifecycle.ViewModel
 import com.fajarraya.app.core.domain.model.User
 import com.fajarraya.app.core.domain.usecase.auth.AuthUseCase
 import com.fajarraya.app.models.UserType
 import com.fajarraya.app.utils.Extensions
-
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 
 class RegisterViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
@@ -35,7 +37,6 @@ class RegisterViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
         nameInput = name
     }
 
-
     fun setUsername(username: String){
         usernameInput = username
     }
@@ -53,10 +54,11 @@ class RegisterViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
         username: String,
         email: String,
         password: String,
-        userType: UserType
+        userType: UserType,
+        onCompleted: () -> Unit
     ){
         val emailRegex = Extensions.useRegex("[a-zA-Z0–9._-]+@[a-z]+\\.+[a-z]+")
-        val passRegex = Extensions.useRegex("^(?=.*[0–9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$")
+//        val passRegex = Extensions.useRegex("^(?=.*[0–9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$")
 
         when{
             email.isEmpty() -> {
@@ -67,27 +69,39 @@ class RegisterViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
                 isError = true
                 errorText = "Password must not be empty"
             }
-            !emailRegex.matches(email) -> {
+//            !emailRegex.matches(email) -> {
+//                isError = true
+//                errorText= "Invalid email"
+//            }
+//            !passRegex.matches(password) -> {
+//                isError = true
+//                errorText = "Invalid Password "
+//            }
+            password.trimmedLength() < 8 -> {
                 isError = true
-                errorText= "Invalid email"
-            }
-            !passRegex.matches(password) -> {
-                isError = true
-                errorText = "Invalid Password "
+                errorText= "Panjang password harus > 8 karakter"
             }
             else -> {
-                val user = authUseCase.currentUser?.uid?.let {
-                    User(userId = it,
-                        email = email,
-                        password = password,
-                        name = name,
-                        username = username,
-                        superAdmin = userType
-                    )
-                } as User
+                val user = User(userId = null,
+                    email = email,
+                    password = password,
+                    name = name,
+                    username = username,
+                    superAdmin = userType
+                )
                 authUseCase.register(user)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        {
+                            onCompleted()
+                        },
+                        {
+                            isError = true
+                            errorText = it.message.toString()
+                        }
+                    );
             }
-
         }
     }
 

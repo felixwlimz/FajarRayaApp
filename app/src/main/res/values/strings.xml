@@ -13,10 +13,13 @@
     <string name="name">Full Name</string>
     <string name="email">Email</string>
     <string name="phone_number">Phone Number</string>
+    <string name="username">Username</string>
+
 
 
     <string name="placeholder_name">Enter your name</string>
     <string name="placeholder_email">Enter your email</string>
+    <string name="placeholder_username">Enter your username</string>
     <string name="placeholder_phone">Enter your phone number</string>
     <string name="placeholder_password">Enter your password</string>
 

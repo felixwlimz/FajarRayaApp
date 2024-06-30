@@ -14,6 +14,8 @@ import com.fajarraya.app.pages.orders.OrderViewModel
 import com.fajarraya.app.pages.orders.addproduct.AddProductViewModel
 import com.fajarraya.app.pages.orders.productlist.ProductListViewModel
 import com.fajarraya.app.pages.profile.ProfilePageViewModel
+import com.fajarraya.app.pages.profile.detail.ProfileDetailViewModel
+import com.fajarraya.app.pages.splash.SplashViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -25,6 +27,10 @@ val useCaseModule = module {
 }
 
 val viewModelModule = module {
+    viewModel{
+        SplashViewModel(get())
+    }
+
     viewModel{
         OrderViewModel(get())
     }
@@ -47,5 +53,7 @@ val viewModelModule = module {
     viewModel {
         ProfilePageViewModel(get())
     }
-
+    viewModel{
+        ProfileDetailViewModel(get())
+    }
 }

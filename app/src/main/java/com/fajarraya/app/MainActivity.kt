@@ -45,20 +45,26 @@ fun MainApp(
 
     val currentRoute = currentBackStackEntry?.destination?.route
 
+    val woMenu = arrayOf(
+        "Login",
+        "Register",
+        "Splash"
+    )
 
     Scaffold(
         modifier = modifier,
         bottomBar = {
             currentRoute?.let {
-                BottomBar(
-                    navController = navController,
-                    currentRoute = currentRoute,
-                    showBottomBar = showBottomBar(currentRoute)
-                )
+                if(!woMenu.contains(it))
+                    BottomBar(
+                        navController = navController,
+                        currentRoute = currentRoute,
+                        showBottomBar = showBottomBar(currentRoute)
+                    )
             }
         },
         topBar = {
-            if (currentRoute != null) {
+            if (currentRoute != null && !woMenu.contains(currentRoute)) {
                 AppBar(
                     title = currentRoute,
                     actionBar = {

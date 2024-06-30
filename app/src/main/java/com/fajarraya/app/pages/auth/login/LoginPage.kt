@@ -32,6 +32,7 @@ import com.fajarraya.app.MainActivity
 import com.fajarraya.app.components.buttons.PrimaryButton
 import com.fajarraya.app.components.forms.TextandInput
 import com.fajarraya.app.components.navigation.AuthScreen
+import com.fajarraya.app.components.navigation.Screen
 import com.fajarraya.app.constants.WidgetConstants
 import com.fajarraya.app.ui.theme.PrimaryBlue
 import org.koin.androidx.compose.koinViewModel
@@ -77,8 +78,6 @@ fun LoginPage(
             fieldValue = email,
             placeholderText = stringResource(id = R.string.placeholder_email),
             onValueChange = loginViewModel::setEmail,
-            isError = isError,
-            errorText = errorText
         )
 
         Spacer(modifier = Modifier.padding(15.dp))
@@ -89,8 +88,6 @@ fun LoginPage(
             placeholderText = stringResource(id = R.string.placeholder_password),
             onValueChange = loginViewModel::setPassword,
             visualTransformation = PasswordVisualTransformation(),
-            isError = isError,
-            errorText = errorText
         )
 
         Spacer(modifier = Modifier.padding(5.dp))
@@ -116,13 +113,19 @@ fun LoginPage(
                 .fillMaxWidth()
                 .height(50.dp),
             onClick = {
-                loginViewModel.validateLogin(email, password)
+                loginViewModel.validateLogin(email, password){
+                    navHostController.navigate(Screen.Home.route){
+                        popUpTo(Screen.Login.route){
+                            inclusive = true
+                        }
+                        launchSingleTop=true
+                    }
+                }
 
-                context.startActivity(Intent(context, MainActivity::class.java))
-                (context as Activity).finish()
 
         }, buttonText =  stringResource(id = R.string.login))
 
+        Text(errorText)
     }
 
 }

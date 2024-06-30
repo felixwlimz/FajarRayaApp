@@ -6,11 +6,15 @@ import com.fajarraya.app.core.repository.auth.IAuthRepository
 import com.fajarraya.app.core.utils.DataMapper
 import com.google.firebase.auth.FirebaseUser
 import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 
 class AuthInteractor(private val authRepository: IAuthRepository) : AuthUseCase{
 
     override val currentUser: FirebaseUser?
         get() = authRepository.currentUser
+
+    override fun userData(): Single<User> = authRepository.getUserData()
+
     override fun login(email: String, password: String): Completable = authRepository.login(email, password)
 
     override fun register(user: User): Completable {

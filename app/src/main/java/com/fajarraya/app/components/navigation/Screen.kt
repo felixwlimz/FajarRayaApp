@@ -22,7 +22,13 @@ sealed class Screen(val route : String) {
     }
     data object Supplier : Screen("Suppliers")
 
+    data object Login:Screen("Login")
+    data object Register:Screen("Register")
+
+    data object Splash:Screen("Splash")
+
 }
+
 
 
 

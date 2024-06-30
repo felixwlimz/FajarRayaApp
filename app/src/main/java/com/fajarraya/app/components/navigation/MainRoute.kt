@@ -6,6 +6,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.fajarraya.app.pages.auth.login.LoginPage
+import com.fajarraya.app.pages.auth.register.RegisterPage
 import com.fajarraya.app.pages.home.HomePage
 import com.fajarraya.app.pages.orders.OrdersPage
 import com.fajarraya.app.pages.orders.addproduct.AddProductPage
@@ -14,6 +16,7 @@ import com.fajarraya.app.pages.orders.productlist.ProductListPage
 import com.fajarraya.app.pages.profile.ProfilePage
 import com.fajarraya.app.pages.profile.account.AccountPage
 import com.fajarraya.app.pages.profile.detail.ProfileDetailPage
+import com.fajarraya.app.pages.splash.SplashPage
 import com.fajarraya.app.pages.supplier.SupplierPage
 import com.fajarraya.app.pages.transactions.TransactionsPage
 
@@ -21,7 +24,7 @@ import com.fajarraya.app.pages.transactions.TransactionsPage
 fun MainRoute(modifier: Modifier = Modifier, navController: NavHostController){
     NavHost(
         navController = navController,
-        startDestination = Screen.Home.route,
+        startDestination = Screen.Splash.route,
         modifier = modifier
     ){
 
@@ -70,6 +73,18 @@ fun MainRoute(modifier: Modifier = Modifier, navController: NavHostController){
         composable(Screen.Supplier.route){
             SupplierPage()
         }
+
+        composable(Screen.Login.route){
+            LoginPage(navHostController = navController )
+        }
+        composable(Screen.Register.route){
+            RegisterPage(navHostController = navController )
+        }
+        
+        composable(Screen.Splash.route){
+            SplashPage(navHostController = navController)
+        }
+
 
 
 

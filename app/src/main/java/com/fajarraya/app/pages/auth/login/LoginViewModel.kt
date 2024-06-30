@@ -7,6 +7,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.fajarraya.app.core.domain.usecase.auth.AuthUseCase
 import com.fajarraya.app.utils.Extensions
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 
 class LoginViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
@@ -33,9 +35,9 @@ class LoginViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
 
 
 
-    fun validateLogin(email: String, password: String){
-        val emailRegex = Extensions.useRegex("[a-zA-Z0–9._-]+@[a-z]+\\.+[a-z]+")
-        val passRegex = Extensions.useRegex("^(?=.*[0–9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$")
+    fun validateLogin(email: String, password: String,onCompleted: () -> Unit){
+//        val emailRegex = Extensions.useRegex("[a-zA-Z0–9._-]+@[a-z]+\\.+[a-z]+")
+//        val passRegex = Extensions.useRegex("^(?=.*[0–9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$")
 
         when{
             email.isEmpty() -> {
@@ -46,16 +48,27 @@ class LoginViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
                 isError = true
                 errorText = "Password must not be empty"
             }
-            !emailRegex.matches(email) -> {
-                isError = true
-                errorText = "Invalid email"
-            }
-            !passRegex.matches(password) -> {
-                isError = true
-                errorText = "Invalid Password"
-            }
+//            !emailRegex.matches(email) -> {
+//                isError = true
+//                errorText = "Invalid email"
+//            }
+//            !passRegex.matches(password) -> {
+//                isError = true
+//                errorText = "Invalid Password"
+//            }
             else -> {
                 authUseCase.login(email, password)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        {
+                            onCompleted()
+                        },
+                        {
+                            isError = true
+                            errorText = it.message.toString()
+                        }
+                    );
             }
 
         }

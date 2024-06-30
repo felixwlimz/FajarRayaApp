@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -22,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.fajarraya.app.R
@@ -31,6 +34,7 @@ import com.fajarraya.app.MainActivity
 import com.fajarraya.app.components.buttons.PrimaryButton
 import com.fajarraya.app.components.forms.TextandInput
 import com.fajarraya.app.components.navigation.AuthScreen
+import com.fajarraya.app.components.navigation.Screen
 import com.fajarraya.app.constants.WidgetConstants
 import com.fajarraya.app.models.UserType
 import com.fajarraya.app.ui.theme.PrimaryBlue
@@ -77,27 +81,23 @@ fun RegisterPage(
             text = stringResource(id = R.string.register),
             textAlign = TextAlign.Center,
             fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_BOLD),
-            fontSize = WidgetConstants.XL_FONT_SIZE.sp
+            fontSize = WidgetConstants.XL_FONT_SIZE.sp,
         )
-        Spacer(modifier = Modifier.padding(15.dp))
 
+        Spacer(modifier = Modifier.padding(5.dp))
         TextandInput(textInputTitle = stringResource(id = R.string.placeholder_name),
             fieldValue = name,
             placeholderText = stringResource(id = R.string.placeholder_name),
             onValueChange = registerViewModel::setName,
-            errorText = errorText
         )
-
-        Spacer(modifier = Modifier.padding(15.dp))
-
-        TextandInput(textInputTitle = stringResource(id = R.string.placeholder_name),
+        Spacer(modifier = Modifier.padding(5.dp))
+        TextandInput(textInputTitle = stringResource(id = R.string.placeholder_username),
             fieldValue = username,
-            placeholderText = stringResource(id = R.string.placeholder_name),
+            placeholderText = stringResource(id = R.string.placeholder_username),
             onValueChange = registerViewModel::setUsername,
-            errorText = errorText
         )
 
-        Spacer(modifier = Modifier.padding(15.dp))
+        Spacer(modifier = Modifier.padding(5.dp))
 
 
         TextandInput(textInputTitle = stringResource(id = R.string.placeholder_email),
@@ -106,14 +106,16 @@ fun RegisterPage(
             onValueChange = registerViewModel::setEmail,
         )
 
-        Spacer(modifier = Modifier.padding(15.dp))
-
-
+        Spacer(modifier = Modifier.padding(5.dp))
 
         TextandInput(textInputTitle = stringResource(id = R.string.placeholder_password),
             fieldValue = password,
             placeholderText = stringResource(id = R.string.placeholder_password),
-            onValueChange = registerViewModel::setPassword
+            onValueChange = registerViewModel::setPassword,
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Send
+            )
         )
 
         Box(contentAlignment = Alignment.CenterEnd,  modifier = Modifier
@@ -135,12 +137,12 @@ fun RegisterPage(
                 .fillMaxWidth()
                 .height(50.dp),
             onClick = {
-                registerViewModel.validateRegister(name, username, email, password, UserType.ADMIN)
-                if(!isError){
-                    context.startActivity(Intent(context, MainActivity::class.java))
-                    (context as Activity).finish()
+                registerViewModel.validateRegister(name, username, email, password, UserType.ADMIN){
+                    navHostController.navigate(Screen.Login.route)
                 }
             }, buttonText = stringResource(id = R.string.register) )
+
+        Text(errorText)
 
     }
 }
