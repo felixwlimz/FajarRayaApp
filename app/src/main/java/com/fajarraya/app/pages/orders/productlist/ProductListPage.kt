@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.fajarraya.app.components.cards.ProductCard
+import com.fajarraya.app.components.navigation.Screen
 import com.fajarraya.app.constants.WidgetConstants
 import org.koin.androidx.compose.koinViewModel
 
@@ -58,7 +59,11 @@ fun ProductListPage(
                             navHostController.popBackStack()
                         }
                     },
-                    onEditClick = {},
+                    onEditClick = {
+                        navHostController.navigate(
+                            Screen.Orders.EditProduct.route +"/${it.kodeBarang}"
+                        )
+                    },
                 )
             }
         }

@@ -28,6 +28,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalConfiguration
@@ -35,6 +36,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.fajarraya.app.constants.WidgetConstants
 
 
@@ -85,15 +87,25 @@ fun TextandImageInput(
                     )
                 }
             }else{
-                val inputStream = ctx.contentResolver.openInputStream(item)
-                val bitmap = BitmapFactory.decodeStream(inputStream)
-                Image(
-                    bitmap = bitmap.asImageBitmap(),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(100.dp)
-                        .align(Alignment.CenterVertically)
-                )
+                if(item.toString().startsWith("http")){
+                    AsyncImage(
+                        model = item, contentDescription = "product-image",
+                        modifier = Modifier
+                            .width(100.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                }else{
+                    val inputStream = ctx.contentResolver.openInputStream(item)
+                    val bitmap = BitmapFactory.decodeStream(inputStream)
+                    Image(
+                        bitmap = bitmap.asImageBitmap(),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(100.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                }
+
             }
 
 

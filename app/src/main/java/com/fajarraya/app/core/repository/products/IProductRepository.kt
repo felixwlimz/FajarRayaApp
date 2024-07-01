@@ -15,5 +15,7 @@ interface IProductRepository {
 
     fun deleteProduct(products: Products) : Completable
 
+    fun updateProduct(products: Products): Completable
+
 
 }

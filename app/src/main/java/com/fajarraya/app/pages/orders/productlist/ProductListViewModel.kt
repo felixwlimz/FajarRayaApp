@@ -1,5 +1,8 @@
 package com.fajarraya.app.pages.orders.productlist
 
+import android.net.Uri
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.toLiveData
@@ -10,21 +13,15 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class ProductListViewModel(val productUseCase: ProductUseCase) : ViewModel() {
 
-    val productList : LiveData<List<Products>> = productUseCase.getAllProducts().toLiveData()
+    val productList: LiveData<List<Products>> = productUseCase.getAllProducts().toLiveData()
 
-
-    fun deleteProduct(products: Products,onComplete: () -> Unit){
-        productUseCase.deleteProduct(products)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    onComplete()
-                },
-                {
-                    it.printStackTrace()
-                }
-            )
+    fun deleteProduct(products: Products, onComplete: () -> Unit) {
+        productUseCase.deleteProduct(products).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                onComplete()
+            }, {
+                it.printStackTrace()
+            })
     }
 
 

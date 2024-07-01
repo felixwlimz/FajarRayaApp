@@ -71,9 +71,22 @@ class ProductRepository(
     }
 
     override fun getProduct(kodeBarang: String): Flowable<Products> {
-        return productDataSource.getProduct(kodeBarang).map {
-            mapperDomain.mapFrom(it)
-        }
+        return Flowable.create({ emitter ->
+            firebaseFirestore
+                .collection("products")
+                .whereEqualTo("kodeBarang", kodeBarang)
+                .get()
+                .addOnSuccessListener {
+                    if (!it.isEmpty) {
+                        emitter.onNext(it.documents[0].toFirebaseProduct().mapToProduct())
+                    } else {
+                        emitter.onError(Exception("Error Querying Document"))
+                    }
+                }
+                .addOnFailureListener {
+                    emitter.onError(Exception(it))
+                }
+        }, BackpressureStrategy.LATEST)
     }
 
     override fun insertProduct(products: Products): Completable {
@@ -118,6 +131,32 @@ class ProductRepository(
                                 }
                         }
                         emitter.onComplete()
+                    } else {
+                        emitter.onError(Exception("Error Querying Document"))
+                    }
+                }
+                .addOnFailureListener {
+                    emitter.onError(Exception(it))
+                }
+        }
+    }
+
+    override fun updateProduct(products: Products): Completable {
+        return Completable.create { emitter ->
+            firebaseFirestore
+                .collection("products")
+                .whereEqualTo("kodeBarang", products.kodeBarang)
+                .get()
+                .addOnSuccessListener {
+                    if (!it.isEmpty) {
+                        val firebaseProducts = products.mapProductToFirebaseProduct()
+                        it.documents[0].reference.set(firebaseProducts)
+                            .addOnSuccessListener {
+                                emitter.onComplete()
+                            }
+                            .addOnFailureListener {
+                                emitter.onError(Exception(it))
+                            }
                     } else {
                         emitter.onError(Exception("Error Querying Document"))
                     }

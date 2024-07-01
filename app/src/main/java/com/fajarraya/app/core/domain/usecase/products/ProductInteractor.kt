@@ -23,5 +23,9 @@ class ProductInteractor(private val productRepository: IProductRepository) : Pro
         return productRepository.deleteProduct(products)
     }
 
+    override fun updateProduct(products: Products): Completable {
+        return productRepository.updateProduct(products)
+    }
+
 
 }

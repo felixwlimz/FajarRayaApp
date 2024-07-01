@@ -1,8 +1,6 @@
 package com.fajarraya.app.pages.orders.addproduct
 
 import android.app.Activity
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -16,6 +14,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,14 +35,63 @@ import com.fajarraya.app.core.domain.model.Products
 import com.fajarraya.app.utils.DummyData
 import com.github.dhaval2404.imagepicker.ImagePicker
 import org.koin.androidx.compose.koinViewModel
-import java.io.ByteArrayOutputStream
 
 @Composable
 fun AddProductPage(
     modifier: Modifier = Modifier,
     addProductViewModel: AddProductViewModel = koinViewModel(),
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    kodeProduk: String? = null,
 ) {
+    val uploadedImage by remember {
+        derivedStateOf { addProductViewModel.uploadedImage }
+    }
+
+    val productName by remember {
+        derivedStateOf { addProductViewModel.productName }
+    }
+
+    val description by remember {
+        derivedStateOf { addProductViewModel.description }
+    }
+
+    val price by remember {
+        derivedStateOf { addProductViewModel.price }
+    }
+
+    val productCategory by remember {
+        derivedStateOf { addProductViewModel.productCategory }
+    }
+
+    val productDropdownExpanded by remember {
+        derivedStateOf { addProductViewModel.productDropdownExpanded }
+    }
+
+    val supplier by remember {
+        derivedStateOf { addProductViewModel.supplier }
+    }
+
+    val stock by remember {
+        derivedStateOf { addProductViewModel.stock }
+    }
+
+    val supplierDropdownExpanded by remember {
+        derivedStateOf { addProductViewModel.supplierDropdownExpanded }
+    }
+
+    val kodebarang by remember {
+        derivedStateOf { addProductViewModel.kodebarang }
+    }
+
+    val satuan by remember {
+        derivedStateOf { addProductViewModel.satuan }
+    }
+
+    LaunchedEffect(key1 = kodeProduk) {
+        if (kodeProduk != null) {
+            addProductViewModel.loadProductData(kodeProduk)
+        }
+    }
 
     Column(
         modifier = modifier
@@ -53,9 +102,6 @@ fun AddProductPage(
     ) {
         val context = LocalContext.current
 
-        var uploadedImage by remember {
-            mutableStateOf<Uri>(Uri.EMPTY)
-        }
 
         val imagePicker =
             rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -63,47 +109,13 @@ fun AddProductPage(
                 val data = result.data
                 if (resultCode == Activity.RESULT_OK) {
                     val fileUri = data?.data!!
-                    uploadedImage = fileUri
+                    addProductViewModel.uploadedImage = fileUri
                 } else if (resultCode == ImagePicker.RESULT_ERROR) {
                     Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
                 }
             }
-
-        var productName by remember {
-            mutableStateOf("")
-        }
-
-        var description by remember {
-            mutableStateOf("")
-        }
-        var price by remember {
-            mutableStateOf("")
-        }
-
-        var productCategory by remember {
-            mutableStateOf("")
-        }
-        var productDropdownExpanded by remember {
-            mutableStateOf(false)
-        }
-        var supplier by remember {
-            mutableStateOf("")
-        }
-        var stock by remember {
-            mutableStateOf("")
-        }
-        var supplierDropdownExpanded by remember {
-            mutableStateOf(false)
-        }
-        var kodebarang by remember {
-            mutableStateOf("")
-        }
-        var satuan by remember {
-            mutableStateOf("")
-        }
-
 
         TextandImageInput(
             textInputTitle = "Add Product Photo",
@@ -122,7 +134,7 @@ fun AddProductPage(
             textInputTitle = "Product Name",
             fieldValue = productName,
             onValueChange = {
-                productName = it
+                addProductViewModel.productName = it
             },
             placeholderText = "Enter Product Name"
         )
@@ -130,7 +142,7 @@ fun AddProductPage(
             textInputTitle = "Product Description",
             fieldValue = description,
             onValueChange = {
-                description = it
+                addProductViewModel.description = it
             },
             placeholderText = "Enter Product Description"
         )
@@ -139,13 +151,13 @@ fun AddProductPage(
             textInputTitle = "Product Category",
             dropdownContent = DummyData.categories,
             onExpandedChange = { state ->
-                productDropdownExpanded = state
+                addProductViewModel.productDropdownExpanded = state
             },
             displaySelectedItem = productCategory,
             isExpanded = productDropdownExpanded,
             onClick = {
-                productCategory = it
-                productDropdownExpanded = false
+                addProductViewModel.productCategory = it
+                addProductViewModel.productDropdownExpanded = false
             }
         )
 
@@ -153,13 +165,13 @@ fun AddProductPage(
             textInputTitle = "Supplier",
             dropdownContent = DummyData.suppliers,
             onExpandedChange = { state ->
-                supplierDropdownExpanded = state
+                addProductViewModel.supplierDropdownExpanded = state
             },
             displaySelectedItem = supplier,
             isExpanded = supplierDropdownExpanded,
             onClick = {
-                supplier = it.supplierId
-                supplierDropdownExpanded = false
+                addProductViewModel.supplier = it.supplierId
+                addProductViewModel.supplierDropdownExpanded = false
             }
         )
 //            isExpanded = dropdownExpanded,
@@ -172,7 +184,7 @@ fun AddProductPage(
             textInputTitle = "Price",
             fieldValue = price,
             onValueChange = {
-                price = it
+                addProductViewModel.price = it
             },
             placeholderText = "Price",
             keyboardOptions = KeyboardOptions(
@@ -185,7 +197,7 @@ fun AddProductPage(
             textInputTitle = "Satuan",
             fieldValue = satuan,
             onValueChange = {
-                satuan = it
+                addProductViewModel.satuan = it
             },
             placeholderText = "Enter Product Satuan"
         )
@@ -194,7 +206,9 @@ fun AddProductPage(
             textInputTitle = "Kode Barang",
             fieldValue = kodebarang,
             onValueChange = {
-                kodebarang = it
+                if(kodeProduk == null){
+                    addProductViewModel.kodebarang = it
+                }
             },
             placeholderText = "Enter Product Code"
         )
@@ -204,7 +218,7 @@ fun AddProductPage(
             textInputTitle = "Stock",
             fieldValue = stock,
             onValueChange = {
-                stock = it
+                addProductViewModel.stock = it
             },
             placeholderText = "Stock",
             keyboardOptions = KeyboardOptions(
@@ -214,21 +228,40 @@ fun AddProductPage(
         )
 
         PrimaryButton(onClick = {
-            addProductViewModel.insertProducts(
-                Products(
-                    kodebarang,
-                    productName,
-                    stock.toInt(),
-                    satuan,
-                    productCategory,
-                    uploadedImage.toString(),
-                    description,
-                    supplier,
-                    price.toLong()
-                )
-            ){
-                navHostController.popBackStack();
+            if(kodeProduk!=null){
+                addProductViewModel.editProducts(
+                    Products(
+                        kodebarang,
+                        productName,
+                        stock.toInt(),
+                        satuan,
+                        productCategory,
+                        uploadedImage.toString(),
+                        description,
+                        supplier,
+                        price.toLong()
+                    )
+                ) {
+                    navHostController.popBackStack();
+                }
+            }else{
+                addProductViewModel.insertProducts(
+                    Products(
+                        kodebarang,
+                        productName,
+                        stock.toInt(),
+                        satuan,
+                        productCategory,
+                        uploadedImage.toString(),
+                        description,
+                        supplier,
+                        price.toLong()
+                    )
+                ) {
+                    navHostController.popBackStack();
+                }
             }
+
         }, buttonText = stringResource(id = R.string.save))
 
 

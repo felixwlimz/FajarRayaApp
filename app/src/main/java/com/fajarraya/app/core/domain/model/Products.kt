@@ -26,5 +26,20 @@ data class Products(
         )
     }
 
+    fun mapProductToFirebaseProduct(): FirebaseProducts {
+        return FirebaseProducts(
+            kodeBarang = this.kodeBarang,
+            namaBarang = this.namaBarang,
+            stok = this.stok,
+            satuan = this.satuan,
+            kategoriProduk = this.kategoriProduk,
+            gambarProduk = this.gambarProduk,
+            deskripsiProduk = this.deskripsiProduk,
+            supplierId = this.supplierId,
+            hargaProduk = this.hargaProduk
+        )
+    }
+
+
 }
 
