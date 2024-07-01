@@ -53,7 +53,30 @@ class SupplierRepository(
     }
 
     override fun deleteSupplier(supplier: Suppliers): Completable {
-        return supplierDataSource.deleteSupplier(mapperToEntity.mapFrom(supplier))
+        return Completable.create { emitter ->
+            firebaseFirestore
+                .collection("suppliers")
+                .whereEqualTo("supplierId", supplier.supplierId)
+                .get()
+                .addOnSuccessListener {
+                    if (!it.isEmpty) {
+                        println(it.documents)
+                        for (document in it.documents) {
+                            firebaseFirestore.collection("suppliers").document(document.id)
+                                .delete()
+                                .addOnFailureListener { e ->
+                                    emitter.onError(Exception("Error Deleting"))
+                                }
+                        }
+                        emitter.onComplete()
+                    } else {
+                        emitter.onError(Exception("Error Querying Document"))
+                    }
+                }
+                .addOnFailureListener {
+                    emitter.onError(Exception(it))
+                }
+        }
     }
 
     override fun getSupplier(supplierId: String): Flowable<Suppliers> {

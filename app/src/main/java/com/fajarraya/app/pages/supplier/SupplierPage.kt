@@ -11,7 +11,11 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -25,9 +29,13 @@ import org.koin.androidx.compose.koinViewModel
 fun SupplierPage(
     modifier: Modifier = Modifier, supplierViewModel: SupplierViewModel = koinViewModel()
 ) {
+    val suppliers by remember{
+        derivedStateOf { supplierViewModel.supplierList  }
+    }
 
-    val suppliers = supplierViewModel.supplierList.observeAsState()
-
+    LaunchedEffect(key1 = Unit) {
+        supplierViewModel.updateSupplier()
+    }
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
@@ -50,14 +58,18 @@ fun SupplierPage(
             )
         }
 
-        if (suppliers.value != null) {
-            items(suppliers.value!!) {
+        if (suppliers != null) {
+            items(suppliers!!) {
                 SupplierCard(
                     supplierName = it.supplierName,
                     supplierAddress = it.supplierAddress,
                     phone = it.phoneNumber,
                     city = it.city,
-                    province = it.province
+                    province = it.province,
+                    onLongPress={
+                        println(it.supplierId)
+                        supplierViewModel.deleteSupplier(it)
+                    }
                 )
 
             }
