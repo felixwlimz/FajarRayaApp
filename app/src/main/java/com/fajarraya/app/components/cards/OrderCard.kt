@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -37,7 +38,9 @@ fun OrderCard(
     modifier: Modifier = Modifier,
     text: String,
     imageUrl: String,
-    onButtonClick: () -> Unit,
+    onAddClick: () -> Unit,
+    onRemoveClick:()->Unit,
+    quantity:Int=0,
     hargaproduk: Long
 ) {
 
@@ -84,7 +87,13 @@ fun OrderCard(
                 )
             }
 
-            IconButton(onClick = onButtonClick) {
+            IconButton(onClick = onRemoveClick) {
+                Icon(Icons.Default.Remove, contentDescription = "remove-button")
+            }
+            Text(
+               text = quantity.toString(),
+            )
+            IconButton(onClick = onAddClick) {
                 Icon(Icons.Default.Add, contentDescription = "add-button")
             }
 

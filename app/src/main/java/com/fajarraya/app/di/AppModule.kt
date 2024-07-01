@@ -36,7 +36,7 @@ val viewModelModule = module {
     }
 
     viewModel{
-        OrderViewModel(get(),)
+        OrderViewModel(get(),get())
     }
     viewModel{
         AddProductViewModel(get(),get())
