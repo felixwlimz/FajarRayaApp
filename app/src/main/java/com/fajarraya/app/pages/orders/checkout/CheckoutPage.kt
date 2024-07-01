@@ -168,7 +168,7 @@ fun CheckoutPage(
         Spacer(modifier = Modifier.height(10.dp))
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 10.dp)
