@@ -9,13 +9,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,8 +30,7 @@ fun ProductCard(
     modifier: Modifier = Modifier,
     productName: String,
     imageUrl: String,
-    onDeleteClick: () -> Unit,
-    onEditClick: () -> Unit
+    buttonContent : @Composable () -> Unit = {}
 ){
     Card(modifier = modifier
         .fillMaxWidth()
@@ -61,15 +55,9 @@ fun ProductCard(
                 textAlign = TextAlign.Center
             )
 
-            Row(horizontalArrangement = Arrangement.spacedBy(5.dp), verticalAlignment = Alignment.CenterVertically){
-                IconButton(onClick = onEditClick) {
-                    Icon(Icons.Default.Edit, contentDescription = "add-button" )
-                }
-                IconButton(onClick = onDeleteClick) {
-                    Icon(Icons.Default.Delete, contentDescription = "add-button" )
-                }
+            buttonContent()
 
-            }
+
 
         }
     }

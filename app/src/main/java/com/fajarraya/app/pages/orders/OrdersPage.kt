@@ -15,13 +15,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.fajarraya.app.components.cards.OrderCard
+import com.fajarraya.app.components.navigation.Screen
 import com.fajarraya.app.constants.WidgetConstants
 import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun OrdersPage(modifier: Modifier = Modifier, orderViewModel: OrderViewModel = koinViewModel()){
+fun OrdersPage(modifier: Modifier = Modifier, orderViewModel: OrderViewModel = koinViewModel(), navHostController: NavHostController){
 
 
     val products = orderViewModel.productList.observeAsState()
@@ -44,7 +46,10 @@ fun OrdersPage(modifier: Modifier = Modifier, orderViewModel: OrderViewModel = k
 
             if(products.value != null){
                 items(products.value!!){
-                    OrderCard(text = it.namaBarang, imageUrl=it.gambarProduk, onButtonClick = {})
+                    OrderCard(text = it.namaBarang, imageUrl=it.gambarProduk, onButtonClick = {
+                        navHostController.navigate("${Screen.Orders.CheckoutPage.route}/{kodeproduk}")
+
+                    })
                 }
             }
 

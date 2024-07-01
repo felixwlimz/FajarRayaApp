@@ -40,6 +40,8 @@ object MainComponent {
                 !showBottomBar
             }
 
+
+
             else -> {
                 showBottomBar
 

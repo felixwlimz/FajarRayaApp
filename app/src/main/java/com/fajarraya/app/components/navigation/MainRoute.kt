@@ -13,6 +13,7 @@ import com.fajarraya.app.pages.auth.register.RegisterPage
 import com.fajarraya.app.pages.home.HomePage
 import com.fajarraya.app.pages.orders.OrdersPage
 import com.fajarraya.app.pages.orders.addproduct.AddProductPage
+import com.fajarraya.app.pages.orders.checkout.CheckoutPage
 import com.fajarraya.app.pages.orders.productlist.ProductListPage
 import com.fajarraya.app.pages.profile.ProfilePage
 import com.fajarraya.app.pages.profile.account.AccountPage
@@ -34,7 +35,7 @@ fun MainRoute(modifier: Modifier = Modifier, navController: NavHostController) {
 
         navigation(route = Screen.Orders.OrderPage.route, startDestination = Screen.Orders.route) {
             composable(Screen.Orders.route) {
-                OrdersPage()
+                OrdersPage(navHostController = navController)
             }
 
             composable(Screen.Orders.AddProduct.route) {
@@ -43,7 +44,7 @@ fun MainRoute(modifier: Modifier = Modifier, navController: NavHostController) {
                     kodeProduk = it.arguments?.getString("kodeproduk")
                 )
             }
-            composable(Screen.Orders.EditProduct.route+"/{kodeproduk}",
+            composable("${Screen.Orders.EditProduct.route}/{kodeproduk}",
                 arguments = listOf(navArgument("kodeproduk") {
                     type = NavType.StringType
                 })
@@ -55,6 +56,15 @@ fun MainRoute(modifier: Modifier = Modifier, navController: NavHostController) {
             }
             composable(Screen.Orders.ProductList.route) {
                 ProductListPage(navHostController = navController)
+            }
+
+            composable("${Screen.Orders.CheckoutPage.route}/{kodeproduk}", arguments = listOf(
+                navArgument("kodeproduk"){
+                    type = NavType.StringType
+                },
+
+            )){
+                CheckoutPage(productId = it.arguments?.getString("kodeproduk"))
             }
         }
 

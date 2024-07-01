@@ -228,7 +228,7 @@ fun AddProductPage(
         )
 
         PrimaryButton(onClick = {
-            if(kodeProduk!=null){
+            if(kodeProduk != null){
                 addProductViewModel.editProducts(
                     Products(
                         kodebarang,
