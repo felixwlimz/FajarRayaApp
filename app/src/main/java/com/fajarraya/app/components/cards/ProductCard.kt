@@ -52,7 +52,9 @@ fun ProductCard(
                 text = productName,
                 fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_SEMI),
                 fontSize = WidgetConstants.SUBHEADER_FONT_SIZE.sp,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .weight(1f)
             )
 
             buttonContent()

@@ -21,7 +21,6 @@ import com.fajarraya.app.pages.supplier.SupplierViewModel
 import com.fajarraya.app.pages.supplier.addeditsupplier.AddEditSupplierViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import java.util.function.Supplier
 
 val useCaseModule = module {
     factory<ProductUseCase>{ ProductInteractor(get()) }
@@ -36,10 +35,10 @@ val viewModelModule = module {
     }
 
     viewModel{
-        OrderViewModel(get())
+        OrderViewModel(get(),)
     }
     viewModel{
-        AddProductViewModel(get())
+        AddProductViewModel(get(),get())
     }
 
     viewModel {

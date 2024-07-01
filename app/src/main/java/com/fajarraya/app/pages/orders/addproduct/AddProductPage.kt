@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -43,6 +44,8 @@ fun AddProductPage(
     navHostController: NavHostController,
     kodeProduk: String? = null,
 ) {
+    val suppliers =  addProductViewModel.supplierList.observeAsState()
+
     val uploadedImage by remember {
         derivedStateOf { addProductViewModel.uploadedImage }
     }
@@ -163,7 +166,7 @@ fun AddProductPage(
 
         TextandDropdown(
             textInputTitle = "Supplier",
-            dropdownContent = DummyData.suppliers,
+            dropdownContent = if(suppliers.value == null) emptyList() else suppliers.value!!,
             onExpandedChange = { state ->
                 addProductViewModel.supplierDropdownExpanded = state
             },

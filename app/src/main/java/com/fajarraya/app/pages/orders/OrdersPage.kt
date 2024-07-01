@@ -46,9 +46,8 @@ fun OrdersPage(modifier: Modifier = Modifier, orderViewModel: OrderViewModel = k
 
             if(products.value != null){
                 items(products.value!!){
-                    OrderCard(text = it.namaBarang, imageUrl=it.gambarProduk, onButtonClick = {
+                    OrderCard(text = it.namaBarang, imageUrl=it.gambarProduk, hargaproduk=it.hargaProduk,onButtonClick = {
                         navHostController.navigate("${Screen.Orders.CheckoutPage.route}/{kodeproduk}")
-
                     })
                 }
             }

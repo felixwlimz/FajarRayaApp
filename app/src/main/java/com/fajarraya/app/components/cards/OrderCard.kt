@@ -2,6 +2,7 @@ package com.fajarraya.app.components.cards
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,18 +24,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.fajarraya.app.constants.WidgetConstants
 import com.fajarraya.app.ui.theme.PrimaryBlue
+import com.fajarraya.app.utils.Extensions
 
 @Composable
 fun OrderCard(
     modifier: Modifier = Modifier,
     text: String,
     imageUrl: String,
-    onButtonClick: () -> Unit
+    onButtonClick: () -> Unit,
+    hargaproduk: Long
 ) {
 
     Card(
@@ -61,12 +65,24 @@ fun OrderCard(
                     .width(70.dp),
             )
 
-            Text(
-                text = text,
-                fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_SEMI),
-                fontSize = WidgetConstants.SUBHEADER_FONT_SIZE.sp,
-                textAlign = TextAlign.Center
-            )
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+            ){
+                Text(
+                    text = text,
+                    fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_SEMI),
+                    fontSize = WidgetConstants.SUBHEADER_FONT_SIZE.sp,
+                    textAlign = TextAlign.Center,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                Text(
+                    text = Extensions.toRupiah(hargaproduk),
+                    fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_SEMI),
+                    fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
+                    textAlign = TextAlign.Center
+                )
+            }
 
             IconButton(onClick = onButtonClick) {
                 Icon(Icons.Default.Add, contentDescription = "add-button")

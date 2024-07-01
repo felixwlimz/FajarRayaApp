@@ -4,19 +4,25 @@ import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.toLiveData
 import com.fajarraya.app.core.domain.model.Products
+import com.fajarraya.app.core.domain.model.Suppliers
 import com.fajarraya.app.core.domain.usecase.products.ProductUseCase
+import com.fajarraya.app.core.domain.usecase.supplier.SupplierUseCase
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.launch
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 
 
-class AddProductViewModel(private val productUseCase: ProductUseCase) : ViewModel() {
+class AddProductViewModel(
+    private val productUseCase: ProductUseCase,
+    supplierUseCase: SupplierUseCase
+) : ViewModel() {
+    val supplierList: LiveData<List<Suppliers>> = supplierUseCase.getAllSuppliers().toLiveData()
 
     var uploadedImage by
-        mutableStateOf<Uri>(Uri.EMPTY)
+    mutableStateOf<Uri>(Uri.EMPTY)
 
     var productName by mutableStateOf("")
 
@@ -38,7 +44,7 @@ class AddProductViewModel(private val productUseCase: ProductUseCase) : ViewMode
 
     var satuan by mutableStateOf("")
 
-    fun loadProductData(kodeProduk:String){
+    fun loadProductData(kodeProduk: String) {
         productUseCase.getProduct(kodeProduk)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -60,7 +66,7 @@ class AddProductViewModel(private val productUseCase: ProductUseCase) : ViewMode
             )
     }
 
-    fun insertProducts(products: Products, onComplete:()->Unit) {
+    fun insertProducts(products: Products, onComplete: () -> Unit) {
         productUseCase.insertProduct(products)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -74,7 +80,7 @@ class AddProductViewModel(private val productUseCase: ProductUseCase) : ViewMode
             )
     }
 
-    fun editProducts(products: Products, onComplete:()->Unit) {
+    fun editProducts(products: Products, onComplete: () -> Unit) {
         productUseCase.updateProduct(products)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

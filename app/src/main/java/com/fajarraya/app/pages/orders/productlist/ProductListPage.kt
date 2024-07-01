@@ -61,17 +61,24 @@ fun ProductListPage(
                 ProductCard(
                     productName = it.namaBarang,
                     imageUrl = it.gambarProduk,
-                ){
-                    Row(horizontalArrangement = Arrangement.spacedBy(5.dp), verticalAlignment = Alignment.CenterVertically){
-                        IconButton(onClick = { productListViewModel.deleteProduct(it){
-                            navHostController.popBackStack()
-                        } }) {
-                            Icon(Icons.Default.Edit, contentDescription = "add-button" )
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(5.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconButton(onClick = {
+                            navHostController.navigate(
+                                Screen.Orders.EditProduct.route + "/${it.kodeBarang}"
+                            )
+                        }) {
+                            Icon(Icons.Default.Edit, contentDescription = "add-button")
                         }
-                        IconButton(onClick = { navHostController.navigate(
-                            Screen.Orders.EditProduct.route +"/${it.kodeBarang}"
-                        ) }) {
-                            Icon(Icons.Default.Delete, contentDescription = "add-button" )
+                        IconButton(onClick = {
+                            productListViewModel.deleteProduct(it) {
+                                navHostController.popBackStack()
+                            }
+                        }) {
+                            Icon(Icons.Default.Delete, contentDescription = "delete-button")
                         }
 
                     }

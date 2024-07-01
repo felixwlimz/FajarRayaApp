@@ -1,13 +1,12 @@
 package com.fajarraya.app.pages.orders.productlist
 
-import android.net.Uri
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.toLiveData
 import com.fajarraya.app.core.domain.model.Products
+import com.fajarraya.app.core.domain.model.Suppliers
 import com.fajarraya.app.core.domain.usecase.products.ProductUseCase
+import com.fajarraya.app.core.domain.usecase.supplier.SupplierUseCase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
