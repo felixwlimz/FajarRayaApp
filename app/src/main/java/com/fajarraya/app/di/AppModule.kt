@@ -20,6 +20,7 @@ import com.fajarraya.app.pages.profile.detail.ProfileDetailViewModel
 import com.fajarraya.app.pages.splash.SplashViewModel
 import com.fajarraya.app.pages.supplier.SupplierViewModel
 import com.fajarraya.app.pages.supplier.addeditsupplier.AddEditSupplierViewModel
+import com.fajarraya.app.pages.transactions.TransactionsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -66,7 +67,7 @@ val viewModelModule = module {
     }
 
     viewModel {
-        CheckoutViewModel(get(),get(),)
+        CheckoutViewModel(get(),get(),get())
     }
 
     viewModel{
@@ -75,5 +76,9 @@ val viewModelModule = module {
 
     viewModel{
         HomeViewModel(get())
+    }
+
+    viewModel{
+        TransactionsViewModel(get(),get(),)
     }
 }

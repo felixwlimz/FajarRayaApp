@@ -25,62 +25,81 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.fajarraya.app.R
 import com.fajarraya.app.components.buttons.PrimaryButton
 import com.fajarraya.app.constants.WidgetConstants
+import com.fajarraya.app.core.domain.model.Transactions
 import com.fajarraya.app.ui.theme.PrimaryBlue
+import com.fajarraya.app.utils.Extensions
 
 @Composable
 fun TransactionCard(
     modifier : Modifier = Modifier,
-    title : String,
-    quantityDesc : String,
-    isCompleted : Boolean
+    transaction: com.fajarraya.app.models.Transactions,
 ){
     Card(
         modifier = modifier
-            .fillMaxWidth()
-            .height(120.dp),
+            .fillMaxWidth(),
+
         border = BorderStroke(1.dp, PrimaryBlue),
         colors = CardDefaults.cardColors(contentColor = Color.Black, containerColor = Color.White)
     ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(10.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_launcher_background),
-                contentDescription = "product-image",
-                modifier = Modifier
-                    .clip(RoundedCornerShape(70.dp))
-                    .height(70.dp)
-                    .width(70.dp),
-            )
 
-            Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
-                Text(
-                    text = title,
-                    fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_SEMI),
-                    fontSize = WidgetConstants.SUBHEADER_FONT_SIZE.sp,
-                    textAlign = TextAlign.Center
-                )
+        Row (
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ){
 
-                Text(
-                    text = quantityDesc,
-                    fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
-                    textAlign = TextAlign.Center
-                )
+            Column(
+                modifier=Modifier
+                    .weight(1f)
+            ){
+                transaction.items.forEach{
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(10.dp)
+                    ) {
+
+                        AsyncImage(
+                            model = it.gambar, contentDescription = "product-image",
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(70.dp))
+                                .height(70.dp)
+                                .width(70.dp),
+                        )
+
+                        Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                            Text(
+                                text = it.nama,
+                                fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_SEMI),
+                                fontSize = WidgetConstants.SUBHEADER_FONT_SIZE.sp,
+                                textAlign = TextAlign.Center
+                            )
+
+                            Text(
+                                text = "${it.quantity} x ${Extensions.toRupiah(it.harga)}",
+                                fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
+
+
+
+
+                }
             }
 
             Column(verticalArrangement = Arrangement.spacedBy(5.dp), horizontalAlignment = Alignment.CenterHorizontally ) {
                 Text(
-                    text = if(isCompleted) stringResource(id = R.string.completed) else stringResource(
+                    text = if(transaction.status == "Completed") stringResource(id = R.string.completed) else stringResource(
                         id = R.string.in_progress
                     ),
-                    color = if (isCompleted) Color.Green else Color.Yellow,
+                    color = if(transaction.status == "Completed") Color.Green else Color.Yellow,
                     fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
                     textAlign = TextAlign.Center
                 )
@@ -94,5 +113,7 @@ fun TransactionCard(
             }
 
         }
+
+
     }
 }

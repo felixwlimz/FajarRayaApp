@@ -23,7 +23,7 @@ import com.fajarraya.app.constants.WidgetConstants
 fun StatsCard(
     modifier : Modifier = Modifier,
     icons : Int,
-    totalStats : Int,
+    totalStats : Long,
     statsText : String,
     cardColor : Color
 

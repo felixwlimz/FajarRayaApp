@@ -36,9 +36,15 @@ class OrderViewModel(
 
         if (existingItemIndex >= 0) {
             val existingItem = updatedCartItems[existingItemIndex]
+            if(existingItem.quantity + 1 > product.stok){
+                return@addProductToCart
+            }
             val updatedItem = existingItem.copy(quantity = existingItem.quantity + 1)
             updatedCartItems[existingItemIndex] = updatedItem
         } else {
+            if( 1 > product.stok){
+                return@addProductToCart
+            }
             updatedCartItems.add(
                 CartItem(
                     kodeBarang = product.kodeBarang,

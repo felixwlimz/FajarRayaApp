@@ -1,7 +1,5 @@
 package com.fajarraya.app.pages.orders.checkout
 
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,16 +25,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.fajarraya.app.components.cards.CheckoutCard
 import com.fajarraya.app.components.forms.TextAndRadioButton
+import com.fajarraya.app.components.navigation.Screen
 import com.fajarraya.app.constants.WidgetConstants
 import com.fajarraya.app.utils.Extensions
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun CheckoutPage(
     modifier: Modifier = Modifier,
-    checkoutViewModel: CheckoutViewModel = koinViewModel()
+    checkoutViewModel: CheckoutViewModel = koinViewModel(),
+    navHostController: NavHostController
 ) {
 
     val carts = checkoutViewModel.cartItems.observeAsState()
@@ -168,7 +171,17 @@ fun CheckoutPage(
         Spacer(modifier = Modifier.height(10.dp))
 
         Button(
-            onClick = { },
+            onClick = {
+                checkoutViewModel.addTransaction(totalPrice.value + (totalPrice.value * 10 / 100))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        navHostController.navigate(Screen.Transactions.route)
+                    },
+                        {
+                            it.printStackTrace()
+                        })
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 10.dp)

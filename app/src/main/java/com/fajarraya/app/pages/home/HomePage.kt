@@ -15,7 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.fajarraya.app.components.cards.StatsCard
@@ -45,8 +47,18 @@ fun HomePage(modifier: Modifier = Modifier, homeViewModel: HomeViewModel = koinV
         derivedStateOf { homeViewModel.outOfStock }
     }
 
+    val totalSales by remember {
+        derivedStateOf { homeViewModel.salesSize }
+    }
+
+    val revenue by remember {
+        derivedStateOf { homeViewModel.salesTotal }
+    }
+
+
     LaunchedEffect(Unit) {
         homeViewModel.listenProductUpdates();
+        homeViewModel.listenTransactionUpdates();
 
         modelProducer.tryRunTransaction { lineSeries { series(0, 5, 10, 15, 20) } }
     }
@@ -55,25 +67,25 @@ fun HomePage(modifier: Modifier = Modifier, homeViewModel: HomeViewModel = koinV
     val statsData = listOf(
         Stats(
             statsText = "Products",
-            total = jumlahProduk,
+            total = jumlahProduk.toLong(),
             icons = R.drawable.baseline_inbox_24,
             color = Blue600
         ),
         Stats(
             statsText = "Revenue",
-            total = 5500000,
+            total = revenue,
             icons = R.drawable.baseline_currency_exchange_24,
             color = Blue500
         ),
         Stats(
             statsText = "Total Sales",
-            total = 50,
+            total = totalSales.toLong(),
             icons = R.drawable.baseline_stacked_line_chart_24,
             color = PrimaryBlue
         ),
         Stats(
             statsText = "Out of Stock",
-            total = outOfStock,
+            total = outOfStock.toLong(),
             icons = R.drawable.baseline_inbox_24,
             color = SecondaryBlue
         )

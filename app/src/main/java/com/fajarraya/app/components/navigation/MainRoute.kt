@@ -60,7 +60,7 @@ fun MainRoute(modifier: Modifier = Modifier, navController: NavHostController) {
             }
 
             composable(Screen.Orders.CheckoutPage.route) {
-                CheckoutPage()
+                CheckoutPage(navHostController = navController)
             }
         }
 

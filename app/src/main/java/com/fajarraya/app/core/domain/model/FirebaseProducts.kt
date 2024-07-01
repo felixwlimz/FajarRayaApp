@@ -5,7 +5,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 data class FirebaseProducts(
     val kodeBarang: String = "",
     val namaBarang: String = "",
-    val stok: Int = 0,
+    var stok: Int = 0,
     val satuan: String = "",
     val kategoriProduk: String = "",
     var gambarProduk: String = "",
