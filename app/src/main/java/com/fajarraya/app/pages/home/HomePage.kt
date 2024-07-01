@@ -13,6 +13,8 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -26,45 +28,80 @@ import com.fajarraya.app.ui.theme.PrimaryBlue
 import com.fajarraya.app.ui.theme.SecondaryBlue
 import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
 import com.patrykandpatrick.vico.core.cartesian.data.lineSeries
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun HomePage(modifier : Modifier = Modifier){
-
-    val statsData = listOf(
-        Stats(statsText = "Products", total = 250, icons = R.drawable.baseline_inbox_24, color = Blue600),
-        Stats(statsText = "Revenue", total = 5500000, icons = R.drawable.baseline_currency_exchange_24, color = Blue500),
-        Stats(statsText = "Total Sales", total = 50, icons = R.drawable.baseline_stacked_line_chart_24, color = PrimaryBlue),
-        Stats(statsText = "Out of Stock", total = 10, icons = R.drawable.baseline_inbox_24, color = SecondaryBlue)
-    )
-
+fun HomePage(modifier: Modifier = Modifier, homeViewModel: HomeViewModel = koinViewModel()) {
     val modelProducer = remember {
         CartesianChartModelProducer.build()
     }
 
-    LaunchedEffect(Unit) {
-        modelProducer.tryRunTransaction { lineSeries { series(0,5,10,15,20) } }
+    val jumlahProduk by remember {
+        derivedStateOf { homeViewModel.productSize }
     }
 
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(10.dp)
-                .scrollable(rememberScrollState(), orientation = Orientation.Vertical),
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-        ) {
+    val outOfStock by remember {
+        derivedStateOf { homeViewModel.outOfStock }
+    }
 
-            LazyVerticalGrid(columns = GridCells.Fixed(2), modifier = Modifier.height(400.dp)) {
-                items(statsData){
-                        StatsCard(icons = it.icons, totalStats = it.total, statsText = it.statsText, cardColor = it.color)
-                }
+    LaunchedEffect(Unit) {
+        homeViewModel.listenProductUpdates();
+
+        modelProducer.tryRunTransaction { lineSeries { series(0, 5, 10, 15, 20) } }
+    }
+
+
+    val statsData = listOf(
+        Stats(
+            statsText = "Products",
+            total = jumlahProduk,
+            icons = R.drawable.baseline_inbox_24,
+            color = Blue600
+        ),
+        Stats(
+            statsText = "Revenue",
+            total = 5500000,
+            icons = R.drawable.baseline_currency_exchange_24,
+            color = Blue500
+        ),
+        Stats(
+            statsText = "Total Sales",
+            total = 50,
+            icons = R.drawable.baseline_stacked_line_chart_24,
+            color = PrimaryBlue
+        ),
+        Stats(
+            statsText = "Out of Stock",
+            total = outOfStock,
+            icons = R.drawable.baseline_inbox_24,
+            color = SecondaryBlue
+        )
+    )
+
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(10.dp)
+            .scrollable(rememberScrollState(), orientation = Orientation.Vertical),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+
+        LazyVerticalGrid(columns = GridCells.Fixed(2), modifier = Modifier.height(400.dp)) {
+            items(statsData) {
+                StatsCard(
+                    icons = it.icons,
+                    totalStats = it.total,
+                    statsText = it.statsText,
+                    cardColor = it.color
+                )
             }
+        }
 
-            Cartesian(
-                modelProducer = modelProducer
-            )
-
-
+        Cartesian(
+            modelProducer = modelProducer
+        )
 
 
     }

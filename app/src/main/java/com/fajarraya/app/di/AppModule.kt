@@ -10,6 +10,7 @@ import com.fajarraya.app.core.domain.usecase.supplier.SupplierInteractor
 import com.fajarraya.app.core.domain.usecase.supplier.SupplierUseCase
 import com.fajarraya.app.pages.auth.login.LoginViewModel
 import com.fajarraya.app.pages.auth.register.RegisterViewModel
+import com.fajarraya.app.pages.home.HomeViewModel
 import com.fajarraya.app.pages.orders.OrderViewModel
 import com.fajarraya.app.pages.orders.addproduct.AddProductViewModel
 import com.fajarraya.app.pages.orders.checkout.CheckoutViewModel
@@ -70,5 +71,9 @@ val viewModelModule = module {
 
     viewModel{
         SupplierViewModel(get())
+    }
+
+    viewModel{
+        HomeViewModel(get())
     }
 }
