@@ -44,7 +44,8 @@ fun MainRoute(modifier: Modifier = Modifier, navController: NavHostController) {
                     kodeProduk = it.arguments?.getString("kodeproduk")
                 )
             }
-            composable("${Screen.Orders.EditProduct.route}/{kodeproduk}",
+            composable(
+                "${Screen.Orders.EditProduct.route}/{kodeproduk}",
                 arguments = listOf(navArgument("kodeproduk") {
                     type = NavType.StringType
                 })
@@ -58,13 +59,8 @@ fun MainRoute(modifier: Modifier = Modifier, navController: NavHostController) {
                 ProductListPage(navHostController = navController)
             }
 
-            composable("${Screen.Orders.CheckoutPage.route}/{kodeproduk}", arguments = listOf(
-                navArgument("kodeproduk"){
-                    type = NavType.StringType
-                },
-
-            )){
-                CheckoutPage(productId = it.arguments?.getString("kodeproduk"))
+            composable(Screen.Orders.CheckoutPage.route) {
+                CheckoutPage()
             }
         }
 

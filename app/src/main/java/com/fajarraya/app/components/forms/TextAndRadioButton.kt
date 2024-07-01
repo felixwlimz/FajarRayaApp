@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -18,14 +20,18 @@ import com.fajarraya.app.constants.WidgetConstants
 @Composable
 fun TextAndRadioButton(
     modifier: Modifier = Modifier,
-    selectedOption : String,
-    isSelected : Boolean,
-    onSelect : () -> Unit
-){
+    selectedOption: String,
+    isSelected: Boolean,
+    onSelect: () -> Unit
+) {
 
     Row(
-        modifier = modifier.fillMaxWidth().height(100.dp).padding(10.dp),
-        horizontalArrangement = Arrangement.spacedBy(15.dp)
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 15.dp)
+        ,
+        horizontalArrangement = Arrangement.spacedBy(15.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
 
         RadioButton(selected = isSelected, onClick = onSelect)
@@ -35,6 +41,8 @@ fun TextAndRadioButton(
             fontSize = WidgetConstants.SUBHEADER_FONT_SIZE.sp
         )
     }
+
+    HorizontalDivider()
 
 
 }

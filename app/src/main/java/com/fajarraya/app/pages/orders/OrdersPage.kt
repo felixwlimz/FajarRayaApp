@@ -25,6 +25,8 @@ import com.fajarraya.app.components.cards.OrderCard
 import com.fajarraya.app.components.navigation.Screen
 import com.fajarraya.app.constants.WidgetConstants
 import com.fajarraya.app.utils.Extensions
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -108,7 +110,17 @@ fun OrdersPage(
                     .fillMaxWidth()
                     .padding(20.dp),
                 onClick = {
-
+                    orderViewModel.checkoutCart()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                            {
+                                navHostController.navigate(Screen.Orders.CheckoutPage.route)
+                            },
+                            {
+                                it.printStackTrace()
+                            }
+                        );
 //                navHostController.navigate(Screen.Checkout.route)
 
                 }
