@@ -95,7 +95,9 @@ fun MainRoute(modifier: Modifier = Modifier, navController: NavHostController) {
                 SupplierPage()
             }
             composable(Screen.Supplier.AddEdit.route) {
-                AddEditSupplierPage()
+                AddEditSupplierPage(
+                    navHostController = navController
+                )
             }
         }
 

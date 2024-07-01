@@ -10,15 +10,19 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class AddEditSupplierViewModel(private val supplierUseCase: SupplierUseCase) : ViewModel() {
 
 
-
-    fun addSupplier(suppliers: Suppliers) {
+    fun addSupplier(
+        suppliers: Suppliers,
+        onCompleted: () -> Unit,
+    ) {
         supplierUseCase.addSupplier(suppliers)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
+            .subscribe(
+                {
+                    onCompleted();
+                }
+            )
     }
-
-
 
 
 }

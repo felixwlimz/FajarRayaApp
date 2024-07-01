@@ -2,21 +2,50 @@ package com.fajarraya.app.core.repository.supplier
 
 import com.fajarraya.app.core.data.local.datasource.SupplierDataSource
 import com.fajarraya.app.core.data.local.entity.SupplierEntity
+import com.fajarraya.app.core.data.local.entity.toSupplierEntity
 import com.fajarraya.app.core.domain.model.Suppliers
+import com.fajarraya.app.core.domain.model.toFirebaseProduct
 import com.fajarraya.app.core.utils.DataMapper
+import com.google.firebase.firestore.FirebaseFirestore
+import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.schedulers.Schedulers
 
-class SupplierRepository(private val supplierDataSource: SupplierDataSource) : ISupplierRepository {
+class SupplierRepository(
+    private val firebaseFirestore: FirebaseFirestore,
+    private val supplierDataSource: SupplierDataSource
+) : ISupplierRepository {
 
     override fun getAllSuppliers(): Flowable<List<Suppliers>> {
-        return supplierDataSource.getAllSuppliers().map {
-            mapperToDomain.mapLists(it)
-        }
+        return Flowable.create({ emit ->
+            firebaseFirestore.collection("suppliers")
+                .get()
+                .addOnSuccessListener {
+                    val documents = it.documents.map { document ->
+                        document.toSupplierEntity()
+                    }.toList()
+                    val supplierList = mapperToDomain.mapLists(documents)
+                    emit.onNext(supplierList)
+                }
+                .addOnFailureListener {
+                    emit.onError(Exception(it))
+                }
+        }, BackpressureStrategy.LATEST)
     }
 
     override fun addSupplier(supplier: Suppliers): Completable {
-        return supplierDataSource.addSupplier(mapperToEntity.mapFrom(supplier))
+        return Completable.create { emitter ->
+            val firebaseSupplier = mapperToEntity.mapFrom(supplier)
+            firebaseFirestore
+                .collection("suppliers")
+                .add(firebaseSupplier)
+                .addOnSuccessListener {
+                    emitter.onComplete()
+                }.addOnFailureListener {
+                    emitter.onError(Exception(it))
+                }
+        }
     }
 
     override fun updateSupplier(supplier: Suppliers): Completable {
@@ -33,7 +62,7 @@ class SupplierRepository(private val supplierDataSource: SupplierDataSource) : I
         }
     }
 
-    private val mapperToDomain = object : DataMapper< SupplierEntity ,Suppliers> {
+    private val mapperToDomain = object : DataMapper<SupplierEntity, Suppliers> {
         override fun mapFrom(data: SupplierEntity): Suppliers {
             return Suppliers(
                 supplierId = data.supplierId,
@@ -60,7 +89,7 @@ class SupplierRepository(private val supplierDataSource: SupplierDataSource) : I
 
     }
 
-    private val mapperToEntity = object : DataMapper< Suppliers ,SupplierEntity> {
+    private val mapperToEntity = object : DataMapper<Suppliers, SupplierEntity> {
         override fun mapFrom(data: Suppliers): SupplierEntity {
             return SupplierEntity(
                 supplierId = data.supplierId,

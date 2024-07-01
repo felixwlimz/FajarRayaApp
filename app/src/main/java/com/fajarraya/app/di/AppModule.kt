@@ -17,9 +17,11 @@ import com.fajarraya.app.pages.orders.productlist.ProductListViewModel
 import com.fajarraya.app.pages.profile.ProfilePageViewModel
 import com.fajarraya.app.pages.profile.detail.ProfileDetailViewModel
 import com.fajarraya.app.pages.splash.SplashViewModel
+import com.fajarraya.app.pages.supplier.SupplierViewModel
 import com.fajarraya.app.pages.supplier.addeditsupplier.AddEditSupplierViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import java.util.function.Supplier
 
 val useCaseModule = module {
     factory<ProductUseCase>{ ProductInteractor(get()) }
@@ -65,5 +67,9 @@ val viewModelModule = module {
 
     viewModel {
         CheckoutViewModel(get())
+    }
+
+    viewModel{
+        SupplierViewModel(get())
     }
 }

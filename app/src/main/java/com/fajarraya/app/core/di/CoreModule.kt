@@ -70,7 +70,7 @@ val repositoryModule = module {
     }
 
     single<ISupplierRepository> {
-        SupplierRepository(get())
+        SupplierRepository(get(),get())
     }
 
 }

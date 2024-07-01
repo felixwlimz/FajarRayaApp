@@ -15,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.fajarraya.app.R
 import com.fajarraya.app.components.buttons.PrimaryButton
 import com.fajarraya.app.components.forms.TextandInput
@@ -22,7 +23,11 @@ import com.fajarraya.app.core.domain.model.Suppliers
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun AddEditSupplierPage(modifier : Modifier = Modifier, addEditSupplierViewModel: AddEditSupplierViewModel = koinViewModel()){
+fun AddEditSupplierPage(
+    modifier: Modifier = Modifier,
+    addEditSupplierViewModel: AddEditSupplierViewModel = koinViewModel(),
+    navHostController: NavHostController,
+){
 
     var supplierId by remember {
         mutableStateOf("")
@@ -47,7 +52,6 @@ fun AddEditSupplierPage(modifier : Modifier = Modifier, addEditSupplierViewModel
     }
 
 
-
     var city by remember {
         mutableStateOf("")
     }
@@ -56,10 +60,6 @@ fun AddEditSupplierPage(modifier : Modifier = Modifier, addEditSupplierViewModel
     var supplierProvince by remember {
         mutableStateOf("")
     }
-
-
-
-
 
     Column(modifier = modifier
         .fillMaxSize()
@@ -74,7 +74,7 @@ fun AddEditSupplierPage(modifier : Modifier = Modifier, addEditSupplierViewModel
             onValueChange = {
                 supplierId = it
             },
-            placeholderText = "Enter Supplier Name"
+            placeholderText = "Enter Supplier ID"
         )
 
 
@@ -94,7 +94,7 @@ fun AddEditSupplierPage(modifier : Modifier = Modifier, addEditSupplierViewModel
             onValueChange = {
                 supplierAddress = it
             },
-            placeholderText = "Enter Product Description"
+            placeholderText = "Enter Address"
         )
 
         TextandInput(
@@ -104,7 +104,7 @@ fun AddEditSupplierPage(modifier : Modifier = Modifier, addEditSupplierViewModel
             onValueChange = {
                 phoneNumber = it
             },
-            placeholderText = "Enter Product Description"
+            placeholderText = "Enter Phone Number"
         )
 
         TextandInput(
@@ -114,7 +114,7 @@ fun AddEditSupplierPage(modifier : Modifier = Modifier, addEditSupplierViewModel
             onValueChange = {
                 description = it
             },
-            placeholderText = "Enter Supplier Name"
+            placeholderText = "Enter Description"
         )
         TextandInput(
             modifier = Modifier.height(100.dp),
@@ -123,7 +123,7 @@ fun AddEditSupplierPage(modifier : Modifier = Modifier, addEditSupplierViewModel
             onValueChange = {
                  city = it
             },
-            placeholderText = "City"
+            placeholderText = "Enter City"
         )
 
         TextandInput(
@@ -133,7 +133,7 @@ fun AddEditSupplierPage(modifier : Modifier = Modifier, addEditSupplierViewModel
             onValueChange = {
                 supplierProvince = it
             },
-            placeholderText = "Province"
+            placeholderText = "Enter Province"
         )
 
 
@@ -147,7 +147,9 @@ fun AddEditSupplierPage(modifier : Modifier = Modifier, addEditSupplierViewModel
                 city = city,
                 phoneNumber = phoneNumber,
             )
-            addEditSupplierViewModel.addSupplier(supplier)
+            addEditSupplierViewModel.addSupplier(supplier){
+                navHostController.popBackStack()
+            }
         }, buttonText = stringResource(id = R.string.save))
 
     }
