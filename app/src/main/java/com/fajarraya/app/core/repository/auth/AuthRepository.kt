@@ -86,7 +86,7 @@ class AuthRepository(
                             password = document.getString("password")!!,
                             username = document.getString("username")!!,
                             name = document.getString("name")!!,
-                            superAdmin = UserType.ADMIN,
+                            superAdmin = UserType.valueOf(document.getString("superAdmin")!!),
                         )
                         emitter.onSuccess(user)
                     } else {
