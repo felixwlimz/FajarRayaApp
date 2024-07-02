@@ -94,6 +94,9 @@ class AuthRepository(
                     }
 
                 }
+                .addOnFailureListener {
+                    it.printStackTrace()
+                }
         }
 
 
