@@ -10,6 +10,7 @@ data class Transactions(
     val date : Long,
     val status : String,
     val userid :String,
+    val payment:String,
 )
 
 fun DocumentSnapshot.toTransactions(): Transactions {
@@ -21,5 +22,6 @@ fun DocumentSnapshot.toTransactions(): Transactions {
         date = this["date"] as Long,
         status = this["status"] as String,
         userid = this["userid"] as String,
+        payment = this["payment"] as String,
     )
 }

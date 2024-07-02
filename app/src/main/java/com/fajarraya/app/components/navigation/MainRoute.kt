@@ -15,6 +15,7 @@ import com.fajarraya.app.pages.orders.OrdersPage
 import com.fajarraya.app.pages.orders.addproduct.AddProductPage
 import com.fajarraya.app.pages.orders.checkout.CheckoutPage
 import com.fajarraya.app.pages.orders.productlist.ProductListPage
+import com.fajarraya.app.pages.printreceipt.PrintReceiptPage
 import com.fajarraya.app.pages.profile.ProfilePage
 import com.fajarraya.app.pages.profile.account.AccountPage
 import com.fajarraya.app.pages.profile.detail.ProfileDetailPage
@@ -61,6 +62,15 @@ fun MainRoute(modifier: Modifier = Modifier, navController: NavHostController) {
 
             composable(Screen.Orders.CheckoutPage.route) {
                 CheckoutPage(navHostController = navController)
+            }
+
+            composable(
+                "${Screen.Orders.PrintReceiptPage.route}/{id}",
+                arguments = listOf(navArgument("id") {
+                    type = NavType.StringType
+                })
+            ) {
+                PrintReceiptPage(navHostController = navController, transactionId=it.arguments?.getString("id"))
             }
         }
 

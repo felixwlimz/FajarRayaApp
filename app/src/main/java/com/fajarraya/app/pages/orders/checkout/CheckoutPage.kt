@@ -172,11 +172,14 @@ fun CheckoutPage(
 
         Button(
             onClick = {
-                checkoutViewModel.addTransaction(totalPrice.value + (totalPrice.value * 10 / 100))
+                checkoutViewModel.addTransaction(
+                    selectedOption,
+                    totalPrice.value + (totalPrice.value * 10 / 100)
+                )
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        navHostController.navigate(Screen.Transactions.route)
+                        navHostController.navigate(Screen.Orders.PrintReceiptPage.route + "/${it}")
                     },
                         {
                             it.printStackTrace()

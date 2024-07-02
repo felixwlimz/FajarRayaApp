@@ -101,8 +101,8 @@ class CheckoutViewModel(
 
     }
 
-    fun addTransaction(totalPrice: Long): Completable {
-        return Completable.create { emit ->
+    fun addTransaction(payment:String,totalPrice: Long): Single<String> {
+        return Single.create { emit ->
 
             for (cartItem in cartItems.value!!) {
                 removeStokAsQuantity(cartItem.kodeBarang, cartItem.quantity)
@@ -115,6 +115,7 @@ class CheckoutViewModel(
                 .collection("transactions")
                 .add(
                     hashMapOf(
+                        "payment" to payment,
                         "totalPrice" to totalPrice,
                         "items" to cartItems.value,
                         "date" to System.currentTimeMillis(),
@@ -123,7 +124,7 @@ class CheckoutViewModel(
                     )
                 )
                 .addOnSuccessListener {
-                    emit.onComplete()
+                    emit.onSuccess(it.id)
                 }
                 .addOnFailureListener {
                     emit.onError(it)

@@ -49,14 +49,23 @@ fun MainApp(
     val woMenu = arrayOf(
         "Login",
         "Register",
-        "Splash"
+        "Splash",
+    )
+
+    val woTopBar = arrayOf(
+        "Print Receipt/{id}"
+    )
+
+    val woBottomBar = arrayOf(
+        "Checkout",
+        "Print Receipt/{id}"
     )
 
     Scaffold(
         modifier = modifier,
         bottomBar = {
             currentRoute?.let {
-                if(!woMenu.contains(it))
+                if(!woMenu.contains(it) && !woBottomBar.contains(it))
                     BottomBar(
                         navController = navController,
                         currentRoute = currentRoute,
@@ -65,7 +74,7 @@ fun MainApp(
             }
         },
         topBar = {
-            if (currentRoute != null && !woMenu.contains(currentRoute)) {
+            if (currentRoute != null && !woMenu.contains(currentRoute) && !woTopBar.contains(currentRoute)) {
                 AppBar(
                     title = currentRoute,
                     actionBar = {

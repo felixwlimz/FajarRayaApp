@@ -11,6 +11,7 @@ sealed class Screen(val route : String) {
         data object EditProduct : Screen("Edit Product")
         data object ProductList : Screen("Products")
         data object CheckoutPage : Screen("Checkout")
+        data object PrintReceiptPage : Screen("Print Receipt")
     }
     data object Transactions : Screen("Transactions")
 

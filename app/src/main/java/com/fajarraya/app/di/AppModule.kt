@@ -15,6 +15,7 @@ import com.fajarraya.app.pages.orders.OrderViewModel
 import com.fajarraya.app.pages.orders.addproduct.AddProductViewModel
 import com.fajarraya.app.pages.orders.checkout.CheckoutViewModel
 import com.fajarraya.app.pages.orders.productlist.ProductListViewModel
+import com.fajarraya.app.pages.printreceipt.PrintReceiptViewModel
 import com.fajarraya.app.pages.profile.ProfilePageViewModel
 import com.fajarraya.app.pages.profile.detail.ProfileDetailViewModel
 import com.fajarraya.app.pages.splash.SplashViewModel
@@ -81,4 +82,9 @@ val viewModelModule = module {
     viewModel{
         TransactionsViewModel(get(),get(),)
     }
+
+    viewModel {
+        PrintReceiptViewModel(get(),)
+    }
+
 }
