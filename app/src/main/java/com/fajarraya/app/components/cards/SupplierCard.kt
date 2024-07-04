@@ -1,7 +1,6 @@
 package com.fajarraya.app.components.cards
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,13 +8,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,21 +33,15 @@ fun SupplierCard(
     phone: String,
     city: String,
     province: String,
-    onLongPress : ()->Unit,
+    onUpdate : () -> Unit,
+    onDelete : () -> Unit
 ) {
 
 
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .height(150.dp)
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onLongPress = {
-                        onLongPress()
-                    },
-                )
-            },
+            .height(150.dp),
         border = BorderStroke(1.dp, Color.Black),
         colors = CardDefaults.cardColors(contentColor = Color.Black, containerColor = Color.White)
     ) {
@@ -52,11 +50,26 @@ fun SupplierCard(
             modifier = Modifier.padding(10.dp)
         ) {
 
-            Text(
-                supplierName,
-                fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_SEMI),
-                fontSize = WidgetConstants.PRIMARY_FONT_SIZE.sp
-            )
+           Row(modifier = Modifier.fillMaxWidth().padding(10.dp), horizontalArrangement = Arrangement.SpaceBetween){
+               Text(
+                   supplierName,
+                   fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_SEMI),
+                   fontSize = WidgetConstants.PRIMARY_FONT_SIZE.sp
+               )
+
+               Row(
+                   horizontalArrangement = Arrangement.spacedBy(5.dp),
+                   verticalAlignment = Alignment.CenterVertically
+               ) {
+                   IconButton(onClick = onUpdate) {
+                       Icon(Icons.Default.Edit, contentDescription = "add-button")
+                   }
+                   IconButton(onClick = onDelete) {
+                       Icon(Icons.Default.Delete, contentDescription = "delete-button")
+                   }
+
+               }
+           }
 
             Text(
                 supplierAddress,

@@ -212,7 +212,7 @@ fun PrintReceiptPage(
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
         ) {
-            Text(text = "Print Receipt")
+            Text(text = "Export to PDF")
         }
     }
 

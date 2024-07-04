@@ -75,7 +75,7 @@ fun MainRoute(modifier: Modifier = Modifier, navController: NavHostController) {
         }
 
         composable(Screen.Transactions.route) {
-            TransactionsPage()
+            TransactionsPage(navHostController = navController)
         }
 
 

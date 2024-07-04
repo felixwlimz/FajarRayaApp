@@ -1,7 +1,6 @@
 package com.fajarraya.app.components.cards
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -29,15 +27,20 @@ import coil.compose.AsyncImage
 import com.fajarraya.app.R
 import com.fajarraya.app.components.buttons.PrimaryButton
 import com.fajarraya.app.constants.WidgetConstants
-import com.fajarraya.app.core.domain.model.Transactions
 import com.fajarraya.app.ui.theme.PrimaryBlue
 import com.fajarraya.app.utils.Extensions
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @Composable
 fun TransactionCard(
     modifier : Modifier = Modifier,
     transaction: com.fajarraya.app.models.Transactions,
+    onDetailClick : () -> Unit = {}
 ){
+
+    val date = SimpleDateFormat("MM/dd/yyyy").format(Date(transaction.date))
+
     Card(
         modifier = modifier
             .fillMaxWidth(),
@@ -77,14 +80,20 @@ fun TransactionCard(
                                 text = it.nama,
                                 fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_SEMI),
                                 fontSize = WidgetConstants.SUBHEADER_FONT_SIZE.sp,
-                                textAlign = TextAlign.Center
                             )
 
                             Text(
                                 text = "${it.quantity} x ${Extensions.toRupiah(it.harga)}",
                                 fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
-                                textAlign = TextAlign.Center
                             )
+
+                            Text(
+                                text = "Date of Purchase : $date",
+                                fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
+                                )
+                            
+                            
+
                         }
                     }
 
@@ -92,7 +101,10 @@ fun TransactionCard(
 
 
                 }
+                
+
             }
+            
 
             Column(verticalArrangement = Arrangement.spacedBy(5.dp), horizontalAlignment = Alignment.CenterHorizontally ) {
                 Text(
@@ -105,9 +117,11 @@ fun TransactionCard(
                 )
 
                 PrimaryButton(
-                    onClick = {},
+                    onClick = onDetailClick,
                     buttonText = stringResource(id = R.string.details),
-                    modifier = Modifier.width(120.dp).height(50.dp)
+                    modifier = Modifier
+                        .width(120.dp)
+                        .height(50.dp)
                 )
 
             }

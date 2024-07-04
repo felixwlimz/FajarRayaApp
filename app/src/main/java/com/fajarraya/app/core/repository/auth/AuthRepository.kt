@@ -6,7 +6,6 @@ import com.fajarraya.app.core.domain.model.User
 import com.fajarraya.app.models.UserType
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single

@@ -44,7 +44,7 @@ fun CheckoutPage(
 
     val carts = checkoutViewModel.cartItems.observeAsState()
 
-    val paymentMethods = listOf("QRIS", "Debit/Credit Card", "E-Money", "Cash")
+    val paymentMethods = listOf("Debit Card", "Cash")
 
     var selectedOption by remember {
         mutableStateOf("")
@@ -112,7 +112,7 @@ fun CheckoutPage(
         ) {
 
             Text(
-                "Total Price",
+                "Subtotal",
                 fontSize = WidgetConstants.HEADER_FONT_SIZE.sp
             )
 
@@ -123,25 +123,6 @@ fun CheckoutPage(
 
         }
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 10.dp, vertical = 5.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-
-            Text(
-                "Tax (10%)",
-                fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_SEMI),
-                fontSize = WidgetConstants.HEADER_FONT_SIZE.sp
-            )
-
-            Text(
-                Extensions.toRupiah(totalPrice.value * 10 / 100),
-                fontSize = WidgetConstants.HEADER_FONT_SIZE.sp
-            )
-
-        }
 
         Spacer(modifier = Modifier.height(15.dp))
 

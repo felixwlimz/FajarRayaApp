@@ -10,7 +10,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.fajarraya.app.components.cards.TransactionCard
+import com.fajarraya.app.components.navigation.Screen
 import com.fajarraya.app.components.pager.TransactionPager
 import com.fajarraya.app.utils.DummyData
 import com.fajarraya.app.utils.Extensions
@@ -19,8 +21,11 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun TransactionsPage(
     modifier: Modifier = Modifier,
-    transactionsViewModel: TransactionsViewModel = koinViewModel()
+    transactionsViewModel: TransactionsViewModel = koinViewModel(),
+    navHostController: NavHostController
 ) {
+
+
 
     LaunchedEffect(key1 = Unit) {
         transactionsViewModel.subscribeTransactions()
@@ -42,7 +47,10 @@ fun TransactionsPage(
         if(transactions.value !== null){
             items(transactions.value!!) {
                 TransactionCard(
-                    transaction = it
+                    transaction = it,
+                    onDetailClick = {
+                        navHostController.navigate(Screen.Orders.PrintReceiptPage.route)
+                    }
                 )
             }
         }

@@ -61,6 +61,7 @@ fun ProductListPage(
                 ProductCard(
                     productName = it.namaBarang,
                     imageUrl = it.gambarProduk,
+                    stokLeft = it.stok
                 ) {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(5.dp),

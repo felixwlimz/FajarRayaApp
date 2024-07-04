@@ -7,14 +7,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
@@ -22,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fajarraya.app.components.cards.SupplierCard
 import com.fajarraya.app.constants.WidgetConstants
-import com.fajarraya.app.utils.DummyData
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -58,21 +55,21 @@ fun SupplierPage(
             )
         }
 
-        if (suppliers != null) {
-            items(suppliers!!) {
-                SupplierCard(
-                    supplierName = it.supplierName,
-                    supplierAddress = it.supplierAddress,
-                    phone = it.phoneNumber,
-                    city = it.city,
-                    province = it.province,
-                    onLongPress={
-                        println(it.supplierId)
-                        supplierViewModel.deleteSupplier(it)
-                    }
-                )
+        items(suppliers) {
+            SupplierCard(
+                supplierName = it.supplierName,
+                supplierAddress = it.supplierAddress,
+                phone = it.phoneNumber,
+                city = it.city,
+                province = it.province,
+                onDelete = {
+                    supplierViewModel.updateSupplier()
+                },
+                onUpdate = {
+                    supplierViewModel.deleteSupplier(it)
+                }
+            )
 
-            }
         }
 
 

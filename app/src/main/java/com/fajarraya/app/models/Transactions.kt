@@ -22,6 +22,6 @@ fun DocumentSnapshot.toTransactions(): Transactions {
         date = this["date"] as Long,
         status = this["status"] as String,
         userid = this["userid"] as String,
-        payment = this["payment"].toString(),
+        payment = (this["payment"] ?: 0) as String,
     )
 }
