@@ -4,13 +4,13 @@ import com.fajarraya.app.core.data.local.datasource.SupplierDataSource
 import com.fajarraya.app.core.data.local.entity.SupplierEntity
 import com.fajarraya.app.core.data.local.entity.toSupplierEntity
 import com.fajarraya.app.core.domain.model.Suppliers
-import com.fajarraya.app.core.domain.model.toFirebaseProduct
 import com.fajarraya.app.core.utils.DataMapper
+import com.fajarraya.app.models.SortType
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.schedulers.Schedulers
 
 class SupplierRepository(
     private val firebaseFirestore: FirebaseFirestore,
@@ -47,6 +47,8 @@ class SupplierRepository(
                 }
         }
     }
+
+
 
     override fun updateSupplier(supplier: Suppliers): Completable {
         return supplierDataSource.addSupplier(mapperToEntity.mapFrom(supplier))
@@ -85,6 +87,7 @@ class SupplierRepository(
         }
     }
 
+
     private val mapperToDomain = object : DataMapper<SupplierEntity, Suppliers> {
         override fun mapFrom(data: SupplierEntity): Suppliers {
             return Suppliers(
@@ -110,6 +113,35 @@ class SupplierRepository(
             }
         }
 
+    }
+
+    override fun sortSuppliers(sortType: SortType): Flowable<List<Suppliers>> {
+        return Flowable.create({ emitter ->
+            when(sortType) {
+                SortType.ASCENDING -> {
+                   firebaseFirestore.collection("suppliers")
+                       .orderBy("name", Query.Direction.ASCENDING)
+                       .get()
+                       .addOnSuccessListener {
+                           emitter.onComplete()
+                       }
+                       .addOnFailureListener {
+                           emitter.onError(it)
+                       }
+                }
+                SortType.DESCENDING -> {
+                    firebaseFirestore.collection("suppliers")
+                        .orderBy("name", Query.Direction.ASCENDING)
+                        .get()
+                        .addOnSuccessListener {
+                            emitter.onComplete()
+                        }
+                        .addOnFailureListener {
+                            emitter.onError(it)
+                        }
+                }
+            }
+        }, BackpressureStrategy.LATEST)
     }
 
     private val mapperToEntity = object : DataMapper<Suppliers, SupplierEntity> {
