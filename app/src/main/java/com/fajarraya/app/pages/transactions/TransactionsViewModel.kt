@@ -17,7 +17,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class TransactionsViewModel(
     private val firestore: FirebaseFirestore,
-    private val authUseCase: AuthUseCase,
+    val authUseCase: AuthUseCase,
 ) : ViewModel() {
 
     private val _transactions = MutableLiveData<List<Transactions>>(emptyList())

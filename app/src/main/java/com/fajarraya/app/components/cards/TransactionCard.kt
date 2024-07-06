@@ -14,6 +14,9 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,17 +30,33 @@ import coil.compose.AsyncImage
 import com.fajarraya.app.R
 import com.fajarraya.app.components.buttons.PrimaryButton
 import com.fajarraya.app.constants.WidgetConstants
+import com.fajarraya.app.core.domain.model.User
+import com.fajarraya.app.models.Transactions
 import com.fajarraya.app.ui.theme.PrimaryBlue
 import com.fajarraya.app.utils.Extensions
+import io.reactivex.rxjava3.core.Single
 import java.text.SimpleDateFormat
 import java.util.Date
 
 @Composable
 fun TransactionCard(
-    modifier : Modifier = Modifier,
-    transaction: com.fajarraya.app.models.Transactions,
-    onDetailClick : () -> Unit = {}
+    modifier: Modifier = Modifier,
+    transaction: Transactions,
+    onDetailClick: () -> Unit = {},
+    username: Single<User>
 ){
+    val uname  = remember{
+        mutableStateOf("")
+    }
+
+    LaunchedEffect(key1 = Unit){
+        username
+            .subscribe({
+                uname.value = it.username
+            }, {
+                uname.value = ""
+            })
+    }
 
     val date = SimpleDateFormat("MM/dd/yyyy").format(Date(transaction.date))
 
@@ -86,22 +105,20 @@ fun TransactionCard(
                                 text = "${it.quantity} x ${Extensions.toRupiah(it.harga)}",
                                 fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
                             )
-
-                            Text(
-                                text = "Date of Purchase : $date",
-                                fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
-                                )
-                            
-                            
-
                         }
                     }
-
-
-
-
                 }
-                
+
+
+                Text(
+                    text = "Date of Purchase : $date",
+                    fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
+                )
+
+                Text(
+                    text="Ordered By :  ${uname.value}",
+                    fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
+                )
 
             }
             

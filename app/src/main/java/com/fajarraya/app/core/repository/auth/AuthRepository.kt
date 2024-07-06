@@ -113,6 +113,35 @@ class AuthRepository(
 
     }
 
+    override fun getUserDataByID(id: String): Single<User> {
+        return Single.create { emitter ->
+
+            firebaseFirestore.collection("users").document(id).get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        Log.d("FirebaseFirestore", "DocumentSnapshot data: ${document.data}")
+                        val user = User(
+                            userId = document.getString("userId")!!,
+                            email = document.getString("email")!!,
+                            password = document.getString("password")!!,
+                            username = document.getString("username")!!,
+                            name = document.getString("name")!!,
+                            superAdmin = UserType.valueOf(document.getString("superAdmin")!!),
+                        )
+                        emitter.onSuccess(user)
+                    } else {
+                        emitter.onError(Exception("Document Not Found"))
+                    }
+
+                }
+                .addOnFailureListener {
+                    it.printStackTrace()
+                }
+        }
+
+
+    }
+
     override fun logout() {
         firebaseAuth.signOut()
         roleRepository.setRole(UserType.EMPLOYEE)

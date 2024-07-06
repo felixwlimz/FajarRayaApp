@@ -14,8 +14,6 @@ import androidx.navigation.NavHostController
 import com.fajarraya.app.components.cards.TransactionCard
 import com.fajarraya.app.components.navigation.Screen
 import com.fajarraya.app.components.pager.TransactionPager
-import com.fajarraya.app.utils.DummyData
-import com.fajarraya.app.utils.Extensions
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -24,8 +22,6 @@ fun TransactionsPage(
     transactionsViewModel: TransactionsViewModel = koinViewModel(),
     navHostController: NavHostController
 ) {
-
-
 
     LaunchedEffect(key1 = Unit) {
         transactionsViewModel.subscribeTransactions()
@@ -48,6 +44,7 @@ fun TransactionsPage(
             items(transactions.value!!) {
                 TransactionCard(
                     transaction = it,
+                    username = transactionsViewModel.authUseCase.userDataByID(it.userid),
                     onDetailClick = {
                         navHostController.navigate(Screen.Orders.PrintReceiptPage.route + "/${it.transID}")
                     }

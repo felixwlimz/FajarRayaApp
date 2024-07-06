@@ -11,6 +11,8 @@ interface AuthUseCase {
 
     fun userData() : Single<User>
 
+    fun userDataByID(id:String) : Single<User>
+
     fun login(email : String, password : String) : Completable
 
     fun register(user : User) : Completable

@@ -14,6 +14,8 @@ interface IAuthRepository {
 
     fun getUserData(): Single<User>
 
+    fun getUserDataByID(id:String): Single<User>
+
     fun logout()
 
 }
