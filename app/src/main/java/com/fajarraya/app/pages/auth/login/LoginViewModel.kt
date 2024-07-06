@@ -51,8 +51,6 @@ class LoginViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                         {
-
-
                             onCompleted()
                         },
                         {

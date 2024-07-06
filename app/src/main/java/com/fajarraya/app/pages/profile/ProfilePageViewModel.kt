@@ -22,6 +22,8 @@ class ProfilePageViewModel(private val prefUseCase: PrefUseCase, private val aut
     fun getTheme() : LiveData<Boolean> = prefUseCase.getTheme().toLiveData()
     fun logout(onCompleted: () -> Unit) {
         authUseCase.logout()
+
+
         onCompleted()
     }
 

@@ -63,7 +63,6 @@ class HomeViewModel(val firebaseFirestore: FirebaseFirestore) : ViewModel() {
 
                         var totalRevenue = 0L
                         for (document in snapshot.documents) {
-                            println(document)
                             val trans = document.toTransactions(document.id)
                             totalRevenue += trans.totalPrice
                         }

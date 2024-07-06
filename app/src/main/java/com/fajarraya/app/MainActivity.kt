@@ -55,8 +55,11 @@ class MainAppViewModel(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                if(it== UserType.ADMIN)
+                if(it.name== UserType.ADMIN.name){
                     isAdmin.value = true
+                }else{
+                    isAdmin.value = false
+                }
             },{
 
             })

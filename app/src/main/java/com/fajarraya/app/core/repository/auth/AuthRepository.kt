@@ -115,6 +115,7 @@ class AuthRepository(
 
     override fun logout() {
         firebaseAuth.signOut()
+        roleRepository.setRole(UserType.EMPLOYEE)
     }
 
 

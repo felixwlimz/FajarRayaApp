@@ -62,7 +62,6 @@ class SupplierRepository(
                 .get()
                 .addOnSuccessListener {
                     if (!it.isEmpty) {
-                        println(it.documents)
                         for (document in it.documents) {
                             firebaseFirestore.collection("suppliers").document(document.id)
                                 .delete()
