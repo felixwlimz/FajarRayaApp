@@ -29,7 +29,10 @@ data class SupplierEntity(
     val city: String,
 
     @ColumnInfo("province")
-    val province: String
+    val province: String,
+
+    @ColumnInfo("description")
+    val description: String
 ) : Parcelable
 
 fun DocumentSnapshot.toSupplierEntity(): SupplierEntity {
@@ -40,5 +43,6 @@ fun DocumentSnapshot.toSupplierEntity(): SupplierEntity {
         phoneNumber = this.getString("phoneNumber") ?: "",
         city = this.getString("city") ?: "",
         province = this.getString("province") ?: "",
+        description = this.getString("description") ?: ""
     )
 }

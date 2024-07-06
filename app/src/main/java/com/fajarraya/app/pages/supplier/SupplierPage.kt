@@ -18,21 +18,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.fajarraya.app.components.cards.SupplierCard
+import com.fajarraya.app.components.navigation.Screen
 import com.fajarraya.app.constants.WidgetConstants
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SupplierPage(
-    modifier: Modifier = Modifier, supplierViewModel: SupplierViewModel = koinViewModel()
+    modifier: Modifier = Modifier,
+    supplierViewModel: SupplierViewModel = koinViewModel(),
+    navHostController: NavHostController
 ) {
     val suppliers by remember{
         derivedStateOf { supplierViewModel.supplierList  }
     }
 
-    LaunchedEffect(key1 = Unit) {
-        supplierViewModel.updateSupplier()
-    }
+
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
@@ -63,10 +65,10 @@ fun SupplierPage(
                 city = it.city,
                 province = it.province,
                 onDelete = {
-                    supplierViewModel.updateSupplier()
+                    supplierViewModel.deleteSupplier(it)
                 },
                 onUpdate = {
-                    supplierViewModel.deleteSupplier(it)
+                    navHostController.navigate(Screen.Supplier.EditSupplier.route+"/${it.supplierId}")
                 }
             )
 

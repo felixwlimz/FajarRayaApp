@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,38 +29,33 @@ fun AddEditSupplierPage(
     modifier: Modifier = Modifier,
     addEditSupplierViewModel: AddEditSupplierViewModel = koinViewModel(),
     navHostController: NavHostController,
+    supplierID: String? = null
 ){
-
-    var supplierId by remember {
-        mutableStateOf("")
+    LaunchedEffect(key1 = supplierID) {
+        if(supplierID != null)
+            addEditSupplierViewModel.loadSupplierData(supplierID)
     }
 
-    var supplierName by remember {
-        mutableStateOf("")
+    val supplierId by remember {
+        derivedStateOf { addEditSupplierViewModel.supplierId}
     }
-
-
-    var supplierAddress by remember {
-        mutableStateOf("")
+    val supplierName by remember {
+        derivedStateOf { addEditSupplierViewModel.supplierName}
     }
-
-
-    var description by remember {
-        mutableStateOf("")
+    val supplierAddress by remember {
+        derivedStateOf { addEditSupplierViewModel.supplierAddress}
     }
-
-    var phoneNumber by remember {
-        mutableStateOf("")
+    val description by remember {
+        derivedStateOf { addEditSupplierViewModel.description}
     }
-
-
-    var city by remember {
-        mutableStateOf("")
+    val phoneNumber by remember {
+        derivedStateOf { addEditSupplierViewModel.phoneNumber}
     }
-
-
-    var supplierProvince by remember {
-        mutableStateOf("")
+    val city by remember {
+        derivedStateOf { addEditSupplierViewModel.city}
+    }
+    val supplierProvince by remember {
+        derivedStateOf { addEditSupplierViewModel.supplierProvince}
     }
 
     Column(modifier = modifier
@@ -72,7 +69,7 @@ fun AddEditSupplierPage(
             textInputTitle = "Supplier ID" ,
             fieldValue = supplierId,
             onValueChange = {
-                supplierId = it
+                if(supplierID == null) addEditSupplierViewModel.supplierId = it
             },
             placeholderText = "Enter Supplier ID"
         )
@@ -83,7 +80,7 @@ fun AddEditSupplierPage(
             textInputTitle = "Supplier Name" ,
             fieldValue = supplierName,
             onValueChange = {
-                supplierName = it
+                addEditSupplierViewModel.supplierName = it
             },
             placeholderText = "Enter Supplier Name"
         )
@@ -92,7 +89,7 @@ fun AddEditSupplierPage(
             textInputTitle = "Supplier Address" ,
             fieldValue = supplierAddress,
             onValueChange = {
-                supplierAddress = it
+                addEditSupplierViewModel.supplierAddress = it
             },
             placeholderText = "Enter Address"
         )
@@ -102,7 +99,7 @@ fun AddEditSupplierPage(
             textInputTitle = "Phone Number" ,
             fieldValue = phoneNumber,
             onValueChange = {
-                phoneNumber = it
+                addEditSupplierViewModel.phoneNumber = it
             },
             placeholderText = "Enter Phone Number"
         )
@@ -112,7 +109,7 @@ fun AddEditSupplierPage(
             textInputTitle = "Description" ,
             fieldValue = description,
             onValueChange = {
-                description = it
+                addEditSupplierViewModel.description = it
             },
             placeholderText = "Enter Description"
         )
@@ -121,7 +118,7 @@ fun AddEditSupplierPage(
             textInputTitle = "City/Regency" ,
             fieldValue = city,
             onValueChange = {
-                 city = it
+                addEditSupplierViewModel.city = it
             },
             placeholderText = "Enter City"
         )
@@ -131,7 +128,7 @@ fun AddEditSupplierPage(
             textInputTitle = "Province" ,
             fieldValue = supplierProvince,
             onValueChange = {
-                supplierProvince = it
+                addEditSupplierViewModel.supplierProvince = it
             },
             placeholderText = "Enter Province"
         )
@@ -146,9 +143,16 @@ fun AddEditSupplierPage(
                 province = supplierProvince,
                 city = city,
                 phoneNumber = phoneNumber,
+                description = description,
             )
-            addEditSupplierViewModel.addSupplier(supplier){
-                navHostController.popBackStack()
+            if(supplierID == null){
+                addEditSupplierViewModel.addSupplier(supplier){
+                    navHostController.popBackStack()
+                }
+            }else{
+                addEditSupplierViewModel.updateSupplier(supplier){
+                    navHostController.popBackStack()
+                }
             }
         }, buttonText = stringResource(id = R.string.save))
 

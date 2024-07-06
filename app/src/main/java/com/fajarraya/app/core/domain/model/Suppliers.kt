@@ -6,7 +6,8 @@ data class Suppliers(
     val supplierAddress : String,
     val phoneNumber : String,
     val city : String,
-    val province : String
+    val province : String,
+    val description:String = ""
 ){
     override fun toString(): String {
         return supplierName

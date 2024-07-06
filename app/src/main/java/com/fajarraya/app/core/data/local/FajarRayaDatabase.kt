@@ -10,7 +10,7 @@ import com.fajarraya.app.core.data.local.entity.SupplierEntity
 
 @Database(
     entities = [ProductEntity::class, SupplierEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false,
 )
 abstract class FajarRayaDatabase : RoomDatabase() {

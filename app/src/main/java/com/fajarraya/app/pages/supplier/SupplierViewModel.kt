@@ -19,7 +19,7 @@ class SupplierViewModel(private val supplierUseCase: SupplierUseCase) : ViewMode
 
     var supplierList by mutableStateOf(listOf<Suppliers>())
 
-    fun updateSupplier(){
+    init{
         supplierUseCase.getAllSuppliers()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -29,6 +29,7 @@ class SupplierViewModel(private val supplierUseCase: SupplierUseCase) : ViewMode
                 it.printStackTrace()
             })
     }
+
     fun deleteSupplier(it: Suppliers) {
         supplierUseCase.deleteSupplier(it)
             .subscribeOn(Schedulers.io())

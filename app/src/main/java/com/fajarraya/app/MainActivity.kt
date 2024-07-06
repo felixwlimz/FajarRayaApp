@@ -84,7 +84,8 @@ fun MainApp(
     )
 
     val woTopBar = arrayOf(
-        "Print Receipt/{id}"
+        "Print Receipt/{id}",
+        "Edit Supplier/{id}"
     )
 
     val woBottomBar = arrayOf(
@@ -128,7 +129,7 @@ fun MainApp(
             if(currentRoute == "Suppliers"){
                 FloatingActionButton(
                     onClick = {
-                         navController.navigate(Screen.Supplier.AddEdit.route)
+                         navController.navigate(Screen.Supplier.AddSupplier.route)
                     },
                     shape = CircleShape,
                     containerColor = PrimaryBlue

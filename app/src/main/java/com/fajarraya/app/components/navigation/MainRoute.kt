@@ -98,11 +98,20 @@ fun MainRoute(modifier: Modifier = Modifier, navController: NavHostController) {
             route = Screen.Supplier.route, startDestination = Screen.Supplier.SupplierList.route
         ) {
             composable(Screen.Supplier.SupplierList.route) {
-                SupplierPage()
+                SupplierPage(navHostController = navController)
             }
-            composable(Screen.Supplier.AddEdit.route) {
+            composable(Screen.Supplier.AddSupplier.route) {
                 AddEditSupplierPage(
                     navHostController = navController
+                )
+            }
+            composable("${Screen.Supplier.EditSupplier.route}/{id}",
+                arguments = listOf(navArgument("id") {
+                    type = NavType.StringType
+                })) {
+                AddEditSupplierPage(
+                    navHostController = navController,
+                    supplierID=it.arguments?.getString("id")
                 )
             }
         }
