@@ -84,6 +84,7 @@ fun MainApp(
     )
 
     val woTopBar = arrayOf(
+        "Edit Product/{kodeproduk}",
         "Print Receipt/{id}",
         "Edit Supplier/{id}"
     )
