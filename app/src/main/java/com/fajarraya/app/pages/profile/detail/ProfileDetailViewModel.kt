@@ -14,7 +14,7 @@ import org.koin.androidx.compose.get
 
 class ProfileDetailViewModel(private val useCase: AuthUseCase): ViewModel() {
 
-    var userdata by mutableStateOf(User("","","","","",UserType.ADMIN))
+    var userdata by mutableStateOf(User("","","","","",UserType.EMPLOYEE))
         private set
 
 

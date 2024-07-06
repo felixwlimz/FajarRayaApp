@@ -15,6 +15,8 @@ import com.fajarraya.app.components.navigation.Screen
 import org.koin.androidx.compose.koinViewModel
 
 
+private const val s = "Logout"
+
 @Composable
 fun ProfilePage(
     modifier: Modifier = Modifier,
@@ -49,6 +51,20 @@ fun ProfilePage(
            ProfileMenu(text = stringResource(id = R.string.dark_mode), onCheckedChange = {
                profilePageViewModel.setTheme(it)
 
+           })
+
+           HorizontalDivider()
+
+           ProfileMenu(text = stringResource(R.string.logout), onClick = {
+               profilePageViewModel.logout({
+                   navHostController.navigate(Screen.Login.route){
+                       popUpTo(Screen.Profile.route){
+                           inclusive = true
+                       }
+                       launchSingleTop=true
+                   }
+
+               });
            })
 
 

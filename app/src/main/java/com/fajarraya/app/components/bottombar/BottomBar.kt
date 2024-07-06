@@ -28,69 +28,76 @@ import com.fajarraya.app.ui.theme.PrimaryBlue
 fun BottomBar(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    currentRoute : String,
-    showBottomBar : Boolean = true
-){
+    currentRoute: String,
+    showBottomBar: Boolean = true,
+    isAdmin: Boolean = false
+) {
 
-   AnimatedVisibility(visible = showBottomBar) {
-       NavigationBar(modifier = modifier){
+    AnimatedVisibility(visible = showBottomBar) {
+        NavigationBar(modifier = modifier) {
 
-           val navItems = listOf(
-               BottomBarItem(
-                   title = stringResource(id = R.string.home),
-                   icon = Icons.Default.Home,
-                   screen = Screen.Home
-               ),
-               BottomBarItem(
-                   title = stringResource(id = R.string.orders),
-                   icon = Icons.Default.List,
-                   screen = Screen.Orders
-               ),
-               BottomBarItem(
-                   title = stringResource(id = R.string.transactions),
-                   icon = Icons.Default.ShoppingCart,
-                   screen = Screen.Transactions
-               ),
-               BottomBarItem(
-                   title = stringResource(id = R.string.supplier),
-                   icon = ImageVector.vectorResource(id = R.drawable.baseline_inbox_24),
-                   screen = Screen.Supplier
-               ),
-               BottomBarItem(
-                   title = stringResource(id = R.string.profile),
-                   icon = Icons.Default.AccountCircle,
-                   screen = Screen.Profile
-               )
-           )
+            val navItems: MutableList<BottomBarItem> = mutableListOf(
+                BottomBarItem(
+                    title = stringResource(id = R.string.orders),
+                    icon = Icons.Default.List,
+                    screen = Screen.Orders
+                ),
+                BottomBarItem(
+                    title = stringResource(id = R.string.transactions),
+                    icon = Icons.Default.ShoppingCart,
+                    screen = Screen.Transactions
+                ),
+                BottomBarItem(
+                    title = stringResource(id = R.string.supplier),
+                    icon = ImageVector.vectorResource(id = R.drawable.baseline_inbox_24),
+                    screen = Screen.Supplier
+                ),
+                BottomBarItem(
+                    title = stringResource(id = R.string.profile),
+                    icon = Icons.Default.AccountCircle,
+                    screen = Screen.Profile
+                )
+            )
 
-           navItems.map { item ->
-               NavigationBarItem(
-                   icon = {
-                       Icon(
-                           imageVector = item.icon,
-                           contentDescription = item.title
-                       )
-                   },
-                   label = { Text(item.title, fontSize = 10.sp) },
-                   selected = currentRoute == item.screen.route,
-                   colors = NavigationBarItemDefaults.colors(
-                       selectedIconColor = PrimaryBlue,
-                       selectedTextColor = PrimaryBlue,
-                       indicatorColor = Color.White
-                   ),
-                   onClick = {
-                       navController.navigate(item.screen.route){
-                           popUpTo(navController.graph.findStartDestination().id) {
-                               saveState = true
-                           }
-                           restoreState = true
-                           launchSingleTop = true
-                       }
-                   })
-           }
+            if (isAdmin) {
+                navItems.add(
+                    0, BottomBarItem(
+                        title = stringResource(id = R.string.home),
+                        icon = Icons.Default.Home,
+                        screen = Screen.Home
+                    )
+                )
+            }
 
-       }
-   }
+
+            navItems.map { item ->
+                NavigationBarItem(
+                    icon = {
+                        Icon(
+                            imageVector = item.icon,
+                            contentDescription = item.title
+                        )
+                    },
+                    label = { Text(item.title, fontSize = 10.sp) },
+                    selected = currentRoute == item.screen.route,
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = PrimaryBlue,
+                        selectedTextColor = PrimaryBlue,
+                        indicatorColor = Color.White
+                    ),
+                    onClick = {
+                        navController.navigate(item.screen.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            restoreState = true
+                            launchSingleTop = true
+                        }
+                    })
+            }
+
+        }
+    }
 
 
 }

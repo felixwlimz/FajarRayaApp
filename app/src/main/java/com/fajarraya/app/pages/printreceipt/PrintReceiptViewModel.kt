@@ -69,7 +69,7 @@ class PrintReceiptViewModel(
                 .document(transactionID)
                 .get()
                 .addOnSuccessListener {
-                    val transactions = it.toTransactions()
+                    val transactions = it.toTransactions(it.id)
                     emitter.onSuccess(transactions)
                 }
                 .addOnFailureListener {

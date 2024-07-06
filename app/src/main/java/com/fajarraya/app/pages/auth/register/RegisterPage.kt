@@ -137,11 +137,10 @@ fun RegisterPage(
                 .fillMaxWidth()
                 .height(50.dp),
             onClick = {
-                registerViewModel.validateRegister(name, username, email, password, UserType.ADMIN){
+                registerViewModel.validateRegister(name, username, email, password, UserType.EMPLOYEE){
                     navHostController.navigate(Screen.Login.route)
                 }
             }, buttonText = stringResource(id = R.string.register) )
-
         Text(errorText)
 
     }

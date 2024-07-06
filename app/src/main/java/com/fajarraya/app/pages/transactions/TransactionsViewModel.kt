@@ -55,7 +55,7 @@ class TransactionsViewModel(
                             if (!it.isEmpty) {
                                 val z = mutableListOf<Transactions>()
                                 for (document in it.documents) {
-                                    z.add(document.toTransactions())
+                                    z.add(document.toTransactions(document.id))
                                 }
                                 emit.onSuccess(z)
                             } else {

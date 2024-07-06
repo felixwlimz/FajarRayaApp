@@ -11,9 +11,10 @@ data class Transactions(
     val status : String,
     val userid : String,
     val payment : String,
+    val transID : String? = null
 )
 
-fun DocumentSnapshot.toTransactions(): Transactions {
+fun DocumentSnapshot.toTransactions(transID: String): Transactions {
     return Transactions(
         totalPrice = this["totalPrice"] as Long,
         items = (this["items"] as List<Map<String, Any>>).map{
@@ -22,6 +23,7 @@ fun DocumentSnapshot.toTransactions(): Transactions {
         date = this["date"] as Long,
         status = this["status"] as String,
         userid = this["userid"] as String,
-        payment = (this["payment"] ?: 0) as String,
+        payment = (this["payment"] ?: "0") as String,
+        transID = transID
     )
 }

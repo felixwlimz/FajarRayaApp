@@ -6,6 +6,7 @@ import androidx.datastore.preferences.rxjava3.RxPreferenceDataStoreBuilder
 import androidx.datastore.rxjava3.RxDataStore
 import androidx.room.Room
 import com.fajarraya.app.core.data.datastore.DarkModePreference
+import com.fajarraya.app.core.data.datastore.RolePreference
 import com.fajarraya.app.core.data.local.FajarRayaDatabase
 import com.fajarraya.app.core.data.local.datasource.ProductDataSource
 import com.fajarraya.app.core.data.local.datasource.SupplierDataSource
@@ -13,6 +14,7 @@ import com.fajarraya.app.core.repository.auth.AuthRepository
 import com.fajarraya.app.core.repository.auth.IAuthRepository
 import com.fajarraya.app.core.repository.datastore.IPrefRepository
 import com.fajarraya.app.core.repository.datastore.PrefRepository
+import com.fajarraya.app.core.repository.datastore.RoleRepository
 import com.fajarraya.app.core.repository.products.IProductRepository
 import com.fajarraya.app.core.repository.products.ProductRepository
 import com.fajarraya.app.core.repository.supplier.ISupplierRepository
@@ -62,11 +64,15 @@ val repositoryModule = module {
         ProductRepository(get(),get(),get(),get())
     }
     single<IAuthRepository> {
-        AuthRepository(get(), get())
+        AuthRepository(get(), get(),get())
     }
 
     single<IPrefRepository> {
         PrefRepository(get())
+    }
+
+    single<RoleRepository>{
+        RoleRepository(get())
     }
 
     single<ISupplierRepository> {
@@ -86,4 +92,6 @@ val dataStoreModule = module {
     single { provideDataStore(androidContext(), "darkTheme") }
 
     single { DarkModePreference(get()) }
+
+    single { RolePreference(get())}
 }

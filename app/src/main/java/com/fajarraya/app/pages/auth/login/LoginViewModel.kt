@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.fajarraya.app.core.domain.usecase.auth.AuthUseCase
+import com.fajarraya.app.core.repository.datastore.RoleRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
@@ -50,6 +51,8 @@ class LoginViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                         {
+
+
                             onCompleted()
                         },
                         {

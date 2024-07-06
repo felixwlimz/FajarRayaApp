@@ -1,5 +1,6 @@
 package com.fajarraya.app.di
 
+import com.fajarraya.app.MainAppViewModel
 import com.fajarraya.app.core.domain.usecase.auth.AuthInteractor
 import com.fajarraya.app.core.domain.usecase.auth.AuthUseCase
 import com.fajarraya.app.core.domain.usecase.datastore.PrefInteractor
@@ -38,6 +39,10 @@ val viewModelModule = module {
     }
 
     viewModel{
+        MainAppViewModel(get())
+    }
+
+    viewModel{
         OrderViewModel(get(),get(),get())
     }
     viewModel{
@@ -57,7 +62,7 @@ val viewModelModule = module {
     }
 
     viewModel {
-        ProfilePageViewModel(get())
+        ProfilePageViewModel(get(),get())
     }
     viewModel{
         ProfileDetailViewModel(get())

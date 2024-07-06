@@ -3,17 +3,21 @@ package com.fajarraya.app.core.repository.auth
 import android.util.Log
 import com.fajarraya.app.core.data.remote.UserResponse
 import com.fajarraya.app.core.domain.model.User
+import com.fajarraya.app.core.repository.datastore.RoleRepository
 import com.fajarraya.app.models.UserType
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 
 class AuthRepository(
     private val firebaseAuth: FirebaseAuth,
     private val firebaseFirestore: FirebaseFirestore,
+    private val roleRepository: RoleRepository
 ) : IAuthRepository {
 
     override val currentUser: FirebaseUser?
@@ -26,7 +30,18 @@ class AuthRepository(
             val response = firebaseAuth.signInWithEmailAndPassword(email, password)
             response.addOnCompleteListener {
                 if (it.isSuccessful) {
-                    emitter.onComplete()
+                    getUserData()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                            {
+                                roleRepository.setRole(it.superAdmin)
+                                emitter.onComplete()
+                            },
+                            {
+                                emitter.onError(Exception("Error Occured"))
+                            }
+                        )
                 } else {
                     emitter.onError(Exception("Failed to Login"))
                 }
@@ -67,13 +82,10 @@ class AuthRepository(
 
     override fun getUserData(): Single<User> {
         return Single.create { emitter ->
-            println("Get User Data")
 
             if (currentUser == null) {
                 emitter.onError(Exception("Not Authenticated"))
             }
-
-            println(currentUser!!.uid)
 
             firebaseFirestore.collection("users").document(currentUser!!.uid).get()
                 .addOnSuccessListener { document ->

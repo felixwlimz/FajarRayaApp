@@ -49,7 +49,7 @@ fun TransactionsPage(
                 TransactionCard(
                     transaction = it,
                     onDetailClick = {
-                        navHostController.navigate(Screen.Orders.PrintReceiptPage.route)
+                        navHostController.navigate(Screen.Orders.PrintReceiptPage.route + "/${it.transID}")
                     }
                 )
             }
