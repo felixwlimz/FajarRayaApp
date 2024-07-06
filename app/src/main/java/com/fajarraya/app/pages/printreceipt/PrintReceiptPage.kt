@@ -1,5 +1,15 @@
 package com.fajarraya.app.pages.printreceipt
 
+import android.Manifest
+import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.pdf.PdfDocument
+import android.view.View
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -23,16 +33,25 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.FileProvider
 import androidx.navigation.NavHostController
 import com.fajarraya.app.components.navigation.Screen
 import com.fajarraya.app.utils.Extensions
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import org.koin.androidx.compose.koinViewModel
+import java.io.File
+import java.io.FileOutputStream
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun PrintReceiptPage(
     modifier: Modifier = Modifier,
@@ -40,6 +59,11 @@ fun PrintReceiptPage(
     printReceiptViewModel: PrintReceiptViewModel = koinViewModel(),
     transactionId: String?
 ) {
+
+    val view = LocalView.current
+    val context = LocalContext.current
+
+    val permission = rememberPermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     val transaction = printReceiptViewModel.transaction.observeAsState()
 
@@ -205,8 +229,13 @@ fun PrintReceiptPage(
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
-
-
+                  if(permission.status.isGranted){
+                      val bitmap = captureComposeScreen(view)
+                      val pdf = convertBitmapToPdf(bitmap, context)
+                      sharePdfFile(context, pdf)
+                  }else{
+                      permission.launchPermissionRequest()
+                  }
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -217,4 +246,44 @@ fun PrintReceiptPage(
     }
 
 
+}
+
+fun captureComposeScreen(view: View): Bitmap {
+    val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+    view.draw(canvas)
+    return bitmap
+}
+
+fun convertBitmapToPdf(bitmap: Bitmap, context: Context) : File {
+    val pdfDocument = PdfDocument()
+    val pageInfo = PdfDocument.PageInfo.Builder(bitmap.width, bitmap.height, 1).create()
+    val page = pdfDocument.startPage(pageInfo)
+    val canvas = page.canvas
+    canvas.drawBitmap(bitmap, 0f, 0f, null)
+    pdfDocument.finishPage(page)
+
+    val file = File(context.getExternalFilesDir(null), "receipt.pdf")
+    pdfDocument.writeTo(FileOutputStream(file))
+    pdfDocument.close()
+
+    Toast.makeText(context, "PDF exported successfully", Toast.LENGTH_SHORT).show()
+
+    return file
+}
+
+fun sharePdfFile(context: Context, pdfFile: File) {
+    val uri = FileProvider.getUriForFile(
+        context,
+        context.packageName + ".provider",
+        pdfFile
+    )
+
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        type = "application/pdf"
+        putExtra(Intent.EXTRA_STREAM, uri)
+        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    }
+
+    context.startActivity(Intent.createChooser(intent, "Share PDF using:"))
 }
