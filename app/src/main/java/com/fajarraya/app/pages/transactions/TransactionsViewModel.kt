@@ -1,20 +1,23 @@
 package com.fajarraya.app.pages.transactions
 
+import CartItem
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.fajarraya.app.core.domain.usecase.auth.AuthUseCase
+import com.fajarraya.app.models.SortType
 import com.fajarraya.app.models.Transactions
 import com.fajarraya.app.models.UserType
 import com.fajarraya.app.models.toTransactions
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.BackpressureStrategy
+import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
+@SuppressLint("CheckResult")
 class TransactionsViewModel(
     private val firestore: FirebaseFirestore,
     val authUseCase: AuthUseCase,
@@ -24,20 +27,32 @@ class TransactionsViewModel(
     val transactions: LiveData<List<Transactions>> = _transactions
 
 
-    fun subscribeTransactions() {
+    fun subscribeTransactions(sortType: SortType) {
         getTransactions()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                _transactions.value = it
+                when(sortType){
+                    SortType.DESCENDING -> {
+                        _transactions.value = it.sortedByDescending { transactions ->
+                            transactions.date
+                        }
+                    }
+                    SortType.ASCENDING -> {
+                        _transactions.value = it.sortedBy { transactions ->
+                            transactions.date
+                        }
+                    }
+
+                }
             }, {
                 it.printStackTrace()
             })
 
     }
 
-    fun getTransactions(): Single<List<Transactions>> {
-        return Single.create { emit ->
+    private fun getTransactions(): Flowable<List<Transactions>> {
+        return Flowable.create({ emit ->
             var f : Query = firestore
                 .collection("transactions")
 
@@ -57,7 +72,7 @@ class TransactionsViewModel(
                                 for (document in it.documents) {
                                     z.add(document.toTransactions(document.id))
                                 }
-                                emit.onSuccess(z)
+                                emit.onComplete()
                             } else {
                                 emit.onError(Exception("Error Querying Document"))
                             }
@@ -69,7 +84,25 @@ class TransactionsViewModel(
 
                 }
 
-        }
+        }, BackpressureStrategy.LATEST)
+
+    }
+
+
+
+    fun searchTransactions(query: String?){
+        getTransactions()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+               _transactions.value = it.filter { transactions ->
+                   transactions.items.any { cart ->
+                       cart.nama == query
+                   }
+               }
+            }, {
+                it.printStackTrace()
+            })
 
     }
 

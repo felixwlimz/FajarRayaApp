@@ -1,6 +1,7 @@
 package com.fajarraya.app.core.domain.usecase.products
 
 import com.fajarraya.app.core.domain.model.Products
+import com.fajarraya.app.models.SortType
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 
@@ -15,5 +16,7 @@ interface ProductUseCase {
     fun deleteProduct(products: Products) : Completable
 
     fun updateProduct(products: Products) : Completable
+
+
 
 }

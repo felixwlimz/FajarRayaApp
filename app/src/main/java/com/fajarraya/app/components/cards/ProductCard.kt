@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.fajarraya.app.constants.WidgetConstants
+import com.fajarraya.app.models.UserType
 import com.fajarraya.app.ui.theme.PrimaryBlue
 
 @Composable
@@ -40,7 +41,7 @@ fun ProductCard(
         border = BorderStroke(1.dp, PrimaryBlue),
         colors = CardDefaults.cardColors(contentColor = Color.Black, containerColor = Color.White)
     ){
-        Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+        Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
             .padding(10.dp)
             .fillMaxSize()){
 
@@ -62,13 +63,14 @@ fun ProductCard(
                 )
 
                 Text(
-                    text = stokLeft.toString(),
+                    text = "Stock : $stokLeft",
                     fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_SEMI),
                     fontSize = WidgetConstants.SUBHEADER_FONT_SIZE.sp,
                     modifier = Modifier
                         .weight(1f)
                 )
             }
+
 
 
             buttonContent()

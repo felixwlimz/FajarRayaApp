@@ -1,5 +1,6 @@
 package com.fajarraya.app.pages.supplier
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -14,6 +15,7 @@ import com.fajarraya.app.core.domain.usecase.supplier.SupplierUseCase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
+@SuppressLint("CheckResult")
 class SupplierViewModel(private val supplierUseCase: SupplierUseCase) : ViewModel() {
 
 

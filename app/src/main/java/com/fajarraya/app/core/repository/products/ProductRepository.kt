@@ -1,15 +1,15 @@
 package com.fajarraya.app.core.repository.products
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import com.fajarraya.app.core.data.local.datasource.ProductDataSource
-import com.fajarraya.app.core.data.local.entity.ProductEntity
 import com.fajarraya.app.core.domain.model.Products
 import com.fajarraya.app.core.domain.model.toFirebaseProduct
-import com.fajarraya.app.core.utils.DataMapper
+import com.fajarraya.app.models.SortType
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Completable
@@ -20,7 +20,6 @@ import java.io.ByteArrayOutputStream
 import java.util.UUID
 
 class ProductRepository(
-    private val productDataSource: ProductDataSource,
     private val firebaseStorage: FirebaseStorage,
     private val firebaseFirestore: FirebaseFirestore,
     private val context: Context,
@@ -89,6 +88,7 @@ class ProductRepository(
         }, BackpressureStrategy.LATEST)
     }
 
+    @SuppressLint("CheckResult")
     override fun insertProduct(products: Products): Completable {
         return Completable.create { emitter ->
             uploadImage(products.gambarProduk)
@@ -104,8 +104,8 @@ class ProductRepository(
                             .addOnSuccessListener {
                                 emitter.onComplete()
                             }
-                            .addOnFailureListener {
-                                emitter.onError(Exception(it))
+                            .addOnFailureListener { e ->
+                                emitter.onError(Exception(e))
                             }
                     },
                     {
@@ -126,7 +126,7 @@ class ProductRepository(
                         for (document in it.documents) {
                             firebaseFirestore.collection("products").document(document.id)
                                 .delete()
-                                .addOnFailureListener { e ->
+                                .addOnFailureListener { _ ->
                                     emitter.onError(Exception("Error Deleting"))
                                 }
                         }
@@ -154,8 +154,8 @@ class ProductRepository(
                             .addOnSuccessListener {
                                 emitter.onComplete()
                             }
-                            .addOnFailureListener {
-                                emitter.onError(Exception(it))
+                            .addOnFailureListener { e ->
+                                emitter.onError(Exception(e))
                             }
                     } else {
                         emitter.onError(Exception("Error Querying Document"))
@@ -168,70 +168,6 @@ class ProductRepository(
     }
 
 
-    private val mapperDomain = object : DataMapper<ProductEntity, Products> {
-        override fun mapFrom(data: ProductEntity): Products {
-            return Products(
-                kodeBarang = data.kodeBarang,
-                namaBarang = data.namaBarang,
-                deskripsiProduk = data.deskripsiProduk,
-                stok = data.stok,
-                satuan = data.satuan,
-                gambarProduk = data.gambarProduk.toString(),
-                supplierId = data.supplierId,
-                kategoriProduk = data.kategoriProduk,
-                hargaProduk = data.hargaProduk
-            )
-        }
 
-        override fun mapLists(data: List<ProductEntity>): List<Products> {
-            return data.map { data ->
-                Products(
-                    kodeBarang = data.kodeBarang,
-                    namaBarang = data.namaBarang,
-                    deskripsiProduk = data.deskripsiProduk,
-                    stok = data.stok,
-                    satuan = data.satuan,
-                    gambarProduk = data.gambarProduk.toString(),
-                    supplierId = data.supplierId,
-                    kategoriProduk = data.kategoriProduk,
-                    hargaProduk = data.hargaProduk
-                )
-            }
-        }
-
-    }
-
-    private val mapperEntity = object : DataMapper<Products, ProductEntity> {
-        override fun mapFrom(data: Products): ProductEntity {
-            return ProductEntity(
-                kodeBarang = data.kodeBarang,
-                namaBarang = data.namaBarang,
-                deskripsiProduk = data.deskripsiProduk,
-                stok = data.stok,
-                satuan = data.satuan,
-                gambarProduk = data.gambarProduk,
-                supplierId = data.supplierId,
-                kategoriProduk = data.kategoriProduk,
-                hargaProduk = data.hargaProduk
-            )
-        }
-
-        override fun mapLists(data: List<Products>): List<ProductEntity> {
-            return data.map { data ->
-                ProductEntity(
-                    kodeBarang = data.kodeBarang,
-                    namaBarang = data.namaBarang,
-                    deskripsiProduk = data.deskripsiProduk,
-                    stok = data.stok,
-                    satuan = data.satuan,
-                    gambarProduk = data.gambarProduk,
-                    supplierId = data.supplierId,
-                    kategoriProduk = data.kategoriProduk,
-                    hargaProduk = data.hargaProduk
-                )
-            }
-        }
-
-    }
 
 }

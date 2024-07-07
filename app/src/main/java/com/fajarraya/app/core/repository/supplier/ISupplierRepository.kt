@@ -20,5 +20,7 @@ interface ISupplierRepository {
 
     fun sortSuppliers(sortType: SortType) : Flowable<List<Suppliers>>
 
+    fun searchSuppliers(query : String?) : Flowable<List<Suppliers>>
+
 
 }

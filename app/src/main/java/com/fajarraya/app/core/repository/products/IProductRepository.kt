@@ -1,6 +1,7 @@
 package com.fajarraya.app.core.repository.products
 
 import com.fajarraya.app.core.domain.model.Products
+import com.fajarraya.app.models.SortType
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +17,7 @@ interface IProductRepository {
     fun deleteProduct(products: Products) : Completable
 
     fun updateProduct(products: Products): Completable
+
 
 
 }

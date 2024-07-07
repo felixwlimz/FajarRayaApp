@@ -102,31 +102,6 @@ fun CheckoutPage(
             )
         }
 
-        Spacer(modifier = Modifier.height(15.dp))
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 10.dp, vertical = 5.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-
-            Text(
-                "Subtotal",
-                fontSize = WidgetConstants.HEADER_FONT_SIZE.sp
-            )
-
-            Text(
-                Extensions.toRupiah(totalPrice.value),
-                fontSize = WidgetConstants.HEADER_FONT_SIZE.sp
-            )
-
-        }
-
-
-        Spacer(modifier = Modifier.height(15.dp))
-
-        HorizontalDivider()
 
         Spacer(modifier = Modifier.height(15.dp))
 
@@ -144,7 +119,7 @@ fun CheckoutPage(
             )
 
             Text(
-                Extensions.toRupiah(totalPrice.value + (totalPrice.value * 10 / 100)),
+                Extensions.toRupiah(totalPrice.value),
                 fontSize = WidgetConstants.HEADER_FONT_SIZE.sp
             )
 
@@ -155,7 +130,7 @@ fun CheckoutPage(
             onClick = {
                 checkoutViewModel.addTransaction(
                     selectedOption,
-                    totalPrice.value + (totalPrice.value * 10 / 100)
+                    totalPrice.value
                 )
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

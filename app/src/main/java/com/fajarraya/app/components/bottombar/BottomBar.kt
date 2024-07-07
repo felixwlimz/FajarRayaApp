@@ -2,7 +2,9 @@ package com.fajarraya.app.components.bottombar
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -39,12 +41,12 @@ fun BottomBar(
             val navItems: MutableList<BottomBarItem> = mutableListOf(
                 BottomBarItem(
                     title = stringResource(id = R.string.orders),
-                    icon = Icons.Default.List,
+                    icon = Icons.AutoMirrored.Filled.List,
                     screen = Screen.Orders
                 ),
                 BottomBarItem(
-                    title = stringResource(id = R.string.transactions),
-                    icon = Icons.Default.ShoppingCart,
+                    title = "History",
+                    icon = Icons.Default.History,
                     screen = Screen.Transactions
                 ),
                 BottomBarItem(

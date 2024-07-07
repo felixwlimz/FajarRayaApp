@@ -114,7 +114,7 @@ fun HomePage(modifier: Modifier = Modifier, homeViewModel: HomeViewModel = koinV
             }
         }
         
-        Text(text = "Sales Today", modifier = Modifier.padding(10.dp))
+        Text(text = "Total Revenue", modifier = Modifier.padding(10.dp))
 
         Text(
             modifier = Modifier.padding(10.dp),

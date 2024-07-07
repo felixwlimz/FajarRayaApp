@@ -25,7 +25,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
-import kotlin.math.sin
 
 
 private fun provideDatabase(context : Context) : FajarRayaDatabase {
@@ -61,7 +60,7 @@ val repositoryModule = module {
     single { SupplierDataSource(get())}
 
     single <IProductRepository>{
-        ProductRepository(get(),get(),get(),get())
+        ProductRepository(get(),get(),get())
     }
     single<IAuthRepository> {
         AuthRepository(get(), get(),get())
@@ -78,6 +77,8 @@ val repositoryModule = module {
     single<ISupplierRepository> {
         SupplierRepository(get(),get())
     }
+
+
 
 }
 

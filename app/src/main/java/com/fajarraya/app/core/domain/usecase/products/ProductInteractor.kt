@@ -2,6 +2,7 @@ package com.fajarraya.app.core.domain.usecase.products
 
 import com.fajarraya.app.core.domain.model.Products
 import com.fajarraya.app.core.repository.products.IProductRepository
+import com.fajarraya.app.models.SortType
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 
@@ -26,6 +27,7 @@ class ProductInteractor(private val productRepository: IProductRepository) : Pro
     override fun updateProduct(products: Products): Completable {
         return productRepository.updateProduct(products)
     }
+
 
 
 }
