@@ -1,5 +1,6 @@
 package com.fajarraya.app.pages.orders.checkout
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,6 +35,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.koin.androidx.compose.koinViewModel
 
+@SuppressLint("CheckResult")
 @Composable
 fun CheckoutPage(
     modifier: Modifier = Modifier,
@@ -44,7 +45,6 @@ fun CheckoutPage(
 
     val carts = checkoutViewModel.cartItems.observeAsState()
 
-    val paymentMethods = listOf("Debit Card", "Cash")
 
     var selectedOption by remember {
         mutableStateOf("")
@@ -92,15 +92,15 @@ fun CheckoutPage(
             fontSize = WidgetConstants.HEADER_FONT_SIZE.sp
         )
 
-        for (methods in paymentMethods) {
-            TextAndRadioButton(
-                selectedOption = methods,
-                onSelect = {
-                    selectedOption = methods
+
+        TextAndRadioButton(
+            selectedOption = "Cash",
+            onSelect = {
+                    selectedOption = "Cash"
                 },
-                isSelected = methods == selectedOption
+            isSelected = selectedOption == "Cash"
             )
-        }
+
 
 
         Spacer(modifier = Modifier.height(15.dp))

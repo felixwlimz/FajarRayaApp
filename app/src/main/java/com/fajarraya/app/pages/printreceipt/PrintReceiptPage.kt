@@ -8,8 +8,6 @@ import android.graphics.Canvas
 import android.graphics.pdf.PdfDocument
 import android.view.View
 import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +21,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -37,7 +34,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
@@ -68,8 +64,6 @@ fun PrintReceiptPage(
     val transaction = printReceiptViewModel.transaction.observeAsState()
 
     val totalitem = printReceiptViewModel.totalitem.observeAsState()
-    val totalhargawotax = printReceiptViewModel.totalpricewotax.observeAsState()
-    val tax = printReceiptViewModel.tax.observeAsState()
     val totalharga = printReceiptViewModel.totalprice.observeAsState()
 
     val payment = printReceiptViewModel.payment.observeAsState()
@@ -124,7 +118,7 @@ fun PrintReceiptPage(
 
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(
-                    text = "Transaction ID : ${transactionId}",
+                    text = "Transaction ID : $transactionId",
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
@@ -156,22 +150,17 @@ fun PrintReceiptPage(
                 HorizontalDivider(color = Color.Black)
 
                 Spacer(modifier = Modifier.height(16.dp))
+
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(text = "Total Harga")
-                    Text(text = totalhargawotax.value?.let { Extensions.toRupiah(it) }
+                    Text(text = totalharga.value?.let { Extensions.toRupiah(it) }
                         ?: "Loading...")
                 }
-                Spacer(modifier = Modifier.height(16.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(text = "Pajak (10%)")
-                    Text(text = tax.value?.let { Extensions.toRupiah(it) } ?: "Loading...")
-                }
+
                 Spacer(modifier = Modifier.height(16.dp))
                 HorizontalDivider(color = Color.Black)
 
@@ -214,7 +203,7 @@ fun PrintReceiptPage(
         Spacer(modifier = Modifier.height(32.dp))
         OutlinedButton(
             onClick = {
-                navHostController.navigate(Screen.Home.route) {
+                navHostController.navigate(Screen.History.route) {
                     popUpTo(Screen.Orders.PrintReceiptPage.route + "/$transactionId") {
                         inclusive = true
                     }

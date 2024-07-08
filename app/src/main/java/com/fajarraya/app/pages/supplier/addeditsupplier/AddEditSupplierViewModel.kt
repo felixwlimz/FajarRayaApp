@@ -1,10 +1,8 @@
 package com.fajarraya.app.pages.supplier.addeditsupplier
 
 
-import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.fajarraya.app.core.domain.model.Suppliers
@@ -12,6 +10,7 @@ import com.fajarraya.app.core.domain.usecase.supplier.SupplierUseCase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
+@Suppress("CheckResult")
 class AddEditSupplierViewModel(
     private val supplierUseCase: SupplierUseCase,
 ) : ViewModel() {

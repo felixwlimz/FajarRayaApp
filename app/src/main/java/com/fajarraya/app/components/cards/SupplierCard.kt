@@ -41,7 +41,7 @@ fun SupplierCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .height(150.dp),
+            .height(200.dp),
         border = BorderStroke(1.dp, Color.Black),
         colors = CardDefaults.cardColors(contentColor = Color.Black, containerColor = Color.White)
     ) {

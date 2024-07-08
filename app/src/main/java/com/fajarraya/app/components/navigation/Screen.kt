@@ -13,14 +13,13 @@ sealed class Screen(val route : String) {
         data object CheckoutPage : Screen("Checkout")
         data object PrintReceiptPage : Screen("Print Receipt")
     }
-    data object Transactions : Screen("Transactions")
+    data object History : Screen("History")
 
 
     data object Profile : Screen("Profile"){
         data object Menu : Screen("Menu")
         data object ProfileDetails : Screen("Details")
         data object Account : Screen("Account")
-        data object Language : Screen("Language")
     }
     data object Supplier : Screen("Supplier"){
 

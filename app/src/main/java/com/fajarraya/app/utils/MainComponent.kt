@@ -29,14 +29,17 @@ object MainComponent {
             "Add Product" -> {
                 !showBottomBar
             }
-            "Edit Product" -> {
+            "${Screen.Orders.EditProduct.route}/{kodeproduk}" -> {
                 !showBottomBar
             }
             "Products" -> {
                 !showBottomBar
             }
 
-            "Add or Edit Supplier" -> {
+            "Add Supplier" -> {
+                !showBottomBar
+            }
+            "${Screen.Supplier.EditSupplier.route}/{id}" -> {
                 !showBottomBar
             }
 
@@ -113,6 +116,17 @@ object MainComponent {
                 )
             }
 
+            "${Screen.Orders.EditProduct.route}/{kodeproduk}" -> {
+                ActionButton(
+                    icon = Icons.Default.ArrowBack,
+                    altType = "arrow-back",
+                    onClick = {
+                        navController.navigate(Screen.Orders.OrderPage.route)
+                    }
+                )
+
+            }
+
             "Products" -> {
                 ActionButton(
                     icon = Icons.Default.ArrowBack,
@@ -123,7 +137,16 @@ object MainComponent {
                 )
             }
 
-            "Add or Edit Supplier" -> {
+            "Add Supplier" -> {
+                ActionButton(
+                    icon = Icons.Default.ArrowBack,
+                    altType = "arrow-back",
+                    onClick = {
+                        navController.navigate(Screen.Supplier.SupplierList.route)
+                    }
+                )
+            }
+            "${Screen.Supplier.EditSupplier.route}/{id}" -> {
                 ActionButton(
                     icon = Icons.Default.ArrowBack,
                     altType = "arrow-back",

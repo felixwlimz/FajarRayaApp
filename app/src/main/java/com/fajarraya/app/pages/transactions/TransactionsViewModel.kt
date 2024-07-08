@@ -1,6 +1,5 @@
 package com.fajarraya.app.pages.transactions
 
-import CartItem
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,8 +12,7 @@ import com.fajarraya.app.models.toTransactions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.BackpressureStrategy
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 @SuppressLint("CheckResult")
@@ -23,7 +21,7 @@ class TransactionsViewModel(
     val authUseCase: AuthUseCase,
 ) : ViewModel() {
 
-    private val _transactions = MutableLiveData<List<Transactions>>(emptyList())
+    private val _transactions = MutableLiveData<List<Transactions>>()
     val transactions: LiveData<List<Transactions>> = _transactions
 
 
@@ -51,9 +49,9 @@ class TransactionsViewModel(
 
     }
 
-    private fun getTransactions(): Flowable<List<Transactions>> {
-        return Flowable.create({ emit ->
-            var f : Query = firestore
+    private fun getTransactions(): Single<List<Transactions>> {
+        return Single.create { emit ->
+            var f: Query = firestore
                 .collection("transactions")
 
             authUseCase.userData()
@@ -72,7 +70,7 @@ class TransactionsViewModel(
                                 for (document in it.documents) {
                                     z.add(document.toTransactions(document.id))
                                 }
-                                emit.onComplete()
+                                emit.onSuccess(z)
                             } else {
                                 emit.onError(Exception("Error Querying Document"))
                             }
@@ -84,7 +82,7 @@ class TransactionsViewModel(
 
                 }
 
-        }, BackpressureStrategy.LATEST)
+        }
 
     }
 

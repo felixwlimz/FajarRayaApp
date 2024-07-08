@@ -107,13 +107,17 @@ fun AddProductPage(
             rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 val resultCode = result.resultCode
                 val data = result.data
-                if (resultCode == Activity.RESULT_OK) {
-                    val fileUri = data?.data!!
-                    addProductViewModel.uploadedImage = fileUri
-                } else if (resultCode == ImagePicker.RESULT_ERROR) {
-                    Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
+                when (resultCode) {
+                    Activity.RESULT_OK -> {
+                        val fileUri = data?.data!!
+                        addProductViewModel.uploadedImage = fileUri
+                    }
+                    ImagePicker.RESULT_ERROR -> {
+                        Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
 
@@ -174,11 +178,6 @@ fun AddProductPage(
                 addProductViewModel.supplierDropdownExpanded = false
             }
         )
-//            isExpanded = dropdownExpanded,
-//            onClick = {
-//                dropdownExpanded = true
-//
-//            }
 
         TextandInput(
             textInputTitle = "Price",
@@ -242,7 +241,7 @@ fun AddProductPage(
                         price.toLong()
                     )
                 ) {
-                    navHostController.popBackStack();
+                    navHostController.popBackStack()
                 }
             }else{
                 addProductViewModel.insertProducts(
@@ -258,7 +257,7 @@ fun AddProductPage(
                         price.toLong()
                     )
                 ) {
-                    navHostController.popBackStack();
+                    navHostController.popBackStack()
                 }
             }
 

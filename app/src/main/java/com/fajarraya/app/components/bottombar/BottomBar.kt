@@ -6,8 +6,6 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -47,7 +45,7 @@ fun BottomBar(
                 BottomBarItem(
                     title = "History",
                     icon = Icons.Default.History,
-                    screen = Screen.Transactions
+                    screen = Screen.History
                 ),
                 BottomBarItem(
                     title = stringResource(id = R.string.supplier),

@@ -80,7 +80,6 @@ fun TransactionCard(
                 transaction.items.forEach{
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(10.dp)
@@ -105,20 +104,22 @@ fun TransactionCard(
                                 text = "${it.quantity} x ${Extensions.toRupiah(it.harga)}",
                                 fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
                             )
+
+
+                            Text(
+                                text = "Date of Purchase : $date",
+                                fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
+                            )
+
+                            Text(
+                                text="Ordered By :  ${uname.value}",
+                                fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
+                            )
+
                         }
                     }
                 }
 
-
-                Text(
-                    text = "Date of Purchase : $date",
-                    fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
-                )
-
-                Text(
-                    text="Ordered By :  ${uname.value}",
-                    fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
-                )
 
             }
             

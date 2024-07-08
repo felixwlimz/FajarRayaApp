@@ -72,7 +72,7 @@ fun TransactionsPage(
                     },
                     placeholder = {
                         Text(
-                            text = "Search For Products",
+                            text = "Search For Transactions",
                             fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp
                         )
                     },
@@ -81,7 +81,7 @@ fun TransactionsPage(
                 Dropdown {
                     DropdownMenuItem(text = {
                         Text(
-                            text = "Sort by Oldest Added"
+                            text = "Sort by Newest Added"
                         )
                     }, onClick = {
                         sortType = SortType.DESCENDING
@@ -89,7 +89,7 @@ fun TransactionsPage(
                     })
 
                     DropdownMenuItem(text = { Text(
-                        text = "Sort by Newest Added"
+                        text = "Sort by Oldest Added"
                     )
                     }, onClick = {
                         sortType = SortType.ASCENDING
