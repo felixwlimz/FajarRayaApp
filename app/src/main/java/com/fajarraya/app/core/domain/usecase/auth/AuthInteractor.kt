@@ -15,7 +15,7 @@ class AuthInteractor(private val authRepository: IAuthRepository) : AuthUseCase{
 
     override fun userData(): Single<User> = authRepository.getUserData()
 
-    override fun userDataByID(id: String): Single<User> = authRepository.getUserData()
+    override fun userDataByID(id: String): Single<User> = authRepository.getUserDataByID(id)
 
     override fun login(email: String, password: String): Completable = authRepository.login(email, password)
 

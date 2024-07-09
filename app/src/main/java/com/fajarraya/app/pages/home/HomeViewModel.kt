@@ -11,6 +11,8 @@ import com.google.firebase.firestore.ListenerRegistration
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class HomeViewModel(private val firebaseFirestore: FirebaseFirestore) : ViewModel() {
 
@@ -22,6 +24,10 @@ class HomeViewModel(private val firebaseFirestore: FirebaseFirestore) : ViewMode
 
     var salesSize by mutableStateOf(0)
     var salesTotal by   mutableStateOf(0L)
+
+    var todayRevenue by mutableStateOf(0L)
+
+    val todayDate = SimpleDateFormat("MM/dd/yyyy").format(Date())
 
     fun getProductUpdates(): Observable<Int> {
         return Observable.create { emitter ->
@@ -60,12 +66,20 @@ class HomeViewModel(private val firebaseFirestore: FirebaseFirestore) : ViewMode
                     if (snapshot != null && !snapshot.isEmpty) {
 
                         var totalRevenue = 0L
+                        var totalSalesToday = 0L
                         for (document in snapshot.documents) {
                             val trans = document.toTransactions(document.id)
                             totalRevenue += trans.totalPrice
+
+                            val transDate = SimpleDateFormat("MM/dd/yyyy").format(Date(trans.date))
+
+                            if(transDate == todayDate){
+                                totalSalesToday+= trans.totalPrice
+                            }
                         }
                         salesTotal = totalRevenue
                         salesSize = snapshot.documents.size
+                        todayRevenue = totalSalesToday
 
                         emitter.onNext(snapshot.documents.size)
                     }

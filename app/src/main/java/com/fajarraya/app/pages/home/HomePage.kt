@@ -58,6 +58,10 @@ fun HomePage(modifier: Modifier = Modifier, homeViewModel: HomeViewModel = koinV
         derivedStateOf { homeViewModel.salesTotal }
     }
 
+    val todaySale by remember{
+        derivedStateOf { homeViewModel.todayRevenue }
+    }
+
 
     LaunchedEffect(Unit) {
         homeViewModel.listenProductUpdates();
@@ -114,11 +118,11 @@ fun HomePage(modifier: Modifier = Modifier, homeViewModel: HomeViewModel = koinV
             }
         }
         
-        Text(text = "Total Revenue", modifier = Modifier.padding(10.dp))
+        Text(text = "Today Revenue", modifier = Modifier.padding(10.dp))
 
         Text(
             modifier = Modifier.padding(10.dp),
-            text = Extensions.toRupiah(revenue),
+            text = Extensions.toRupiah(todaySale),
             fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_BOLD),
             fontSize = WidgetConstants.XL_FONT_SIZE.sp
         )
