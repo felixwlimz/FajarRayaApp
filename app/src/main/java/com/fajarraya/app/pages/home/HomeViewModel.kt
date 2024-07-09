@@ -5,16 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.fajarraya.app.core.domain.model.toFirebaseProduct
-import com.fajarraya.app.models.Transactions
 import com.fajarraya.app.models.toTransactions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class HomeViewModel(val firebaseFirestore: FirebaseFirestore) : ViewModel() {
+class HomeViewModel(private val firebaseFirestore: FirebaseFirestore) : ViewModel() {
 
     val productsRef = firebaseFirestore.collection("products")
     val transactionsRef = firebaseFirestore.collection("transactions")
@@ -51,7 +49,7 @@ class HomeViewModel(val firebaseFirestore: FirebaseFirestore) : ViewModel() {
     }
 
 
-    fun getTransactionUpdates():Observable<Int> {
+    fun getTransactionUpdates() : Observable<Int> {
         return Observable.create { emitter ->
             val listenerRegistration: ListenerRegistration =
                 transactionsRef.addSnapshotListener { snapshot, e ->

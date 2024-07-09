@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -63,19 +64,22 @@ fun TransactionCard(
     Card(
         modifier = modifier
             .fillMaxWidth(),
-
         border = BorderStroke(1.dp, PrimaryBlue),
         colors = CardDefaults.cardColors(contentColor = Color.Black, containerColor = Color.White)
     ) {
 
         Row (
+            modifier = Modifier.fillMaxSize(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ){
 
             Column(
                 modifier=Modifier
-                    .weight(1f)
+                    .weight(1f),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+                
             ){
                 transaction.items.forEach{
                     Row(
@@ -89,9 +93,11 @@ fun TransactionCard(
                             model = it.gambar, contentDescription = "product-image",
                             modifier = Modifier
                                 .clip(RoundedCornerShape(70.dp))
-                                .height(70.dp)
-                                .width(70.dp),
+                                .height(60.dp)
+                                .width(60.dp),
                         )
+                        
+                        Spacer(modifier = Modifier.width(10.dp))
 
                         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
                             Text(

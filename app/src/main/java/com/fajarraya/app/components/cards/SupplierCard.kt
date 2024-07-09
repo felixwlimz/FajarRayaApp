@@ -8,16 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -33,8 +27,7 @@ fun SupplierCard(
     phone: String,
     city: String,
     province: String,
-    onUpdate : () -> Unit,
-    onDelete : () -> Unit
+    buttonContent : @Composable () -> Unit = {},
 ) {
 
 
@@ -50,68 +43,65 @@ fun SupplierCard(
             modifier = Modifier.padding(10.dp)
         ) {
 
-           Row(modifier = Modifier.fillMaxWidth().padding(10.dp), horizontalArrangement = Arrangement.SpaceBetween){
-               Text(
-                   supplierName,
-                   fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_SEMI),
-                   fontSize = WidgetConstants.PRIMARY_FONT_SIZE.sp
-               )
-
-               Row(
-                   horizontalArrangement = Arrangement.spacedBy(5.dp),
-                   verticalAlignment = Alignment.CenterVertically
-               ) {
-                   IconButton(onClick = onUpdate) {
-                       Icon(Icons.Default.Edit, contentDescription = "add-button")
-                   }
-                   IconButton(onClick = onDelete) {
-                       Icon(Icons.Default.Delete, contentDescription = "delete-button")
-                   }
-
-               }
-           }
-
-            Text(
-                supplierAddress,
-                fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp
-            )
-
             Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(5.dp), horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxWidth().padding(10.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
-                    Text(
-                        text = "Phone Number : ",
-                        fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp
-                    )
-                    Text(
-                        phone,
-                        fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp
-                    )
-                }
-                Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
-                    Text(text = "City : ", fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp)
+                Text(
+                    supplierName,
+                    fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_SEMI),
+                    fontSize = WidgetConstants.PRIMARY_FONT_SIZE.sp
+                )
 
-                    Text(
-                        city,
-                        fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp
-                    )
-                }
-                Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
-                    Text(text = "Province : ", fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp)
-
-                    Text(
-                        province,
-                        fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp
-                    )
-                }
+                buttonContent()
             }
+
+                Text(
+                    supplierAddress,
+                    fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp
+                )
+
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(5.dp), horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                        Text(
+                            text = "Phone Number : ",
+                            fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp
+                        )
+                        Text(
+                            phone,
+                            fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp
+                        )
+                    }
+                    Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                        Text(text = "City : ", fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp)
+
+                        Text(
+                            city,
+                            fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp
+                        )
+                    }
+                    Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                        Text(
+                            text = "Province : ",
+                            fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp
+                        )
+
+                        Text(
+                            province,
+                            fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp
+                        )
+                    }
+                }
+
 
 
         }
+
+
     }
-
-
 }

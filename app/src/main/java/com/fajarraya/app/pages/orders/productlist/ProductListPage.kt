@@ -1,6 +1,7 @@
 package com.fajarraya.app.pages.orders.productlist
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,6 +36,7 @@ import com.fajarraya.app.components.dropdown.Dropdown
 import com.fajarraya.app.components.navigation.Screen
 import com.fajarraya.app.constants.WidgetConstants
 import com.fajarraya.app.models.SortType
+import com.fajarraya.app.models.UserType
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -44,6 +46,7 @@ fun ProductListPage(
     navHostController: NavHostController
 ) {
     val products = productListViewModel.productList.observeAsState()
+    val currentUser = productListViewModel.userdata
 
     var sortType by remember {
         mutableStateOf(SortType.ASCENDING)
@@ -53,8 +56,9 @@ fun ProductListPage(
         mutableStateOf("")
     }
 
-    LaunchedEffect(products, sortType) {
+    LaunchedEffect(products, sortType, currentUser) {
         productListViewModel.getAllProducts(sortType)
+        productListViewModel.getUser()
     }
 
     LazyColumn(
@@ -109,26 +113,32 @@ fun ProductListPage(
                     imageUrl = it.gambarProduk,
                     stokLeft = it.stok
                 ) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(5.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconButton(onClick = {
-                            navHostController.navigate(
-                                Screen.Orders.EditProduct.route + "/${it.kodeBarang}"
-                            )
-                        }) {
-                            Icon(Icons.Default.Edit, contentDescription = "add-button")
-                        }
-                        IconButton(onClick = {
-                            productListViewModel.deleteProduct(it) {
-                                navHostController.popBackStack()
-                            }
-                        }) {
-                            Icon(Icons.Default.Delete, contentDescription = "delete-button")
-                        }
+                   if(currentUser.superAdmin == UserType.OWNER || currentUser.superAdmin == UserType.ADMIN){
+                           Row(
+                               horizontalArrangement = Arrangement.spacedBy(5.dp),
+                               verticalAlignment = Alignment.CenterVertically
+                           ) {
+                               IconButton(onClick = {
+                                   navHostController.navigate(
+                                       Screen.Orders.EditProduct.route + "/${it.kodeBarang}"
+                                   )
+                               }) {
+                                   Icon(Icons.Default.Edit, contentDescription = "add-button")
+                               }
+                               IconButton(onClick = {
+                                   productListViewModel.deleteProduct(it) {
+                                       navHostController.popBackStack()
+                                   }
+                               }) {
+                                   Icon(Icons.Default.Delete, contentDescription = "delete-button")
+                               }
 
-                    }
+                           }
+                   }
+                    else {
+                        Box(modifier = Modifier)
+
+                   }
                 }
             }
         }

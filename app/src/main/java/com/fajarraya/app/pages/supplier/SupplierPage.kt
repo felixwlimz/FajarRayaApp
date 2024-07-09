@@ -1,6 +1,7 @@
 package com.fajarraya.app.pages.supplier
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,7 +10,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +25,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -29,6 +36,7 @@ import com.fajarraya.app.components.dropdown.Dropdown
 import com.fajarraya.app.components.navigation.Screen
 import com.fajarraya.app.constants.WidgetConstants
 import com.fajarraya.app.models.SortType
+import com.fajarraya.app.models.UserType
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -39,6 +47,7 @@ fun SupplierPage(
 ) {
 
     val suppliers = supplierViewModel.suppliers.observeAsState()
+    val currentUser = supplierViewModel.userdata
 
     var searchText by remember {
         mutableStateOf("")
@@ -48,8 +57,9 @@ fun SupplierPage(
         mutableStateOf(SortType.ASCENDING)
     }
 
-    LaunchedEffect(suppliers, sortType) {
+    LaunchedEffect(suppliers, sortType, currentUser) {
         supplierViewModel.getAllSuppliers(sortType)
+        supplierViewModel.getUser()
     }
 
 
@@ -110,11 +120,23 @@ fun SupplierPage(
                    phone = it.phoneNumber,
                    city = it.city,
                    province = it.province,
-                   onDelete = {
-                       supplierViewModel.deleteSupplier(it)
-                   },
-                   onUpdate = {
-                       navHostController.navigate(Screen.Supplier.EditSupplier.route+"/${it.supplierId}")
+                   buttonContent = {
+                      if(currentUser.superAdmin == UserType.OWNER || currentUser.superAdmin == UserType.ADMIN){
+                          Row(
+                              horizontalArrangement = Arrangement.spacedBy(5.dp),
+                              verticalAlignment = Alignment.CenterVertically
+                          ) {
+                              IconButton(onClick = { navHostController.navigate("${Screen.Supplier.EditSupplier.route}/{id}")}) {
+                                  Icon(Icons.Default.Edit, contentDescription = "edit-button")
+                              }
+                              IconButton(onClick = { supplierViewModel.deleteSupplier(it)}) {
+                                  Icon(Icons.Default.Delete, contentDescription = "delete-button")
+                              }
+
+                          }
+                      } else {
+                          Box(modifier = modifier)
+                      }
                    }
                )
 
