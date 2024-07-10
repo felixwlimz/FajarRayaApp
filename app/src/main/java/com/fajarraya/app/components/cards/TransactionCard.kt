@@ -45,12 +45,12 @@ fun TransactionCard(
     transaction: Transactions,
     onDetailClick: () -> Unit = {},
     username: Single<User>
-) {
-    val uname = remember {
+){
+    val uname  = remember{
         mutableStateOf("")
     }
 
-    LaunchedEffect(key1 = Unit) {
+    LaunchedEffect(key1 = Unit){
         username
             .subscribe({
                 uname.value = it.username
@@ -68,50 +68,23 @@ fun TransactionCard(
         colors = CardDefaults.cardColors(contentColor = Color.Black, containerColor = Color.White)
     ) {
 
-        Row(
+        Row (
             modifier = Modifier.fillMaxSize(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
-        ) {
+        ){
 
             Column(
-                modifier = Modifier
+                modifier=Modifier
                     .weight(1f),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
-
-            ) {
-
-                Text(
-                    text = "Tanggal Transaksi : ${date}",
-                    fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
-                    textAlign = TextAlign.Start,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 10.dp,top=10.dp),
-                    )
-
-                Text(
-                    text = "Pengguna : ${uname.value}",
-                    fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
-                    textAlign = TextAlign.Start,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 10.dp,top=0.dp),
-                )
-
-                Text(
-                    text = "Daftar Produk : ",
-                    fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
-                    textAlign = TextAlign.Start,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 10.dp,top=0.dp),
-                )
-
-                transaction.items.forEach {
+                
+            ){
+                transaction.items.forEach{
                     Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
+                        horizontalArrangement = Arrangement.Start,
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(10.dp)
@@ -124,10 +97,10 @@ fun TransactionCard(
                                 .height(60.dp)
                                 .width(60.dp),
                         )
-
+                        
                         Spacer(modifier = Modifier.width(10.dp))
 
-                        Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                        Column(verticalArrangement = Arrangement.spacedBy(5.dp), ) {
                             Text(
                                 text = it.nama,
                                 fontWeight = FontWeight(WidgetConstants.FONT_WEIGHT_SEMI),
@@ -138,23 +111,32 @@ fun TransactionCard(
                                 text = "${it.quantity} x ${Extensions.toRupiah(it.harga)}",
                                 fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
                             )
+
+
+                            Text(
+                                text = "Date of Purchase : $date",
+                                fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
+                            )
+
+                            Text(
+                                text="Ordered By :  ${uname.value}",
+                                fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
+                            )
+
                         }
                     }
                 }
 
 
             }
+            
 
-
-            Column(
-                verticalArrangement = Arrangement.spacedBy(5.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+            Column(verticalArrangement = Arrangement.spacedBy(5.dp), horizontalAlignment = Alignment.CenterHorizontally ) {
                 Text(
-                    text = if (transaction.status == "Completed") stringResource(id = R.string.completed) else stringResource(
+                    text = if(transaction.status == "Completed") stringResource(id = R.string.completed) else stringResource(
                         id = R.string.in_progress
                     ),
-                    color = if (transaction.status == "Completed") Color.Green else Color.Yellow,
+                    color = if(transaction.status == "Completed") Color.Green else Color.Yellow,
                     fontSize = WidgetConstants.PARAGRAPH_FONT_SIZE.sp,
                     textAlign = TextAlign.Center
                 )

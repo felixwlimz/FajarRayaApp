@@ -63,6 +63,7 @@ fun HomePage(modifier: Modifier = Modifier, homeViewModel: HomeViewModel = koinV
     }
 
 
+
     LaunchedEffect(Unit) {
         homeViewModel.listenProductUpdates();
         homeViewModel.listenTransactionUpdates();
